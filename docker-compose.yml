@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: seech-adm
+      MONGO_INITDB_ROOT_PASSWORD: uck202_urM
+      MONGO_INITDB_DATABASE: seech-db
+    ports:
+      - 27017:27017

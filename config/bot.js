@@ -1,0 +1,109 @@
+import { path } from '../helpers/path-resolver.js'
+
+import Telegraf from 'telegraf'
+import { ExtendedContext } from './telegraf-context.js'
+
+import { initLocalesEngine } from './locales.js'
+import { processError } from '../helpers/global-errors-processor.js'
+
+import { handleStartCommand } from '../handlers/text/start.js'
+import { handleCreateTicketClick } from '../handlers/text/create-ticket.js'
+import { handlePriceInput } from '../handlers/text/input-price.js'
+import { handleWeightInput } from '../handlers/text/input-weight.js'
+import { handleAnyTextMessage } from '../handlers/text/any.js'
+import { handleDescriptionInput } from '../handlers/text/input-description.js'
+import { handleShowTicketsClick } from '../handlers/text/show-tickets.js'
+import { handleBackCommand } from '../handlers/text/back.js'
+import { handleBasketCommand } from '../handlers/text/basket.js'
+
+import { handleAnyButtonClick } from '../handlers/button/any.js'
+import { handlePersonalDataProcessingClick } from '../handlers/button/data-processing.js'
+import { handleRegionClick } from '../handlers/button/region.js'
+import { handleCultureTypeClick } from '../handlers/button/culture-type.js'
+import { handleCultureClick } from '../handlers/button/culture.js'
+import { handleSkipPhotoClick } from '../handlers/button/skip-photo.js'
+import { handleShowPhotoClick } from '../handlers/button/show-photo.js'
+import { handleExtendTicketClick } from '../handlers/button/extend-ticket.js'
+import { handleAddToBasketClick } from '../handlers/button/add-to-basket.js'
+import { handleRemoveTicketClick } from '../handlers/button/remove-ticket.js'
+import { handleReviewClick } from '../handlers/button/review.js'
+
+import { handleContact } from '../handlers/contact.js'
+import { handlePhoto } from '../handlers/photo.js'
+import {handleLiterInput} from "../handlers/text/input-liter.js";
+import {handleReviewServiceInput} from "../handlers/text/reviewService.js";
+import {handleReviewServiceTextInput} from "../handlers/text/input-text-review-service.js";
+import {handleReviewServiceClick} from "../handlers/button/reviewService.js";
+import {handleReviewSellerClick} from "../handlers/button/reviewSeller.js";
+import {handleAnalyticsCommand} from "../handlers/text/analytics.js";
+import {handleReviewsCommand} from "../handlers/text/reviews.js";
+import {handleStatisticCommand} from "../handlers/text/statistic.js";
+import {handleDateStatisticCommand} from "../handlers/text/dateStatistic.js";
+import {handleModeratorsCommand} from "../handlers/text/getModerators.js";
+import {handleAddModeratorClick} from "../handlers/button/addToModerator.js";
+import {handleRemoveModeratorClick} from "../handlers/button/removeFromModerator.js";
+import {handleFindModeratorClick} from "../handlers/button/findModerator.js";
+import {handleFindModeratorCommand} from "../handlers/text/findModerator.js";
+import {handleMailingCommand} from "../handlers/text/mailing.js";
+import {handleMailingTextInput} from "../handlers/text/input-mailing.js";
+import {handleAboutCommand} from "../handlers/text/about.js";
+
+async function initBot(dbInstance) {
+	const bot = new Telegraf(process.env.TOKEN, {
+		contextType: ExtendedContext
+	})
+
+	bot.context.db = dbInstance
+
+	bot.use(Telegraf.session())
+	const localeEngine = initLocalesEngine(path(import.meta.url, '../locales'))
+	bot.use(localeEngine.middleware())
+
+	bot.on('contact', handleContact)
+	bot.on('photo', handlePhoto)
+
+	bot.start(handleStartCommand)
+	bot.on('message', handleDescriptionInput)
+	bot.on('message', handlePriceInput)
+	bot.on('message', handleWeightInput)
+	bot.on('message', handleLiterInput)
+	bot.on('message', handleCreateTicketClick)
+	bot.on('message', handleShowTicketsClick)
+	bot.on('message', handleBasketCommand)
+	bot.on('message', handleBackCommand)
+	bot.on('message', handleReviewServiceInput)
+	bot.on('message', handleReviewServiceTextInput)
+	bot.on('message', handleAnalyticsCommand)
+	bot.on('message', handleReviewsCommand)
+	bot.on('message', handleStatisticCommand)
+	bot.on('message', handleDateStatisticCommand)
+	bot.on('message', handleModeratorsCommand)
+	bot.on('message', handleFindModeratorCommand)
+	bot.on('message', handleMailingCommand)
+	bot.on('message', handleMailingTextInput)
+	bot.on('message', handleAboutCommand)
+	bot.on('message', handleAnyTextMessage)
+
+	bot.on('callback_query', handleReviewClick)
+	bot.on('callback_query', handleRemoveTicketClick)
+	bot.on('callback_query', handleShowPhotoClick)
+	bot.on('callback_query', handleAddToBasketClick)
+	bot.on('callback_query', handleExtendTicketClick)
+	bot.on('callback_query', handleSkipPhotoClick)
+	bot.on('callback_query', handleRegionClick)
+	bot.on('callback_query', handlePersonalDataProcessingClick)
+	bot.on('callback_query', handleCultureTypeClick)
+	bot.on('callback_query', handleCultureClick)
+	bot.on('callback_query', handleReviewServiceClick)
+	bot.on('callback_query', handleReviewSellerClick)
+	bot.on('callback_query', handleAddModeratorClick)
+	bot.on('callback_query', handleRemoveModeratorClick)
+	bot.on('callback_query', handleFindModeratorClick)
+	bot.on('callback_query', handleAnyButtonClick)
+
+	bot.catch(processError)
+
+	return bot
+}
+
+export { initBot }
