@@ -28,7 +28,8 @@ async function handleLiterInput(ctx, next) {
     let state = 'free'
     if (updateUser.ticket?.sale) {
         await ctx.textTemplate('input.price',{
-            weightValue: ctx.i18n.t(`types.volumeValue`)
+            weightValue: ctx.i18n.t(`types.volumeValue`),
+            product: updateUser.ticket.culture
         })
         state = 'price'
     } else {

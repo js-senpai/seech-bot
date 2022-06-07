@@ -27,17 +27,21 @@ async function handleCultureClick(ctx, next) {
 		)
 	}
 	if(culture === 'honey'){
-		await user.updateData({
+		const updateUser = await user.updateData({
 			state: 'liter',
 			'ticket.culture': getCultureName(ctx.i18n, culture)
 		})
-		await ctx.textTemplate('input.liter')
+		await ctx.textTemplate('input.liter',{
+			product: updateUser.ticket.culture
+		})
 	} else {
-		await user.updateData({
+		const updateUser = await user.updateData({
 			state: 'weight',
 			'ticket.culture': getCultureName(ctx.i18n, culture)
 		})
-		await ctx.textTemplate('input.weight')
+		await ctx.textTemplate('input.weight',{
+			product: updateUser.ticket.culture
+		})
 	}
 
 }

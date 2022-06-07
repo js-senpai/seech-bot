@@ -331,7 +331,7 @@ async function handleDateStatisticCommand(ctx, next) {
         const result = {
             rate,
             users: usersCount,
-            date: 'All period',
+            date: 'Весь період',
             reg: users.length,
             ticketOnSale: filteredTicketsOnSale,
             ticketOnBuy: filteredTicketsOnBuy,

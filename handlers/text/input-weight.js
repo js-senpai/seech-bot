@@ -29,7 +29,8 @@ async function handleWeightInput(ctx, next) {
 	let state = 'free'
 	if (user.ticket?.sale) {
 		await ctx.textTemplate('input.price',{
-            weightValue: ctx.i18n.t(`types.weightValue`)
+            weightValue: ctx.i18n.t(`types.weightValue`),
+			product: user.ticket.culture
         })
 		state = 'price'
 	} else {
