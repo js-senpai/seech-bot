@@ -91,11 +91,39 @@ async function handleDateStatisticCommand(ctx, next) {
             $in: nuts
         }
     })
+    const getReviewService = await ctx.db.ReviewOfService.find();
     if(ctx.message.text === ctx.i18n.t('buttons.todayStat')){
         const getDate = moment()
-        const filteredTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
-        const filteredTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]: { rate: 0 }
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
         const result = {
+            rate,
+            users: usersCount,
             date: getDate.format('DD-MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
             ticketOnSale: filteredTicketsOnSale,
@@ -136,9 +164,36 @@ async function handleDateStatisticCommand(ctx, next) {
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
     } else if(ctx.message.text === ctx.i18n.t('buttons.yesterdayStat')){
         const getDate = moment().subtract(1, 'days')
-        const filteredTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
-        const filteredTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]:{ rate: 0 }
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
         const result = {
+            rate,
+            users: usersCount,
             date: getDate.format('DD-MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
             ticketOnSale: filteredTicketsOnSale,
@@ -179,9 +234,36 @@ async function handleDateStatisticCommand(ctx, next) {
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
     } else if(ctx.message.text === ctx.i18n.t('buttons.currentMonthStat')) {
         const getDate = moment()
-        const filteredTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length
-        const filteredTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]: { rate: 0 };
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
         const result = {
+            rate,
+            users: usersCount,
             date: getDate.format('MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length,
             ticketOnSale: filteredTicketsOnSale,
@@ -223,7 +305,32 @@ async function handleDateStatisticCommand(ctx, next) {
     } else if(ctx.message.text === ctx.i18n.t('buttons.allPeriodStat')){
         const filteredTicketsOnSale = ticketsOnSale.length
         const filteredTicketsOnBuy = ticketsOnBuy.length
+        const filteredReviewService = getReviewService.map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]): []
+        const { rate = 0 } = getReviewService.length ? getAvgReview[0]:{ rate: 0 }
+        const getUserIds = [...ticketsOnSale.map(({authorId}) => authorId),...ticketsOnBuy.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
         const result = {
+            rate,
+            users: usersCount,
             date: 'All period',
             reg: users.length,
             ticketOnSale: filteredTicketsOnSale,
@@ -248,9 +355,38 @@ async function handleDateStatisticCommand(ctx, next) {
             state: '',
         })
         const [startDate,endDate] = ctx.message.text.split('-')
-        const filteredTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length
-        const filteredTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day'))
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day'))
+            .map(({_id}) => _id)
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]:{ rate: 0 }
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
         const result = {
+            rate,
+            users: usersCount,
             date: `${startDate}-${endDate}`,
             reg: users.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length,
             ticketOnSale: filteredTicketsOnSale,

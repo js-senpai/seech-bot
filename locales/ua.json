@@ -19,7 +19,7 @@
         "text": "Номер телефона: ${phone}\nІм'я: ${name}\nДата: ${date}\nОцінка: ${value}\nВідгук: ${text}"
     },
     "statistic": {
-        "text": "\uD83D\uDCC8Звіт за ${date}\n\n\n\n\uD83D\uDCF2 К-ть нових реєстрацій - ${reg}\n\n\uD83D\uDCCA К-ть тікетів на продажу - ${ticketOnSale}\n\n\uD83D\uDCCA К-ть тікетів на покупку - ${ticketOnBuy}\n\n\n\n\uD83D\uDCC8Доля продукту в продажах\n\n\uD83E\uDD54овочі ${vegetablesSale}%\n\n\uD83C\uDF4Eфрукти ${fruitsSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cгоріхи ${nutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукту в покупках\n\n\uD83E\uDD54овочі ${vegetablesBuy}%\n\n\uD83C\uDF4Eфрукти ${fruitsBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cгоріхи ${nutsBuy}%",
+        "text": "\uD83D\uDCC8Звіт за ${date}\n\n\n\n\uD83D\uDFE2 Активні користувачі - ${users}\n\n⭐️ Оцінка сервісу - ${rate}\n\n\uD83D\uDCF2К-ть нових реєстрацій - ${reg}\n\n\uD83D\uDCCA К-ть тікетів на продажу - ${ticketOnSale}\n\n\uD83D\uDCCA К-ть тікетів на покупку - ${ticketOnBuy}\n\n\n\n\uD83D\uDCC8Доля продукту в продажах\n\n\uD83E\uDD54овочі ${vegetablesSale}%\n\n\uD83C\uDF4Eфрукти ${fruitsSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cгоріхи ${nutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукту в покупках\n\n\uD83E\uDD54овочі ${vegetablesBuy}%\n\n\uD83C\uDF4Eфрукти ${fruitsBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cгоріхи ${nutsBuy}%",
         "format": "Введіть початок та кінець періоду у форматі DD.MM.YYYY-DD.MM.YYYY (20.01.2022-21.01.2022)"
     },
     "reviewSeller": {

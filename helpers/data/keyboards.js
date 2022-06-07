@@ -1,8 +1,8 @@
-const mainMenu = ({userType = 'user'}) =>  [['about'],['sell'], ['buy'], ['myTickets'], ['basket'], userType === 'admin' || userType === 'moderator' ? [['reviewService'],['adminMenu']].flatMap((item) => item):[]]
+const mainMenu = ({userType = 'user'}) =>  [['about'],['sell'], ['buy'], ['myTickets'], ['basket'], userType !== 'admin' || userType !== 'moderator' ? [] :['reviewService'],['adminMenu']]
 const keyboards = {
 	mainMenu,
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
-	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['reviews'],userType === 'moderator' ? []: [['moderatorList'],['mailing']].flatMap((item) => item),['back']]: [],
+	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['reviews'],userType === 'moderator' ? []: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	sendPhone: () => [['sendPhone']],
 	skipPhoto: () => [['skipPhoto', `skipPhoto`]],

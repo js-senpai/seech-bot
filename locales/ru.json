@@ -16,7 +16,7 @@
         "text": "Оставить отзыв продавцу"
     },
     "statistic": {
-        "text": "\uD83D\uDCC8Отчет за ${date}\n\n\n\n\uD83D\uDCF2 Кол-во новых регистраций - ${reg}\n\n\uD83D\uDCCA Кол-во тикетов в продаже - ${ticketOnSale}\n\n\uD83D\uDCCA Кол-во тикетов на покупку - ${ticketOnBuy}\n\n\n\n\uD83D\uDCC8Доля продукта в продажах\n\n\uD83E\uDD54овощи ${vegetablesSale}%\n\n\uD83C\uDF4Eфрукты ${fruitsSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cорехи ${nutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукта в покупках\n\n\uD83E\uDD54овощи ${vegetablesBuy}%\n\n\uD83C\uDF4Eфрукты ${fruitsBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cорехи ${nutsBuy}%",
+        "text": "\uD83D\uDCC8Отчет за ${date}\n\n\n\n\uD83D\uDFE2 Активные пользователи - ${users}\n\n⭐️ Оценка сервиса - ${rate}\n\n\uD83D\uDCF2 Кол-во новых регистраций - ${reg}\n\n\uD83D\uDCCA Кол-во тикетов в продаже - ${ticketOnSale}\n\n\uD83D\uDCCA Кол-во тикетов на покупку - ${ticketOnBuy}\n\n\n\n\uD83D\uDCC8Доля продукта в продажах\n\n\uD83E\uDD54овощи ${vegetablesSale}%\n\n\uD83C\uDF4Eфрукты ${fruitsSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cорехи ${nutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукта в покупках\n\n\uD83E\uDD54овощи ${vegetablesBuy}%\n\n\uD83C\uDF4Eфрукты ${fruitsBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cорехи ${nutsBuy}%",
         "format": "Введите начало и конец периода в формате DD.MM.YYYY-DD.MM.YYYY (20.01.2022-21.01.2022)"
     },
     "reviews": {
