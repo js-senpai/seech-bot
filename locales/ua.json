@@ -62,7 +62,8 @@
         "moderator": "Номер телефону: ${phone}\nІм'я: ${name}",
         "filterModeratorsByPhone": "Знайти юзера по номеру телефону",
         "mailing": "Введіть текст розсилки нижче",
-        "about": "Описание бота"
+        "about": "Описание бота",
+        "prices": "\uD83E\uDD54Картопля - ${potatoes}грн/кг\n\n\uD83E\uDD55Морква - ${carrots}грн/кг\n\n\uD83E\uDDC5Цибуля - ${onions}грн/кг\n\n\uD83E\uDD6CКапуста - ${cabbage}грн/кг\n\n\uD83C\uDF60Буряк -  ${beets}грн/кг\n\n\uD83E\uDED1Перець болгарський - ${peppers}грн/кг\n\n\uD83C\uDF45Томат - ${tomato}грн/кг\n\n\uD83E\uDD52Огірок - ${cucumber}грн/кг\n\n\n\n\uD83C\uDF4EЯблука - ${apples}грн/кг\n\n\uD83E\uDED0Сливи - ${plums}грн/кг\n\n\uD83C\uDF53Полуниця - ${strawberry}грн/кг\n\n\uD83C\uDF51Абрикоси - ${apricot}грн/кг\n\n\uD83C\uDF50Груші - ${peals}\n\nМалина - ${raspberry}\n\nПерсики - ${peach}\n\n\uD83C\uDF47Виноград - ${grape}\n\n\uD83C\uDF52Вишні - ${cherry}грн/кг\n\n\n\n\uD83C\uDF6FМед - ${honey}грн/кг\n\n\n\n\uD83E\uDD5CГоріхи - ${nuts}грн/кг"
     },
     "errors": {
         "notWaitingForReview": "Неможливо позначити товар як проданий, доки творець не відзначив цього",
@@ -82,6 +83,7 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
+        "prices": "Ціни",
         "about": "Про Seech",
         "mailing": "Розсилка",
         "findModerator": "Знайти юзера",
@@ -133,7 +135,9 @@
             "raspberry": "Малина",
             "strawberry": "Полуниця",
             "peach": "Персики",
-            "apricot": "Абрикоси"
+            "apricot": "Абрикоси",
+            "cherry": "Вишні",
+            "grape": "Виноград"
         },
         "vegetablesList": {
             "potatoes": "Картопля",

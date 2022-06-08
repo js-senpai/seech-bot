@@ -47,6 +47,7 @@ import {handleFindModeratorCommand} from "../handlers/text/findModerator.js";
 import {handleMailingCommand} from "../handlers/text/mailing.js";
 import {handleMailingTextInput} from "../handlers/text/input-mailing.js";
 import {handleAboutCommand} from "../handlers/text/about.js";
+import {handlePricingCommand} from "../handlers/text/prices.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -82,6 +83,7 @@ async function initBot(dbInstance) {
 	bot.on('message', handleMailingCommand)
 	bot.on('message', handleMailingTextInput)
 	bot.on('message', handleAboutCommand)
+	bot.on('message', handlePricingCommand)
 	bot.on('message', handleAnyTextMessage)
 
 	bot.on('callback_query', handleReviewClick)

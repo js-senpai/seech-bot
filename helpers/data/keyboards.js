@@ -2,7 +2,7 @@ const mainMenu = ({userType = 'user'}) =>  [['about'],['sell'], ['buy'], ['myTic
 const keyboards = {
 	mainMenu,
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
-	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['reviews'],userType === 'moderator' ? []: ['moderatorList'],['mailing'],['back']]: [],
+	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['prices'],['reviews'],userType === 'moderator' ? []: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	sendPhone: () => [['sendPhone']],
 	skipPhoto: () => [['skipPhoto', `skipPhoto`]],
@@ -51,7 +51,9 @@ const keyboards = {
 		['fruitsList.raspberry', `culture_raspberry`],
 		['fruitsList.strawberry', `culture_strawberry`],
 		['fruitsList.peach', `culture_peach`],
-		['fruitsList.apricot', `culture_apricot`]
+		['fruitsList.apricot', `culture_apricot`],
+		['fruitsList.cherry', `culture_cherry`],
+		['fruitsList.grape', `culture_grape`]
 	],
 	vegetables: () => [
 		['vegetablesList.potatoes', `culture_potatoes`],

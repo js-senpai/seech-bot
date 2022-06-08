@@ -51,7 +51,8 @@
         "moderator": "Номер телефона: ${phone}\nИмя: ${name}",
         "filterModeratorsByPhone": "Найти пользователя по номеру телефону",
         "mailing": "Введите текст рассылки ниже",
-        "about": "Описание бота"
+        "about": "Описание бота",
+        "prices": "\uD83E\uDD54Картофель - ${potatoes}грн/кг\n\n\uD83E\uDD55Морковь - ${carrots}грн/кг\n\n  Лук - ${onions}грн/кг\n\n  Капуста - ${cabbage}грн/кг\n\n\uD83C\uDF60Свекла - ${beets}грн/кг\n\n  Перец болгарский - ${peppers}грн/кг\n\n\uD83C\uDF45Томат - ${tomato}\n\n\uD83E\uDD52Огурец - ${cucumber}грн/кг\n\n\n\n\uD83C\uDF4EЯблоки - ${apples}грн/кг\n\n  Сливы - ${plums}грн/кг\n\n\uD83C\uDF53Клубника - ${strawberry}грн/кг\n\n\uD83C\uDF51Абрикосы - ${apricot}грн/кг\n\n\uD83C\uDF50Груши - ${peals}грн/кг\n\nМалина – ${raspberry}грн/кг\n\nПерсики – ${peach}грн/кг\n\n\uD83C\uDF47Виноград - ${grape}грн/кг\n\n\uD83C\uDF52Вишни - ${cherry}грн/кг\n\n\n\n\uD83C\uDF6FМед - ${honey}грн/кг\n\n\n\n\uD83E\uDD5CОрехи - ${nuts}грн/кг"
     },
     "errors": {
         "notWaitingForReview": "Невозможно выполнить тикет, пока создатель тикета не отметил его, как выполненный",
@@ -71,6 +72,7 @@
         "userNotFound": "Юзер не найден"
     },
     "buttons": {
+        "prices": "Цены",
         "about": "О Seech",
         "mailing": "Рассылка",
         "findModerator": "Найти юзера",
@@ -122,7 +124,9 @@
             "raspberry": "Малина",
             "strawberry": "Клубника",
             "peach": "Персики",
-            "apricot": "Абрикоси"
+            "apricot": "Абрикоси",
+            "cherry": "Вишни",
+            "grape": "Виноград"
         },
         "vegetablesList": {
             "potatoes": "Картофель",
