@@ -2,7 +2,7 @@ const mainMenu = ({userType = 'user'}) =>  [['about'],['sell'], ['buy'], ['myTic
 const keyboards = {
 	mainMenu,
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
-	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['prices'],['reviews'],userType === 'moderator' ? []: ['moderatorList'],['mailing'],['back']]: [],
+	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['prices'],['regionStat'],['reviews'],userType === 'moderator' ? []: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	sendPhone: () => [['sendPhone']],
 	skipPhoto: () => [['skipPhoto', `skipPhoto`]],

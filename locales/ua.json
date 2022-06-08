@@ -84,6 +84,7 @@
     },
     "buttons": {
         "prices": "Ціни",
+        "regionStat": "Регіони",
         "about": "Про Seech",
         "mailing": "Розсилка",
         "findModerator": "Знайти юзера",

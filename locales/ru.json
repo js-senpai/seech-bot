@@ -73,6 +73,7 @@
     },
     "buttons": {
         "prices": "Цены",
+        "regionStat": "Регионы",
         "about": "О Seech",
         "mailing": "Рассылка",
         "findModerator": "Найти юзера",
