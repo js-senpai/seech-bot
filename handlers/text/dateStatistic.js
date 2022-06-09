@@ -122,7 +122,7 @@ async function handleDateStatisticCommand(ctx, next) {
             }
         });
         const result = {
-            rate,
+            rate: rate.toFixed(2),
             users: usersCount,
             date: getDate.format('DD-MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
@@ -192,7 +192,7 @@ async function handleDateStatisticCommand(ctx, next) {
             }
         });
         const result = {
-            rate,
+            rate: rate.toFixed(2),
             users: usersCount,
             date: getDate.format('DD-MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
@@ -262,7 +262,7 @@ async function handleDateStatisticCommand(ctx, next) {
             }
         });
         const result = {
-            rate,
+            rate: rate.toFixed(2),
             users: usersCount,
             date: getDate.format('MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length,
@@ -329,7 +329,7 @@ async function handleDateStatisticCommand(ctx, next) {
             }
         });
         const result = {
-            rate,
+            rate: rate.toFixed(2),
             users: usersCount,
             date: 'Весь період',
             reg: users.length,
@@ -385,7 +385,7 @@ async function handleDateStatisticCommand(ctx, next) {
             }
         });
         const result = {
-            rate,
+            rate: rate.toFixed(2),
             users: usersCount,
             date: `${startDate}-${endDate}`,
             reg: users.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length,

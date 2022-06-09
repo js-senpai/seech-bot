@@ -22,24 +22,21 @@ async function handleRegionsCommand(ctx, next) {
     if(user.type !== 'admin' && user.type !== 'moderator') {
         return await next()
     }
-    const getDate = moment()
-    const getUsers = await ctx.db.User.find()
-    const filteredUsers = getUsers.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
+    const getUsers = await ctx.db.User.countDocuments()
     const getLocales = ctx.i18n.locale() === 'ru' ? await fs.promises.readFile(join(resolve(),'locales','ru.json'),{ encoding: 'utf8' }):await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocales = JSON.parse(getLocales)
     const users = []
     for (const [key, value] of Object.entries(parseLocales.buttons.regions)) {
-        const getUsersByRegion = await ctx.db.User.find({
+        const getUsersByRegion = await ctx.db.User.countDocuments({
             region: key
         })
-        const getTotal = getUsersByRegion.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
         users.push({
             region: value,
-            total: getTotal.length,
-            percent: `${getTotal.length && filteredUsers.length ? (getTotal.length / filteredUsers.length) * 100 : 0}%`
+            total: getUsersByRegion,
+            percent: `${getUsersByRegion && getUsers ? (getUsersByRegion / getUsers) * 100 : 0}%`
         })
     }
-    const filterRegions = users.sort((a,b) => b.total - a.total).map(({region,total,percent}) => `${region} - ${percent}(${total})`).join('\n')
+    const filterRegions = users.sort((a,b) => b.total - a.total).map(({region,total,percent}) => `${region} - ${percent.toFixed(2)}(${total})`).join('\n')
     await ctx.textTemplate(filterRegions);
 }
 

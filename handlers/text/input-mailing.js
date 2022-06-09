@@ -19,7 +19,7 @@ async function handleMailingTextInput(ctx, next) {
     const getUsers = await ctx.db.User.find();
     for(const {userId} of getUsers) {
         if(userId){
-            await sendMessage(ctx.message.text,{ userId });
+            await sendMessage.bind(ctx)(ctx.message.text,{ userId });
         }
     }
     await user.updateData({
