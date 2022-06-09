@@ -35,6 +35,11 @@ const keyboards = {
 		return keyboard
 	},
 	ticketActions: ({ photo, id, basket = true, sale }) => {
+		console.log({
+			basket,
+			sale,
+			photo
+		})
 		let keyboard = []
 		if (basket && sale) {
 			keyboard.push(['toBasket', `toBasket_${id}`])

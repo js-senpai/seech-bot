@@ -1,4 +1,3 @@
-import { finishCreatingTicket } from '../create-ticket.js'
 import {buildKeyboard} from "../../helpers/keyboard.js";
 
 async function handleLiterInput(ctx, next) {
@@ -25,7 +24,7 @@ async function handleLiterInput(ctx, next) {
         'ticket.weight': liter,
         'ticket.weightType': 'liter'
     })
-    let state = 'free'
+    let state
     if (updateUser.ticket?.sale) {
         await ctx.textTemplate('input.price',{
             weightValue: ctx.i18n.t(`types.volumeValue`),
@@ -33,7 +32,8 @@ async function handleLiterInput(ctx, next) {
         })
         state = 'price'
     } else {
-        await finishCreatingTicket(ctx, updateUser)
+        await ctx.textTemplate('input.comment')
+        state = 'comment'
     }
     await user.updateData({ state })
 }

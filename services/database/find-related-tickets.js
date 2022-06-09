@@ -1,5 +1,5 @@
 async function findRelatedTickets(Ticket, { weight, sale, culture, authorId }, region = '') {
-	const data = await Ticket.aggregate([
+	return await Ticket.aggregate([
 		{
 			// Search for customers in case of sale and vice versa
 			$match: {
@@ -29,7 +29,7 @@ async function findRelatedTickets(Ticket, { weight, sale, culture, authorId }, r
 				// Calculate region suitability
 				regionScore: {
 					$cond: {
-						if: { region },
+						if: {region},
 						then: 1,
 						else: 0
 					}
@@ -45,9 +45,8 @@ async function findRelatedTickets(Ticket, { weight, sale, culture, authorId }, r
 			}
 		},
 		// Show no more then 5 best results
-		{ $limit: 5 }
+		{$limit: 5}
 	])
-	return data
 }
 
 export { findRelatedTickets }

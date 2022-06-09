@@ -1,4 +1,3 @@
-import { finishCreatingTicket } from '../create-ticket.js'
 import {buildKeyboard} from "../../helpers/keyboard.js";
 
 async function handleWeightInput(ctx, next) {
@@ -23,10 +22,10 @@ async function handleWeightInput(ctx, next) {
 		})
 		return
 	}
-	const updateUser = await user.updateData({
+	await user.updateData({
 		'ticket.weight': weight,
 	})
-	let state = 'free'
+	let state
 	if (user.ticket?.sale) {
 		await ctx.textTemplate('input.price',{
             weightValue: ctx.i18n.t(`types.weightValue`),
@@ -34,7 +33,8 @@ async function handleWeightInput(ctx, next) {
         })
 		state = 'price'
 	} else {
-		await finishCreatingTicket(ctx, updateUser)
+		await ctx.textTemplate('input.comment')
+		state = 'comment'
 	}
 	await user.updateData({ state })
 }

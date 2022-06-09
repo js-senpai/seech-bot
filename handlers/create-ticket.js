@@ -37,6 +37,7 @@ async function finishCreatingTicket(ctx, user) {
 		    stars
 		}
 	)
+	console.log(ticket)
 	const relatedUserIds = tickets.map(ticket => ticket.authorId)
 	const relatedUsersList = await ctx.db.User.find({
 		userId: {
@@ -47,6 +48,7 @@ async function finishCreatingTicket(ctx, user) {
 		relatedUsersList.map(user => [user.userId, user])
 	)
 	for (const ticket of tickets) {
+		console.log(ticket)
 		const { text: foundText, keyboard: foundKeyboard } =
 			generateTicketMessage({
 					texts: ctx.i18n,
@@ -55,7 +57,6 @@ async function finishCreatingTicket(ctx, user) {
 					userId: ctx.from.id
 				}
 			)
-
 		await ctx.text(foundText, foundKeyboard)
 	}
 	const uniqueRelatedUserIds = new Set(relatedUserIds)
