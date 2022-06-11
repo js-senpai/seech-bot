@@ -33,10 +33,10 @@ async function handleRegionsCommand(ctx, next) {
         users.push({
             region: value,
             total: getUsersByRegion,
-            percent: `${getUsersByRegion && getUsers ? (getUsersByRegion / getUsers) * 100 : 0}%`
+            percent: `${getUsersByRegion && getUsers ? ((getUsersByRegion / getUsers) * 100).toFixed(2) : 0}%`
         })
     }
-    const filterRegions = users.sort((a,b) => b.total - a.total).map(({region,total,percent}) => `${region} - ${percent.toFixed(2)}(${total})`).join('\n')
+    const filterRegions = users.sort((a,b) => b.total - a.total).map(({region,total,percent}) => `${region} - ${percent}(${total})`).join('\n')
     await ctx.textTemplate(filterRegions);
 }
 
