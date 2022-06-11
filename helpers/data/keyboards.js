@@ -17,7 +17,7 @@ const keyboards = {
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['prices'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	sendPhone: () => [['sendPhone']],
-	skipPhoto: () => [['skipPhoto', `skipPhoto`]],
+	skip: () => [['skip', `skip`]],
 	findModerator: ({command}) => [['findModerator',JSON.stringify({command})]],
 	review: ({ authorId, mutual = false }) => [
 		['review.1', `review_${authorId}_1_${mutual || ''}`],
@@ -34,6 +34,9 @@ const keyboards = {
 	],
 	editModerator: ({ isModerator = false,userId,command }) => [
 		[isModerator ? 'removeModerator':'addModerator',JSON.stringify({ userId, command })]
+	],
+	loadMoreReviews: ({page = 1}) => [
+		'loadMoreReviews',JSON.stringify({page})
 	],
 	myTicket: ({ photo, date, id }) => {
 		let keyboard = [['completed', `completed_${id}`]]

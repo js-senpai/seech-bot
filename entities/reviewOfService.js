@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mongoosePaginate from 'mongoose-paginate-v2';
 const reviewOfServiceSchema = new mongoose.Schema({
    userId: {
        type: mongoose.Schema.Types.ObjectId,
@@ -33,5 +33,7 @@ const reviewOfServiceSchema = new mongoose.Schema({
     versionKey: false,
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
+
+reviewOfServiceSchema.plugin(mongoosePaginate);
 
 export { reviewOfServiceSchema }

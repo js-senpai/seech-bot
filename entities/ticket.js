@@ -19,7 +19,8 @@ const ticketSchema = new mongoose.Schema({
 		type: Number
 	},
 	description: {
-		type: String
+		type: String,
+		default: ' '
 	},
 	culture: {
 		type: String
@@ -43,6 +44,7 @@ const ticketSchema = new mongoose.Schema({
 	versionKey: false,
 	timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
+
 
 class ticketClass {
 	static getOne(id) {

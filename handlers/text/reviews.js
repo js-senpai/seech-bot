@@ -3,7 +3,7 @@ import moment from "moment";
 import {buildKeyboard} from "../../helpers/keyboard.js";
 
 async function handleReviewsCommand(ctx, next) {
-    if (notButtonClick(ctx.i18n, ctx.message.text, 'reviews')) {
+    if (notButtonClick(ctx.i18n, ctx.message.text, 'reviews') && notButtonClick(ctx.i18n, ctx.message.text, 'loadMoreReviews')) {
         return await next()
     }
     const user = await ctx.getUser()
@@ -20,27 +20,44 @@ async function handleReviewsCommand(ctx, next) {
     if(user.type !== 'admin' && user.type !== 'moderator') {
         return await next()
     }
+    const { page = 1 } = ctx.callbackQuery?.data ? JSON.parse(ctx.callbackQuery.data): { page: 1 }
     await ctx.db.User.updateOne({
         _id: user._id
     },{
         prevMenu: 'adminMenu'
     })
     // Get user
-    const getUsers = await ctx.db.User.find()
-    for(const { _id,phone,name } of getUsers){
-        // Get reviews
-        const getReviews = await ctx.db.ReviewOfService.find({
-            userId: _id
-        })
-        for(const { text, value,createdAt } of getReviews) {
-            await ctx.textTemplate(ctx.i18n.t('reviews.text',{
-                    phone,
-                    name,
-                    value,
-                    text,
-                    date: moment(createdAt).format('DD.MM.YYYY')
-            }))
-        }
+    const { docs = [], hasNextPage = false} = await ctx.db.ReviewOfService.paginate({}, { page,limit: 5 });
+    for(let i = 0;i < docs.length; i++) {
+       const { userId,value,text,createdAt } =  docs[i];
+       const getUser = await ctx.db.User.findOne({
+           _id: userId
+       })
+       if(getUser) {
+           const { name,phone } = getUser;
+           if(i + 1 === docs.length && hasNextPage){
+               await ctx.textTemplate(ctx.i18n.t('reviews.text',{
+                   phone,
+                   name,
+                   value,
+                   text,
+                   date: moment(createdAt).format('DD.MM.YYYY')
+               }),{ page: page + 1  },buildKeyboard(ctx.i18n, {
+                   name: 'loadMoreReviews',
+                   data: {
+                       page: page + 1
+                   }
+               }))
+           } else {
+               await ctx.textTemplate(ctx.i18n.t('reviews.text',{
+                   phone,
+                   name,
+                   value,
+                   text,
+                   date: moment(createdAt).format('DD.MM.YYYY')
+               }))
+           }
+       }
     }
 }
 

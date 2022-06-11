@@ -33,7 +33,13 @@ async function handleWeightInput(ctx, next) {
         })
 		state = 'price'
 	} else {
-		await ctx.textTemplate('input.comment')
+		await ctx.textTemplate(
+			'input.comment',
+			{},
+			buildKeyboard(ctx.i18n, {
+				name: 'skip'
+			})
+		)
 		state = 'comment'
 	}
 	await user.updateData({ state })

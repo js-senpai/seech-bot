@@ -23,7 +23,7 @@ async function handleShowPhotoClick(ctx, next) {
 		let keyboard
 		const user = await ctx.getUser()
 		const own = ticket.authorId === ctx.from.id
-		const basket = user.basket.some(ticket => ticket.id == ticketId)
+		const basket = user.basket.some(ticket => ticket.id === ticketId)
 		if (own || basket) {
 			keyboard = buildKeyboard(ctx.i18n, {
 				name: 'myTicket',

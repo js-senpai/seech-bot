@@ -1,8 +1,8 @@
 import { finishCreatingTicket } from '../create-ticket.js'
 import {buildKeyboard} from "../../helpers/keyboard.js";
 
-async function handleSkipPhotoClick(ctx, next) {
-	if (!ctx.callbackQuery.data.startsWith('skipPhoto')) {
+async function handleSkipClick(ctx, next) {
+	if (!ctx.callbackQuery.data.startsWith('skip')) {
 		return await next()
 	}
 	const user = await ctx.getUser()
@@ -20,4 +20,4 @@ async function handleSkipPhotoClick(ctx, next) {
 	await finishCreatingTicket(ctx, user)
 }
 
-export { handleSkipPhotoClick }
+export { handleSkipClick }

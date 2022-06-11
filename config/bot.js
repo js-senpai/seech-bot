@@ -21,7 +21,7 @@ import { handlePersonalDataProcessingClick } from '../handlers/button/data-proce
 import { handleRegionClick } from '../handlers/button/region.js'
 import { handleCultureTypeClick } from '../handlers/button/culture-type.js'
 import { handleCultureClick } from '../handlers/button/culture.js'
-import { handleSkipPhotoClick } from '../handlers/button/skip-photo.js'
+import { handleSkipClick } from '../handlers/button/skip.js'
 import { handleShowPhotoClick } from '../handlers/button/show-photo.js'
 import { handleExtendTicketClick } from '../handlers/button/extend-ticket.js'
 import { handleAddToBasketClick } from '../handlers/button/add-to-basket.js'
@@ -95,7 +95,7 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleShowPhotoClick)
 	bot.on('callback_query', handleAddToBasketClick)
 	bot.on('callback_query', handleExtendTicketClick)
-	bot.on('callback_query', handleSkipPhotoClick)
+	bot.on('callback_query', handleSkipClick)
 	bot.on('callback_query', handleRegionClick)
 	bot.on('callback_query', handlePersonalDataProcessingClick)
 	bot.on('callback_query', handleCultureTypeClick)

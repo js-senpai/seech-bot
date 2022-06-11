@@ -19,7 +19,7 @@ async function handleDescriptionInput(ctx, next) {
 		'input.photo',
 		{},
 		buildKeyboard(ctx.i18n, {
-			name: 'skipPhoto'
+			name: 'skip'
 		})
 	)
 	await user.updateData({
