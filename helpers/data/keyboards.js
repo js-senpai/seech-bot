@@ -14,7 +14,7 @@ const mainMenu = ({userType = 'user'}) =>  getMainMenu({userType})
 const keyboards = {
 	mainMenu,
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
-	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['prices'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
+	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	sendPhone: () => [['sendPhone']],
 	skip: () => [['skip', `skip`]],

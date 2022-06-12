@@ -1,26 +1,7 @@
-import {notButtonClick} from "../../services/not-button-click.js";
-import {buildKeyboard} from "../../helpers/keyboard.js";
 import fs from "fs";
 import {join, resolve} from "path";
 
-async function handlePricingCommand(ctx, next) {
-    if (notButtonClick(ctx.i18n, ctx.message.text, 'prices')) {
-        return await next()
-    }
-    const user = await ctx.getUser()
-    if(!user || !user.phone){
-        return await ctx.textTemplate(
-            'input.personalDataProcessing',
-            {},
-            buildKeyboard(ctx.i18n, {
-                name: 'personalDataProcessing',
-                columns: 2
-            })
-        )
-    }
-    if(user.type !== 'admin' && user.type !== 'moderator') {
-        return await next()
-    }
+const getPriceStatistic = async ({ids = [],ctx}) => {
     const getRuLocales = await fs.promises.readFile(join(resolve(),'locales','ru.json'),{ encoding: 'utf8' })
     const getUaLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseRu = JSON.parse(getRuLocales)
@@ -50,6 +31,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getGrape
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -66,6 +50,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getCherry
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -82,6 +69,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getApricot
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -98,6 +88,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getPeach
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -114,6 +107,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getStrawberry
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -130,6 +126,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getRaspberry
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -146,6 +145,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getPlums
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -162,6 +164,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getPeals
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -178,6 +183,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getApples
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -194,6 +202,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getCabbage
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -210,6 +221,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getCucumbers
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -226,6 +240,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getOnions
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -242,6 +259,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getTomato
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -258,6 +278,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getPeppers
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -274,6 +297,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getCarrots
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -290,6 +316,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getPotatoes
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -306,6 +335,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getBeets
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -322,6 +354,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getHoney
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -338,6 +373,9 @@ async function handlePricingCommand(ctx, next) {
                 sale: true,
                 culture: {
                     $in: getNuts
+                },
+                _id: {
+                    $in: ids
                 }
             }
         },
@@ -371,4 +409,4 @@ async function handlePricingCommand(ctx, next) {
     }));
 }
 
-export { handlePricingCommand }
+export { getPriceStatistic }

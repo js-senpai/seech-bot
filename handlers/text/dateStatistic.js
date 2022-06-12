@@ -3,6 +3,7 @@ import moment from "moment";
 import * as fs from "fs";
 import {join, resolve} from "path";
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import {getPriceStatistic} from "../../helpers/utils.js";
 
 async function handleDateStatisticCommand(ctx, next) {
     const user = await ctx.getUser()
@@ -37,6 +38,10 @@ async function handleDateStatisticCommand(ctx, next) {
     const honey = [parseRu.buttons.honey,parseUa.buttons.honey]
     const nuts = [parseRu.buttons.walnuts,parseUa.buttons.walnuts]
     const users = await ctx.db.User.find()
+    const boughtTicketsOnSale = await ctx.db.Ticket.find({
+        sale: true,
+        active: false
+    });
     const ticketsOnSale = await ctx.db.Ticket.find({
         sale: true
     })
@@ -162,6 +167,8 @@ async function handleDateStatisticCommand(ctx, next) {
             })()
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id),ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.yesterdayStat')){
         const getDate = moment().subtract(1, 'days')
         const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
@@ -232,6 +239,8 @@ async function handleDateStatisticCommand(ctx, next) {
             })()
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id),ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.currentMonthStat')) {
         const getDate = moment()
         const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
@@ -302,6 +311,8 @@ async function handleDateStatisticCommand(ctx, next) {
             })()
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id),ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.allPeriodStat')){
         const filteredTicketsOnSale = ticketsOnSale.length
         const filteredTicketsOnBuy = ticketsOnBuy.length
@@ -345,6 +356,8 @@ async function handleDateStatisticCommand(ctx, next) {
             nutsBuy: nutsBuy.length > 0 ? (nutsBuy.length / filteredTicketsOnBuy * 100).toFixed(0) : 0
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.map(({_id}) => _id),ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.customPeriodStat')) {
         await ctx.textTemplate(ctx.i18n.t('statistic.format'))
         await user.updateData({
@@ -425,6 +438,8 @@ async function handleDateStatisticCommand(ctx, next) {
             })()
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id),ctx});
     }
 }
 
