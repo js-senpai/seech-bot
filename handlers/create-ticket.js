@@ -37,7 +37,7 @@ async function finishCreatingTicket(ctx, user) {
 		    stars
 		}
 	)
-	const relatedUserIds = tickets.filter(({active = false}) => active).map(ticket => ticket.authorId)
+	const relatedUserIds = tickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.authorId)
 	const relatedUsersList = await ctx.db.User.find({
 		userId: {
 			$in: relatedUserIds

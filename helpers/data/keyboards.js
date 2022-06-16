@@ -36,7 +36,7 @@ const keyboards = {
 		[isModerator ? 'removeModerator':'addModerator',JSON.stringify({ userId, command })]
 	],
 	loadMoreReviews: ({page = 1}) => [
-		'loadMoreReviews',JSON.stringify({page})
+		['loadMoreReviews',JSON.stringify({page,command: 'loadMoreReviews'})]
 	],
 	myTicket: ({ photo, date, id }) => {
 		let keyboard = [['completed', `completed_${id}`]]

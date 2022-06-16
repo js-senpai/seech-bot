@@ -49,6 +49,7 @@ import {handleMailingTextInput} from "../handlers/text/input-mailing.js";
 import {handleAboutCommand} from "../handlers/text/about.js";
 import {handleRegionsCommand} from "../handlers/text/regions.js";
 import {handleCommentInput} from "../handlers/text/input-comment.js";
+import {handleLoadMoreReviewsClick} from "../handlers/button/loadMoreReviews.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -103,6 +104,7 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleAddModeratorClick)
 	bot.on('callback_query', handleRemoveModeratorClick)
 	bot.on('callback_query', handleFindModeratorClick)
+	bot.on('callback_query', handleLoadMoreReviewsClick)
 	bot.on('callback_query', handleAnyButtonClick)
 
 	bot.catch(processError)
