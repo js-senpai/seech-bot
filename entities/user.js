@@ -40,6 +40,14 @@ const userSchema = new mongoose.Schema({
 	region: {
 		type: Number
 	},
+	countryState: {
+		type: String,
+	    default: '-'
+	},
+	countryOtg: {
+		type: String,
+		default: '-'
+	},
 	rating: {
 		type: Number,
 		default: 0

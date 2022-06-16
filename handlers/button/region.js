@@ -1,4 +1,5 @@
-import { buildKeyboard } from '../../helpers/keyboard.js'
+import fs from "fs";
+import {join, resolve} from "path";
 
 async function handleRegionClick(ctx, next) {
 	const [command, regionId] = ctx.callbackQuery.data.split('_')
@@ -9,17 +10,36 @@ async function handleRegionClick(ctx, next) {
 	await user.updateData({
 		region: regionId
 	})
-	await ctx.textTemplate(
-		'responses.mainMenu',
-		{},
-		buildKeyboard(ctx.i18n, {
-			name: 'mainMenu',
-			inline: false,
-			columns: 2,
-			data: {
-				userType: user.type
-			}
+	const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+	const parseLocales = JSON.parse(getLocales)
+	const getStates = parseLocales.buttons.regions[regionId].states
+	const states = []
+	for(const [stateId,{name}] of Object.entries(getStates)){
+		states.push({
+			stateId,
+			name,
+			regionId
 		})
+	}
+    const statesKeyboards = states.map(({stateId,name,regionId}) => [
+		{
+			text: name,
+			callback_data: JSON.stringify({
+			   stateId,
+			   regionId,
+			   command: 'countryState'
+			})
+		}
+	])
+	await ctx.textTemplate(
+		'input.states',
+		{},
+		{
+			parse_mode: 'HTML',
+			reply_markup: {
+				inline_keyboard: statesKeyboards,
+			},
+		}
 	)
 }
 
