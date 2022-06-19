@@ -16,7 +16,7 @@ const keyboards = {
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
-	personalCabinet: () => [['changeLocation']],
+	personalCabinet: () => [['changeLocation'],['back']],
 	sendPhone: () => [['sendPhone']],
 	skip: () => [['skip', `skip`]],
 	findModerator: ({command}) => [['findModerator',JSON.stringify({command})]],
@@ -30,9 +30,9 @@ const keyboards = {
 	cultureType: () => [
 		['vegetables', `cultureType_vegetables`],
 		['fruits', `cultureType_fruits`],
-		['meats', `cultureType_meats`],
 		['honey', `culture_honey`],
-		['walnuts', `culture_walnuts`]
+		['walnuts', `culture_walnuts`],
+		['meats', `cultureType_meats`],
 	],
 	editModerator: ({ isModerator = false,userId,command }) => [
 		[isModerator ? 'removeModerator':'addModerator',JSON.stringify({ userId, command })]

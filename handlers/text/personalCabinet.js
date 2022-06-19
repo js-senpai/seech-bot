@@ -19,7 +19,7 @@ async function handlePersonalCabinetCommand(ctx, next) {
     await ctx.db.User.updateOne({
         _id: user._id
     },{
-        prevMenu: 'adminMenu'
+        prevMenu: 'mainMenu'
     })
     await ctx.textTemplate(
         'responses.choose',
@@ -30,6 +30,13 @@ async function handlePersonalCabinetCommand(ctx, next) {
             columns: 2,
         })
     )
+    await ctx.textTemplate(await ctx.i18n.t('input.profile',{
+        name: user.name,
+        phone: user.phone,
+        region: await ctx.i18n.t(`buttons.regions.${user.region}.name`),
+        state: user.countryState ?  await ctx.i18n.t(`buttons.regions.${user.region}.states.${user.countryState}.name`): '',
+        otg: user.countryOtg ?  await ctx.i18n.t(`buttons.regions.${user.region}.states.${user.countryState}.otg.${user.countryOtg}`): ''
+    }))
 }
 
 export { handlePersonalCabinetCommand }
