@@ -129,9 +129,16 @@
         "sell": "Продати",
         "sendPhone": "Надіслати свій контакт",
         "vegetables": "Овочі",
+        "meats": "М‘ясо",
         "fruits": "Фрукти",
         "honey": "Мед",
         "walnuts": "Горіхи",
+        "meatsList": {
+          "pork": "Свинина",
+          "chicken": "Курятина",
+          "fish": "Риба",
+          "egg": "Яйця"
+        },
         "fruitsList": {
             "apples": "Яблука",
             "peals": "Груші",

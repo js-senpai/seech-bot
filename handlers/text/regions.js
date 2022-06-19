@@ -23,7 +23,7 @@ async function handleRegionsCommand(ctx, next) {
         return await next()
     }
     const getUsers = await ctx.db.User.countDocuments()
-    const getLocales = ctx.i18n.locale() === 'ru' ? await fs.promises.readFile(join(resolve(),'locales','ru.json'),{ encoding: 'utf8' }):await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+    const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocales = JSON.parse(getLocales)
     const users = []
     for (const [key, value] of Object.entries(parseLocales.buttons.regions)) {

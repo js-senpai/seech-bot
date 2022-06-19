@@ -29,6 +29,7 @@ const keyboards = {
 	cultureType: () => [
 		['vegetables', `cultureType_vegetables`],
 		['fruits', `cultureType_fruits`],
+		['meats', `cultureType_meats`],
 		['honey', `culture_honey`],
 		['walnuts', `culture_walnuts`]
 	],
@@ -84,6 +85,12 @@ const keyboards = {
 		['vegetablesList.tomato', `culture_tomato`],
 		['vegetablesList.cabbage', `culture_cabbage`],
 		['vegetablesList.cucumber', `culture_cucumber`]
+	],
+	meats: () => [
+		['meatsList.pork','culture_pork'],
+		['meatsList.chicken','culture_chicken'],
+		['meatsList.fish','culture_fish'],
+		['meatsList.egg','culture_egg'],
 	],
 	regions: () => [
 		['regions.0.name', `region_0`],

@@ -29,14 +29,12 @@ async function handleDateStatisticCommand(ctx, next) {
     if(user.type !== 'admin' && user.type !== 'moderator') {
         return await next()
     }
-    const getRuLocales = await fs.promises.readFile(join(resolve(),'locales','ru.json'),{ encoding: 'utf8' })
-    const getUaLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
-    const parseRu = JSON.parse(getRuLocales)
-    const parseUa = JSON.parse(getUaLocales)
-    const vegetables = [...Object.values(parseRu.buttons.vegetablesList),...Object.values(parseUa.buttons.vegetablesList)]
-    const fruits = [...Object.values(parseRu.buttons.fruitsList),...Object.values(parseUa.buttons.fruitsList)]
-    const honey = [parseRu.buttons.honey,parseUa.buttons.honey]
-    const nuts = [parseRu.buttons.walnuts,parseUa.buttons.walnuts]
+    const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+    const parseLocale = JSON.parse(getLocales)
+    const vegetables = [...Object.values(parseLocale.buttons.vegetablesList)]
+    const fruits = [...Object.values(parseLocale.buttons.fruitsList)]
+    const honey = [parseLocale.buttons.honey]
+    const nuts = [parseLocale.buttons.walnuts]
     const users = await ctx.db.User.find()
     const boughtTicketsOnSale = await ctx.db.Ticket.find({
         sale: true,

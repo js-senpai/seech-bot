@@ -2,29 +2,27 @@ import fs from "fs";
 import {join, resolve} from "path";
 
 const getPriceStatistic = async ({ids = [],ctx}) => {
-    const getRuLocales = await fs.promises.readFile(join(resolve(),'locales','ru.json'),{ encoding: 'utf8' })
-    const getUaLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
-    const parseRu = JSON.parse(getRuLocales)
-    const parseUa = JSON.parse(getUaLocales)
-    const getPotatoes = [parseRu.buttons.vegetablesList.potatoes,parseUa.buttons.vegetablesList.potatoes]
-    const getBeets = [parseRu.buttons.vegetablesList.beets,parseUa.buttons.vegetablesList.beets]
-    const getCarrots = [parseRu.buttons.vegetablesList.carrots,parseUa.buttons.vegetablesList.carrots]
-    const getPeppers = [parseRu.buttons.vegetablesList.peppers,parseUa.buttons.vegetablesList.peppers]
-    const getOnions = [parseRu.buttons.vegetablesList.onions,parseUa.buttons.vegetablesList.onions]
-    const getCucumbers = [parseRu.buttons.vegetablesList.cucumber,parseUa.buttons.vegetablesList.cucumber]
-    const getCabbage = [parseRu.buttons.vegetablesList.cabbage,parseUa.buttons.vegetablesList.cabbage]
-    const getTomato = [parseRu.buttons.vegetablesList.tomato,parseUa.buttons.vegetablesList.tomato]
-    const getApples = [parseRu.buttons.fruitsList.apples,parseUa.buttons.fruitsList.apples]
-    const getPeals = [parseRu.buttons.fruitsList.peals,parseUa.buttons.fruitsList.peals]
-    const getPlums = [parseRu.buttons.fruitsList.plums,parseUa.buttons.fruitsList.plums]
-    const getRaspberry = [parseRu.buttons.fruitsList.raspberry,parseUa.buttons.fruitsList.raspberry]
-    const getStrawberry = [parseRu.buttons.fruitsList.strawberry,parseUa.buttons.fruitsList.strawberry]
-    const getPeach = [parseRu.buttons.fruitsList.peach,parseUa.buttons.fruitsList.peach]
-    const getApricot = [parseRu.buttons.fruitsList.apricot,parseUa.buttons.fruitsList.apricot]
-    const getCherry = [parseRu.buttons.fruitsList.cherry,parseUa.buttons.fruitsList.cherry]
-    const getGrape = [parseRu.buttons.fruitsList.grape,parseUa.buttons.fruitsList.grape]
-    const getHoney = [parseRu.buttons.honey,parseUa.buttons.honey]
-    const getNuts = [parseRu.buttons.walnuts,parseUa.buttons.walnuts]
+    const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+    const parseLocale = JSON.parse(getLocales)
+    const getPotatoes = [parseLocale.buttons.vegetablesList.potatoes]
+    const getBeets = [parseLocale.buttons.vegetablesList.beets]
+    const getCarrots = [parseLocale.buttons.vegetablesList.carrots]
+    const getPeppers = [parseLocale.buttons.vegetablesList.peppers]
+    const getOnions = [parseLocale.buttons.vegetablesList.onions]
+    const getCucumbers = [parseLocale.buttons.vegetablesList.cucumber]
+    const getCabbage = [parseLocale.buttons.vegetablesList.cabbage]
+    const getTomato = [parseLocale.buttons.vegetablesList.tomato]
+    const getApples = [parseLocale.buttons.fruitsList.apples]
+    const getPeals = [parseLocale.buttons.fruitsList.peals]
+    const getPlums = [parseLocale.buttons.fruitsList.plums]
+    const getRaspberry = [parseLocale.buttons.fruitsList.raspberry]
+    const getStrawberry = [parseLocale.buttons.fruitsList.strawberry]
+    const getPeach = [parseLocale.buttons.fruitsList.peach]
+    const getApricot = [parseLocale.buttons.fruitsList.apricot]
+    const getCherry = [parseLocale.buttons.fruitsList.cherry]
+    const getGrape = [parseLocale.buttons.fruitsList.grape]
+    const getHoney = [parseLocale.buttons.honey]
+    const getNuts = [parseLocale.buttons.walnuts]
     const [grape] =  await  ctx.db.Ticket.aggregate([
         {
             $match: {

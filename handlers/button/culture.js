@@ -1,11 +1,17 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import fs from "fs";
+import {join, resolve} from "path";
 
-function getCultureName(texts, cultureCode) {
-	let culture = texts.t(`buttons.fruitsList.${cultureCode}`)
-	if(cultureCode === 'honey' || cultureCode === 'walnuts') {
-		culture = texts.t(`buttons.${cultureCode}`)
-	} else if (culture[8] === 'f') {
-		culture = texts.t(`buttons.vegetablesList.${cultureCode}`)
+async function getCultureName(texts, cultureCode) {
+	const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+	const parseLocales = JSON.parse(getLocales)
+	let culture;
+	for(const [key] of Object.entries(parseLocales.buttons)){
+		if(key === cultureCode){
+			culture = texts.t(`buttons.${cultureCode}`)
+		} else if(parseLocales.buttons[key][cultureCode]){
+			culture = texts.t(`buttons.${key}.${cultureCode}`)
+		}
 	}
 	return culture
 }
@@ -29,7 +35,7 @@ async function handleCultureClick(ctx, next) {
 	if(culture === 'honey'){
 		const updateUser = await user.updateData({
 			state: 'liter',
-			'ticket.culture': getCultureName(ctx.i18n, culture)
+			'ticket.culture': await getCultureName(ctx.i18n, culture)
 		})
 		await ctx.textTemplate('input.liter',{
 			product: updateUser.ticket.culture
@@ -37,7 +43,7 @@ async function handleCultureClick(ctx, next) {
 	} else {
 		const updateUser = await user.updateData({
 			state: 'weight',
-			'ticket.culture': getCultureName(ctx.i18n, culture)
+			'ticket.culture': await getCultureName(ctx.i18n, culture)
 		})
 		await ctx.textTemplate('input.weight',{
 			product: updateUser.ticket.culture
