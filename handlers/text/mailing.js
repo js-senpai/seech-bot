@@ -16,7 +16,7 @@ async function handleMailingCommand(ctx, next) {
             })
         )
     }
-    if(user.type !== 'admin') {
+    if(user.type === 'user') {
         return await next()
     }
     await ctx.textTemplate(await ctx.i18n.t('input.mailing'));

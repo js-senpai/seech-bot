@@ -34,7 +34,8 @@ async function handleReviewServiceClick(ctx, next) {
         userId: user._id,
         uniqueId: id
     })
-    for(const { userId,phone,name } of getAdmins) {
+    const { phone,name } = user;
+    for(const { userId } of getAdmins) {
         await ctx.telegram.sendMessage(
             userId,
             ctx.i18n.t('reviews.text',{

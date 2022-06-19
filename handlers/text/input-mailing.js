@@ -16,12 +16,18 @@ async function handleMailingTextInput(ctx, next) {
             })
         )
     }
-    const getUsers = await ctx.db.User.find();
+    const getUsers = await ctx.db.User.find({
+        userId: {
+            $ne: user.userId
+        }
+    });
+    const messagesList = [];
     for(const {userId} of getUsers) {
         if(userId){
-            await sendMessage.bind(ctx)(ctx.message.text,{ userId });
+            messagesList.push(sendMessage.bind(ctx)(ctx.message.text,{ userId }));
         }
     }
+    await Promise.all(messagesList);
     await user.updateData({
         state: ''
     })

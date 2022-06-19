@@ -29,7 +29,7 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 			name: user.name || texts.t('errors.noName'),
 			region: texts.t(
 				user.region
-					? `buttons.regions.${user.region}`
+					? `buttons.regions.${user.region}.name`
 					: 'errors.noRegion'
 			),
 			...(ticket.sale && {

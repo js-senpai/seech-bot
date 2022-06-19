@@ -31,7 +31,7 @@ async function handleRegionsCommand(ctx, next) {
             region: key
         })
         users.push({
-            region: value,
+            region: value.name,
             total: getUsersByRegion,
             percent: `${getUsersByRegion && getUsers ? ((getUsersByRegion / getUsers) * 100).toFixed(2) : 0}%`
         })
