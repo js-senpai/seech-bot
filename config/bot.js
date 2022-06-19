@@ -52,6 +52,10 @@ import {handleCommentInput} from "../handlers/text/input-comment.js";
 import {handleLoadMoreReviewsClick} from "../handlers/button/loadMoreReviews.js";
 import {handleStateClick} from "../handlers/button/countryStates.js";
 import {handleOtgClick} from "../handlers/button/countryOtg.js";
+import {handleGetRegionsClick} from "../handlers/button/getRegions.js";
+import {handlePersonalCabinetCommand} from "../handlers/text/personalCabinet.js";
+import {handleChangeLocationInput} from "../handlers/text/changeLocation.js";
+import {handleGetCountryStateClick} from "../handlers/button/getCountryState.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -89,6 +93,8 @@ async function initBot(dbInstance) {
 	bot.on('message', handleAboutCommand)
 	bot.on('message', handleRegionsCommand)
 	bot.on('message', handleCommentInput)
+	bot.on('message', handlePersonalCabinetCommand)
+	bot.on('message', handleChangeLocationInput)
 	bot.on('message', handleAnyTextMessage)
 
 	bot.on('callback_query', handleReviewClick)
@@ -109,6 +115,8 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleLoadMoreReviewsClick)
 	bot.on('callback_query', handleStateClick)
 	bot.on('callback_query', handleOtgClick)
+	bot.on('callback_query', handleGetRegionsClick)
+	bot.on('callback_query', handleGetCountryStateClick)
 	bot.on('callback_query', handleAnyButtonClick)
 
 	bot.catch(processError)

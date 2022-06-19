@@ -37,7 +37,18 @@ async function handleRegionClick(ctx, next) {
 		{
 			parse_mode: 'HTML',
 			reply_markup: {
-				inline_keyboard: statesKeyboards,
+				inline_keyboard: [
+					...statesKeyboards,
+					[
+						{
+							text: await ctx.i18n.t('buttons.back'),
+							callback_data: JSON.stringify({
+								command: 'backToRegions'
+							})
+
+						}
+					]
+				],
 			},
 		}
 	)

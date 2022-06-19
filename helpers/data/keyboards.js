@@ -1,13 +1,13 @@
 const getMainMenu = ({userType = 'user'}) => {
 	switch (userType){
 		case "user":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['about'],['reviewService']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['reviewService']]
 		case "admin":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['about'],['adminMenu']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['adminMenu']]
 		case "moderator":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['about'],['reviewService'],['adminMenu']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['reviewService'],['adminMenu']]
 		default:
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['about'],['reviewService']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['reviewService']]
 	}
 }
 const mainMenu = ({userType = 'user'}) =>  getMainMenu({userType})
@@ -16,6 +16,7 @@ const keyboards = {
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
+	personalCabinet: () => [['changeLocation']],
 	sendPhone: () => [['sendPhone']],
 	skip: () => [['skip', `skip`]],
 	findModerator: ({command}) => [['findModerator',JSON.stringify({command})]],

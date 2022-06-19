@@ -6,6 +6,16 @@ async function handleOtgClick(ctx, next) {
         return await next()
     }
     const user = await ctx.getUser()
+    if(!user || !user.phone){
+        return await ctx.textTemplate(
+            'input.personalDataProcessing',
+            {},
+            buildKeyboard(ctx.i18n, {
+                name: 'personalDataProcessing',
+                columns: 2
+            })
+        )
+    }
     await user.updateData({
         countryOtg: otgId
     })

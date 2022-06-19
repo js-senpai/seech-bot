@@ -86,6 +86,8 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
+        "personalCabinet": "Особистий кабінет",
+        "changeLocation": "Змінити місце розташування",
         "loadMoreReviews": "Завантажити більше",
         "regionStat": "Регіони",
         "about": "Про Seech",
@@ -148,6 +150,7 @@
             "peach": "Персики",
             "apricot": "Абрикоси",
             "cherry": "Вишні",
+            "merry": "Черешня",
             "grape": "Виноград"
         },
         "vegetablesList": {

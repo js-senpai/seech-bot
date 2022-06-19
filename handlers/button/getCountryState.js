@@ -1,10 +1,9 @@
+import {buildKeyboard} from "../../helpers/keyboard.js";
 import fs from "fs";
 import {join, resolve} from "path";
-import {buildKeyboard} from "../../helpers/keyboard.js";
-
-async function handleStateClick(ctx, next) {
-    const {command, regionId,stateId} = ctx.callbackQuery?.data?JSON.parse(ctx.callbackQuery.data):{}
-    if (command !== 'countryState') {
+async function handleGetCountryStateClick(ctx, next) {
+    const {command,regionId} = ctx.callbackQuery?.data ? JSON.parse(ctx.callbackQuery.data) : {}
+    if (command !== 'backToCountryState') {
         return await next()
     }
     const user = await ctx.getUser()
@@ -18,44 +17,42 @@ async function handleStateClick(ctx, next) {
             })
         )
     }
-    await user.updateData({
-        countryState: stateId
-    })
     const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocales = JSON.parse(getLocales)
-    const getOtg = parseLocales.buttons.regions[regionId].states[stateId].otg
-    const otg = []
-    for(const [otgId,name] of Object.entries(getOtg)){
-        otg.push({
+    const getStates = parseLocales.buttons.regions[regionId].states
+    const states = []
+    for(const [stateId,{name}] of Object.entries(getStates)){
+        states.push({
+            stateId,
             name,
-            otgId
+            regionId
         })
     }
-    const otgKeyboards = otg.map(({name,otgId}) => [
+    const statesKeyboards = states.map(({stateId,name,regionId}) => [
         {
             text: name,
             callback_data: JSON.stringify({
-                otgId,
-                command: 'countryOtg'
+                stateId,
+                regionId,
+                command: 'countryState'
             })
         }
     ])
     await ctx.textTemplate(
-        'input.otg',
+        'input.states',
         {},
         {
             parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
-                    ...otgKeyboards,
+                    ...statesKeyboards,
                     [
                         {
                             text: await ctx.i18n.t('buttons.back'),
                             callback_data: JSON.stringify({
-                                command: 'backToCountryState',
-                                regionId,
-                                stateId
+                                command: 'backToRegions'
                             })
+
                         }
                     ]
                 ],
@@ -63,5 +60,4 @@ async function handleStateClick(ctx, next) {
         }
     )
 }
-
-export { handleStateClick }
+export { handleGetCountryStateClick }
