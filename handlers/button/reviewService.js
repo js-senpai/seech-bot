@@ -45,6 +45,12 @@ async function handleReviewServiceClick(ctx, next) {
                 text: getReview.text,
                 date: moment(getReview.createdAt).format('DD.MM.YYYY')
             }),
+            buildKeyboard(ctx.i18n, {
+                name: 'answerUser',
+                data: {
+                    userId: user.userId
+                }
+            })
         );
     }
 }

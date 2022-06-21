@@ -33,9 +33,13 @@ const keyboards = {
 		['honey', `culture_honey`],
 		['walnuts', `culture_walnuts`],
 		['meats', `cultureType_meats`],
+		['milks', `cultureType_milks`],
 	],
 	editModerator: ({ isModerator = false,userId,command }) => [
 		[isModerator ? 'removeModerator':'addModerator',JSON.stringify({ userId, command })]
+	],
+	answerUser: ({userId}) => [
+        ['answerUser',JSON.stringify({ userId, command: 'answerUser' })]
 	],
 	loadMoreReviews: ({page = 1}) => [
 		['loadMoreReviews',JSON.stringify({page,command: 'loadMoreReviews'})]
@@ -76,6 +80,10 @@ const keyboards = {
 		['fruitsList.apricot', `culture_apricot`],
 		['fruitsList.cherry', `culture_cherry`],
 		['fruitsList.grape', `culture_grape`]
+	],
+	milks: () => [
+		['milksList.milk', `culture_milk`],
+		['milksList.cottage', `culture_cottage`]
 	],
 	vegetables: () => [
 		['vegetablesList.potatoes', `culture_potatoes`],
