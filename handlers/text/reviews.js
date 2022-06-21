@@ -40,12 +40,25 @@ async function handleReviewsCommand(ctx, next) {
                 value,
                 text,
                 date: moment(createdAt).format('DD.MM.YYYY')
-            }),{  },buildKeyboard(ctx.i18n, {
-                name: 'loadMoreReviews',
-                data: {
-                    page: 2
-                }
-            }))
+            }),{  },
+                {
+                    reply_markup: {
+                      inline_keyboard: [
+                          ...buildKeyboard(ctx.i18n, {
+                              name: 'answerUser',
+                              data: {
+                                  userId
+                              }
+                          }).reply_markup.inline_keyboard,
+                          ...buildKeyboard(ctx.i18n, {
+                              name: 'loadMoreReviews',
+                              data: {
+                                  page: 2
+                              }
+                          }).reply_markup.inline_keyboard
+                      ]
+                    }
+                })
         } else {
             await ctx.textTemplate(ctx.i18n.t('reviews.text',{
                 phone,
@@ -53,7 +66,14 @@ async function handleReviewsCommand(ctx, next) {
                 value,
                 text,
                 date: moment(createdAt).format('DD.MM.YYYY')
-            }))
+            }), {},
+                buildKeyboard(ctx.i18n, {
+                    name: 'answerUser',
+                    data: {
+                        userId
+                    }
+                })
+                )
         }
     }
 }
