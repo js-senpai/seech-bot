@@ -1,9 +1,9 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
 
-async function handleLiterInput(ctx, next) {
+async function handleAmountInput(ctx, next) {
     const user = await ctx.getUser()
     const [name,count] = user.state.split('_');
-    if (name !== 'liter') {
+    if (name !== 'amount') {
         return await next()
     }
     if(!user || !user.phone){
@@ -16,21 +16,21 @@ async function handleLiterInput(ctx, next) {
             })
         )
     }
-    const liter = ctx.message.text
-    if (isNaN(liter) || +liter < +count) {
-        await ctx.textTemplate('errors.invalid.liter',{
+    const amount = ctx.message.text
+    if (isNaN(+amount) || +amount < +count) {
+        await ctx.textTemplate('errors.invalid.amount',{
             count
         })
         return
     }
     const updateUser = await user.updateData({
-        'ticket.weight': liter,
-        'ticket.weightType': 'liter'
+        'ticket.weight': amount,
+        'ticket.weightType': 'amount'
     })
     let state
     if (updateUser.ticket?.sale) {
         await ctx.textTemplate('input.price',{
-            weightValue: ctx.i18n.t(`types.volumeValue`),
+            weightValue: ctx.i18n.t(`types.amountValue`),
             product: updateUser.ticket.culture
         })
         state = 'price'
@@ -41,10 +41,10 @@ async function handleLiterInput(ctx, next) {
             buildKeyboard(ctx.i18n, {
                 name: 'skip'
             })
-            )
+        )
         state = 'comment'
     }
     await user.updateData({ state })
 }
 
-export { handleLiterInput }
+export { handleAmountInput }

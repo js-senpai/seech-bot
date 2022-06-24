@@ -19,6 +19,30 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 		? 'entities.sellingTicket'
 		: 'entities.buyingTicket'
 	const isActive = Date.now() - ticket.date <= 24 * 60 * 60 * 1000
+	let weightValue;
+	switch (ticket.weightType){
+		case 'liter':
+			weightValue = 'volumeValue';
+			break;
+		case 'weight':
+			weightValue = 'weightValue';break;
+		case 'amount':
+			weightValue = 'amountValue';break;
+		default:
+			weightValue = 'weightValue'
+	}
+	let weightName;
+	switch (ticket.weightType){
+		case 'liter':
+			weightName = 'volume';
+			break;
+		case 'weight':
+			weightName = 'weight';break;
+		case 'amount':
+			weightName = 'amount';break;
+		default:
+			weightName = 'weight'
+	}
 	const text = texts.t(
 		template + (ticket.authorId === userId ? 'Own' : ''),
 		Object.assign(plainObject(ticket), {
@@ -36,8 +60,8 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 				votes,
 				stars: starString.repeat(stars) + emptyString.repeat(empty),
 			}),
-			weightValue: texts.t(`types.${ticket.weightType === 'liter' ? 'volumeValue': 'weightValue'}`),
-			weightName: texts.t(`types.${ticket.weightType === 'liter' ? 'volume': 'weight'}`)
+			weightValue: texts.t(`types.${weightValue}`),
+			weightName: texts.t(`types.${weightName}`)
 		})
 	)
 	return { text, keyboard }

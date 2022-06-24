@@ -2,7 +2,8 @@ import {buildKeyboard} from "../../helpers/keyboard.js";
 
 async function handleWeightInput(ctx, next) {
 	const user = await ctx.getUser()
-	if (user.state !== 'weight') {
+	const [name,count] = user.state.split('_');
+	if (name !== 'weight') {
 		return await next()
 	}
 	if(!user || !user.phone){
@@ -16,9 +17,9 @@ async function handleWeightInput(ctx, next) {
 		)
 	}
 	const weight = ctx.message.text
-	if (isNaN(weight) || weight < 10) {
+	if (isNaN(+weight) || +weight < +count) {
 		await ctx.textTemplate('errors.invalid.weight',{
-			weightValue: ctx.i18n.t(`types.weightValue`)
+			count
 		})
 		return
 	}
