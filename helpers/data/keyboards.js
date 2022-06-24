@@ -15,7 +15,7 @@ const keyboards = {
 	mainMenu,
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
-	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
+	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['totalUsers'],['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	personalCabinet: () => [['changeLocation'],['back']],
 	sendPhone: () => [['sendPhone']],
 	skip: () => [['skip', `skip`]],
@@ -83,7 +83,8 @@ const keyboards = {
 	],
 	milks: () => [
 		['milksList.milk', `culture_milk`],
-		['milksList.cottage', `culture_cottage`]
+		['milksList.cottage', `culture_cottage`],
+		['milksList.sourCream', `culture_sourCream`],
 	],
 	vegetables: () => [
 		['vegetablesList.potatoes', `culture_potatoes`],
@@ -97,6 +98,7 @@ const keyboards = {
 	],
 	meats: () => [
 		['meatsList.pork','culture_pork'],
+		['meatsList.veal','culture_veal'],
 		['meatsList.chicken','culture_chicken'],
 		['meatsList.fish','culture_fish'],
 		['meatsList.egg','culture_egg'],

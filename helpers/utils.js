@@ -1,410 +1,412 @@
 import fs from "fs";
 import {join, resolve} from "path";
+import moment from "moment";
 
-const getPriceStatistic = async ({ids = [],ctx}) => {
+const getPriceStatistic = async ({ids = [],ctx,localeData = [
+    'vegetablesList',
+    'fruitsList',
+    'honey',
+    'walnuts',
+    'milksList',
+    'meatsList'
+]}) => {
     const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocale = JSON.parse(getLocales)
-    const getPotatoes = [parseLocale.buttons.vegetablesList.potatoes]
-    const getBeets = [parseLocale.buttons.vegetablesList.beets]
-    const getCarrots = [parseLocale.buttons.vegetablesList.carrots]
-    const getPeppers = [parseLocale.buttons.vegetablesList.peppers]
-    const getOnions = [parseLocale.buttons.vegetablesList.onions]
-    const getCucumbers = [parseLocale.buttons.vegetablesList.cucumber]
-    const getCabbage = [parseLocale.buttons.vegetablesList.cabbage]
-    const getTomato = [parseLocale.buttons.vegetablesList.tomato]
-    const getApples = [parseLocale.buttons.fruitsList.apples]
-    const getPeals = [parseLocale.buttons.fruitsList.peals]
-    const getPlums = [parseLocale.buttons.fruitsList.plums]
-    const getRaspberry = [parseLocale.buttons.fruitsList.raspberry]
-    const getStrawberry = [parseLocale.buttons.fruitsList.strawberry]
-    const getPeach = [parseLocale.buttons.fruitsList.peach]
-    const getApricot = [parseLocale.buttons.fruitsList.apricot]
-    const getCherry = [parseLocale.buttons.fruitsList.cherry]
-    const getGrape = [parseLocale.buttons.fruitsList.grape]
-    const getHoney = [parseLocale.buttons.honey]
-    const getNuts = [parseLocale.buttons.walnuts]
-    const [grape] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getGrape
+    let result = {}
+    for(const localeName of localeData) {
+        if(typeof parseLocale.buttons[localeName] === 'string'){
+            const [value] = await  ctx.db.Ticket.aggregate([
+                {
+                    $match: {
+                        sale: true,
+                        culture: new RegExp(parseLocale.buttons[localeName], 'i'),
+                        _id: {
+                            $in: ids
+                        }
+                    }
                 },
-                _id: {
-                    $in: ids
+                {
+                    $group: {
+                        "_id":"authorId",
+                        avg: { $avg: "$price" }
+                    }
                 }
+            ]);
+            result = {
+                ...result,
+                [localeName]: (value?.avg || 0).toFixed(2)
             }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
+        } else if(typeof parseLocale.buttons[localeName] === 'object') {
+           for(const property in parseLocale.buttons[localeName]) {
+               const [value] = await  ctx.db.Ticket.aggregate([
+                   {
+                       $match: {
+                           sale: true,
+                           culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
+                           _id: {
+                               $in: ids
+                           }
+                       }
+                   },
+                   {
+                       $group: {
+                           "_id":"authorId",
+                           avg: { $avg: "$price" }
+                       }
+                   }
+               ]);
+               result = {
+                   ...result,
+                   [property]: (value?.avg || 0).toFixed(2)
+               }
+           }
         }
-    ]);
-    const [cherry] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getCherry
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [apricot] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getApricot
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [peach] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getPeach
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [strawberry] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getStrawberry
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [raspberry] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getRaspberry
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [plums] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getPlums
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [peals] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getPeals
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [apples] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getApples
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [cabbage] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getCabbage
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [cucumber] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getCucumbers
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [onions] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getOnions
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [tomato] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getTomato
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [peppers] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getPeppers
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const carrots =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getCarrots
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [potatoes] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getPotatoes
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [beets] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getBeets
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [honey] =  await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getHoney
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    const [nuts] = await  ctx.db.Ticket.aggregate([
-        {
-            $match: {
-                sale: true,
-                culture: {
-                    $in: getNuts
-                },
-                _id: {
-                    $in: ids
-                }
-            }
-        },
-        {
-            $group: {
-                "_id":"authorId",
-                avg: { $avg: "$price" }
-            }
-        }
-    ]);
-    await ctx.textTemplate(await ctx.i18n.t('input.prices',{
-        potatoes: (potatoes?.avg || 0).toFixed(2),
-        carrots: (carrots?.avg || 0).toFixed(2),
-        onions: (onions?.avg || 0).toFixed(2),
-        cabbage: (cabbage?.avg || 0).toFixed(2),
-        beets: (beets?.avg || 0).toFixed(2),
-        peppers: (peppers?.avg || 0).toFixed(2),
-        tomato: (tomato?.avg || 0).toFixed(2),
-        cucumber: (cucumber?.avg || 0).toFixed(2),
-        apples: (apples?.avg || 0).toFixed(2),
-        plums: (plums?.avg || 0).toFixed(2),
-        strawberry: (strawberry?.avg || 0).toFixed(2),
-        apricot: (apricot?.avg || 0).toFixed(2),
-        peals: (peals?.avg || 0).toFixed(2),
-        raspberry: (raspberry?.avg || 0).toFixed(2),
-        peach: (peach?.avg || 0).toFixed(2),
-        grape: (grape?.avg || 0).toFixed(2),
-        cherry: (cherry?.avg || 0).toFixed(2),
-        honey: (honey?.avg || 0).toFixed(2),
-        nuts: (nuts?.avg || 0).toFixed(2)
-    }));
+    }
+    await ctx.textTemplate(await ctx.i18n.t('input.prices',result));
 }
 
-export { getPriceStatistic }
+const getStatisticByPeriod = async ({
+                                        user,
+                                        ctx,
+                                        localeData = [
+                                            'vegetablesList',
+                                            'fruitsList',
+                                            'honey',
+                                            'walnuts',
+                                            'milksList',
+                                            'meatsList'
+                                        ]
+}) => {
+    const getReviewService = await ctx.db.ReviewOfService.find();
+    const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+    const parseLocale = JSON.parse(getLocales)
+    const users = await ctx.db.User.find()
+    const boughtTicketsOnSale = await ctx.db.Ticket.find({
+        sale: true,
+        active: false
+    });
+    const ticketsOnSale = await ctx.db.Ticket.find({
+        sale: true
+    })
+    const ticketsOnBuy = await ctx.db.Ticket.find({
+        sale: false
+    })
+    const itemsOnBuy = [];
+    const itemsOnSale = [];
+    // Get items on sale
+    for(const localeName of localeData) {
+        if (typeof parseLocale.buttons[localeName] === 'string') {
+          const buttons = [parseLocale.buttons[localeName]]
+          itemsOnSale.push({
+              name: `${localeName}Sale`,
+              data: await ctx.db.Ticket.find({
+                  sale: true,
+                  culture: {
+                      $in: buttons
+                  }
+              })
+          })
+        } else if(typeof parseLocale.buttons[localeName] === 'object') {
+            const buttons =  [...Object.values(parseLocale.buttons[localeName])]
+            itemsOnSale.push({
+                name: `${localeName}Sale`,
+                data: await ctx.db.Ticket.find({
+                    sale: true,
+                    culture: {
+                        $in: buttons
+                    }
+                })
+            })
+        }
+    }
+    // Get items on buy
+    for(const localeName of localeData) {
+        if (typeof parseLocale.buttons[localeName] === 'string') {
+            const buttons = [parseLocale.buttons[localeName]]
+            itemsOnBuy.push({
+                name: `${localeName}Buy`,
+                data: await ctx.db.Ticket.find({
+                    sale: false,
+                    culture: {
+                        $in: buttons
+                    }
+                })
+            })
+        } else if(typeof parseLocale.buttons[localeName] === 'object') {
+            const buttons =  [...Object.values(parseLocale.buttons[localeName])]
+            itemsOnBuy.push({
+                name: `${localeName}Buy`,
+                data: await ctx.db.Ticket.find({
+                    sale: false,
+                    culture: {
+                        $in: buttons
+                    }
+                })
+            })
+        }
+    }
+    if(ctx.message.text === ctx.i18n.t('buttons.todayStat')){
+        const getDate = moment()
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]: { rate: 0 }
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
+        const result = {
+            rate: rate.toFixed(2),
+            users: usersCount,
+            date: getDate.format('DD-MM-YYYY'),
+            reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
+            ticketOnSale: filteredTicketsOnSale,
+            ticketOnBuy: filteredTicketsOnBuy,
+            ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnBuy * 100).toFixed(0): 0
+                })()
+            }))),
+            ...Object.assign({}, ...itemsOnSale.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnSale * 100).toFixed(0): 0
+                })()
+            }))),
+        }
+        await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id),ctx});
+    } else if(ctx.message.text === ctx.i18n.t('buttons.yesterdayStat')){
+        const getDate = moment().subtract(1, 'days')
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]:{ rate: 0 }
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
+        const result = {
+            rate: rate.toFixed(2),
+            users: usersCount,
+            date: getDate.format('DD-MM-YYYY'),
+            reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
+            ticketOnSale: filteredTicketsOnSale,
+            ticketOnBuy: filteredTicketsOnBuy,
+            ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnBuy * 100).toFixed(0): 0
+                })()
+            }))),
+            ...Object.assign({}, ...itemsOnSale.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnSale * 100).toFixed(0): 0
+                })()
+            }))),
+        }
+        await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id),ctx});
+    } else if(ctx.message.text === ctx.i18n.t('buttons.currentMonthStat')) {
+        const getDate = moment()
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]: { rate: 0 };
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
+        const result = {
+            rate: rate.toFixed(2),
+            users: usersCount,
+            date: getDate.format('MM-YYYY'),
+            reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length,
+            ticketOnSale: filteredTicketsOnSale,
+            ticketOnBuy: filteredTicketsOnBuy,
+            ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnBuy * 100).toFixed(0): 0
+                })()
+            }))),
+            ...Object.assign({}, ...itemsOnSale.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnSale * 100).toFixed(0): 0
+                })()
+            }))),
+        }
+        await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id),ctx});
+    } else if(ctx.message.text === ctx.i18n.t('buttons.allPeriodStat')){
+        const filteredTicketsOnSale = ticketsOnSale.length
+        const filteredTicketsOnBuy = ticketsOnBuy.length
+        const filteredReviewService = getReviewService.map(({_id}) => _id);
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]): []
+        const { rate = 0 } = getReviewService.length ? getAvgReview[0]:{ rate: 0 }
+        const getUserIds = [...ticketsOnSale.map(({authorId}) => authorId),...ticketsOnBuy.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
+        const result = {
+            rate: rate.toFixed(2),
+            users: usersCount,
+            date: 'Весь період',
+            reg: users.length,
+            ticketOnSale: filteredTicketsOnSale,
+            ticketOnBuy: filteredTicketsOnBuy,
+            ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
+                [name]:data.length > 0 ? (data.length / filteredTicketsOnBuy * 100).toFixed(0) : 0
+            }))),
+            ...Object.assign({}, ...itemsOnSale.map(({name,data}) => ({
+                [name]: data.length > 0 ? (data.length / filteredTicketsOnSale * 100).toFixed(0) : 0
+            }))),
+        }
+        await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.map(({_id}) => _id),ctx});
+    } else if(ctx.message.text === ctx.i18n.t('buttons.customPeriodStat')) {
+        await ctx.textTemplate(ctx.i18n.t('statistic.format'))
+        await user.updateData({
+            state: 'setCustomPeriodStat',
+        })
+    } else if(user.state === 'setCustomPeriodStat'){
+        await user.updateData({
+            state: '',
+        })
+        const [startDate,endDate] = ctx.message.text.split('-')
+        const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day'))
+        const getTicketsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day'))
+        const filteredTicketsOnSale = getTicketsOnSale.length
+        const filteredTicketsOnBuy = getTicketsOnBuy.length
+
+        const filteredReviewService = getReviewService.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day'))
+            .map(({_id}) => _id)
+        const getAvgReview = filteredReviewService.length ? await ctx.db.ReviewOfService.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: filteredReviewService
+                    }
+                }
+            },
+            {
+                $group: {
+                    "_id":"userId",
+                    rate: { $avg: "$value" }
+                }
+            }
+        ]):[]
+        const { rate = 0 } = getAvgReview.length ? getAvgReview[0]:{ rate: 0 }
+        const getUserIds = [...getTicketsOnBuy.map(({authorId}) => authorId),...getTicketsOnSale.map(({authorId}) => authorId)];
+        const usersCount = await ctx.db.User.countDocuments({
+            userId: {
+                $in: getUserIds
+            }
+        });
+        const result = {
+            rate: rate.toFixed(2),
+            users: usersCount,
+            date: `${startDate}-${endDate}`,
+            reg: users.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length,
+            ticketOnSale: filteredTicketsOnSale,
+            ticketOnBuy: filteredTicketsOnBuy,
+            ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnBuy * 100).toFixed(0): 0
+                })()
+            }))),
+            ...Object.assign({}, ...itemsOnSale.map(({name,data}) => ({
+                [name]:(() => {
+                    const getStat = data.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length
+                    return getStat > 0 ? (getStat / filteredTicketsOnSale * 100).toFixed(0): 0
+                })()
+            }))),
+        }
+        await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        // Send price statistic
+        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id),ctx});
+    }
+}
+
+export { getPriceStatistic,getStatisticByPeriod }

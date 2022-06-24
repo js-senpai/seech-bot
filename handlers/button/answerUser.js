@@ -16,6 +16,9 @@ async function handleAnswerUserClick(ctx, next) {
             })
         )
     }
+    await ctx.textTemplate(
+        'input.writeAnswer',
+    )
     await ctx.db.User.updateOne({
         userId: user.userId
     },{
