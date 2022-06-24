@@ -2,6 +2,105 @@ import fs from "fs";
 import {join, resolve} from "path";
 import moment from "moment";
 
+const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData = [
+    'vegetablesList',
+    'fruitsList',
+    'honey',
+    'walnuts',
+    'milksList',
+    'meatsList'
+]}) => {
+    const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
+    const parseLocale = JSON.parse(getLocales)
+    let result = {}
+    for(const localeName of localeData) {
+        if(typeof parseLocale.buttons[localeName] === 'string'){
+            const [valueSale] = await  ctx.db.Ticket.aggregate([
+                {
+                    $match: {
+                        sale: true,
+                        culture: new RegExp(parseLocale.buttons[localeName], 'i'),
+                        _id: {
+                            $in: idsOnSale
+                        }
+                    }
+                },
+                {
+                    $group: {
+                        "_id":"authorId",
+                        sum: { $sum: "$weight" }
+                    }
+                }
+            ]);
+            const [valueBuy] = await  ctx.db.Ticket.aggregate([
+                {
+                    $match: {
+                        sale: false,
+                        culture: new RegExp(parseLocale.buttons[localeName], 'i'),
+                        _id: {
+                            $in: idsOnBuy
+                        }
+                    }
+                },
+                {
+                    $group: {
+                        "_id":"authorId",
+                        sum: { $sum: "$weight" }
+                    }
+                }
+            ]);
+            result = {
+                ...result,
+                [`${localeName}Sale`]: (valueSale?.sum || 0).toFixed(2),
+                [`${localeName}Buy`]: (valueBuy?.sum || 0).toFixed(2)
+            }
+        } else if(typeof parseLocale.buttons[localeName] === 'object') {
+            for(const property in parseLocale.buttons[localeName]) {
+                const [valueSale] = await  ctx.db.Ticket.aggregate([
+                    {
+                        $match: {
+                            sale: true,
+                            culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
+                            _id: {
+                                $in: idsOnSale
+                            }
+                        }
+                    },
+                    {
+                        $group: {
+                            "_id":"authorId",
+                            sum: { $sum: "$weight" }
+                        }
+                    }
+                ]);
+                const [valueBuy] = await  ctx.db.Ticket.aggregate([
+                    {
+                        $match: {
+                            sale: false,
+                            culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
+                            _id: {
+                                $in: idsOnBuy
+                            }
+                        }
+                    },
+                    {
+                        $group: {
+                            "_id":"authorId",
+                            sum: { $sum: "$weight" }
+                        }
+                    }
+                ]);
+                result = {
+                    ...result,
+                    [`${property}Sale`]: (valueSale?.sum || 0).toFixed(2),
+                    [`${property}Buy`]: (valueBuy?.sum || 0).toFixed(2)
+                }
+            }
+        }
+    }
+    await ctx.textTemplate(await ctx.i18n.t('input.weightStat',result));
+}
+
 const getPriceStatistic = async ({ids = [],ctx,localeData = [
     'vegetablesList',
     'fruitsList',
@@ -19,6 +118,7 @@ const getPriceStatistic = async ({ids = [],ctx,localeData = [
                 {
                     $match: {
                         sale: true,
+                        active: false,
                         culture: new RegExp(parseLocale.buttons[localeName], 'i'),
                         _id: {
                             $in: ids
@@ -42,6 +142,7 @@ const getPriceStatistic = async ({ids = [],ctx,localeData = [
                    {
                        $match: {
                            sale: true,
+                           active: false,
                            culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
                            _id: {
                                $in: ids
@@ -81,10 +182,6 @@ const getStatisticByPeriod = async ({
     const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocale = JSON.parse(getLocales)
     const users = await ctx.db.User.find()
-    const boughtTicketsOnSale = await ctx.db.Ticket.find({
-        sale: true,
-        active: false
-    });
     const ticketsOnSale = await ctx.db.Ticket.find({
         sale: true
     })
@@ -195,8 +292,12 @@ const getStatisticByPeriod = async ({
             }))),
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
+        const idsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
         // Send price statistic
-        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id),ctx});
+        await getPriceStatistic({ids: idsOnSale,ctx});
+        // Send weight statistic
+        await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.yesterdayStat')){
         const getDate = moment().subtract(1, 'days')
         const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
@@ -247,8 +348,12 @@ const getStatisticByPeriod = async ({
             }))),
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id)
+        const idsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id)
         // Send price statistic
-        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id),ctx});
+        await getPriceStatistic({ids: idsOnSale,ctx});
+        // Send weight statistic
+        await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.currentMonthStat')) {
         const getDate = moment()
         const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
@@ -299,8 +404,12 @@ const getStatisticByPeriod = async ({
             }))),
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id);
+        const idsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id)
         // Send price statistic
-        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id),ctx});
+        await getPriceStatistic({ids: idsOnSale,ctx});
+        // Send weight statistic
+        await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.allPeriodStat')){
         const filteredTicketsOnSale = ticketsOnSale.length
         const filteredTicketsOnBuy = ticketsOnBuy.length
@@ -342,8 +451,12 @@ const getStatisticByPeriod = async ({
             }))),
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        const idsOnSale = ticketsOnSale.map(({_id}) => _id);
+        const idsOnBuy = ticketsOnBuy.map(({_id}) => _id);
         // Send price statistic
-        await getPriceStatistic({ids: boughtTicketsOnSale.map(({_id}) => _id),ctx});
+        await getPriceStatistic({ids: idsOnSale,ctx});
+        // Send weight statistic
+        await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.customPeriodStat')) {
         await ctx.textTemplate(ctx.i18n.t('statistic.format'))
         await user.updateData({
@@ -404,8 +517,12 @@ const getStatisticByPeriod = async ({
             }))),
         }
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
+        const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id);
+        const idsOnBuy = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id);
         // Send price statistic
-        await getPriceStatistic({ids: boughtTicketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id),ctx});
+        await getPriceStatistic({ids: idsOnSale,ctx});
+        // Send weight statistic
+        await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
     }
 }
 
