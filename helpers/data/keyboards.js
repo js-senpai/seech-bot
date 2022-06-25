@@ -1,13 +1,13 @@
 const getMainMenu = ({userType = 'user'}) => {
 	switch (userType){
 		case "user":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['reviewService']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['reviewService']]
 		case "admin":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['adminMenu']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['adminMenu']]
 		case "moderator":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['reviewService'],['adminMenu']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['reviewService'],['adminMenu']]
 		default:
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['reviewService']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['reviewService']]
 	}
 }
 const mainMenu = ({userType = 'user'}) =>  getMainMenu({userType})

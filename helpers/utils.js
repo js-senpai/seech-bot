@@ -19,7 +19,9 @@ const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData =
                 {
                     $match: {
                         sale: true,
-                        culture: new RegExp(parseLocale.buttons[localeName], 'i'),
+                        culture: {
+                            $in: [parseLocale.buttons[localeName],parseLocale.buttons[localeName].replace(/[^a-zа-яё]/gi, '')]
+                        },
                         _id: {
                             $in: idsOnSale
                         }
@@ -36,7 +38,9 @@ const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData =
                 {
                     $match: {
                         sale: false,
-                        culture: new RegExp(parseLocale.buttons[localeName], 'i'),
+                        culture: {
+                            $in: [parseLocale.buttons[localeName],parseLocale.buttons[localeName].replace(/[^a-zа-яё]/gi, '')]
+                        },
                         _id: {
                             $in: idsOnBuy
                         }
@@ -60,7 +64,9 @@ const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData =
                     {
                         $match: {
                             sale: true,
-                            culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
+                            culture: {
+                                $in: [parseLocale.buttons[localeName][property],parseLocale.buttons[localeName][property].replace(/[^a-zа-яё]/gi, '')]
+                            },
                             _id: {
                                 $in: idsOnSale
                             }
@@ -77,7 +83,9 @@ const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData =
                     {
                         $match: {
                             sale: false,
-                            culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
+                            culture: {
+                                $in: [parseLocale.buttons[localeName][property],parseLocale.buttons[localeName][property].replace(/[^a-zа-яё]/gi, '')]
+                            },
                             _id: {
                                 $in: idsOnBuy
                             }
@@ -118,8 +126,9 @@ const getPriceStatistic = async ({ids = [],ctx,localeData = [
                 {
                     $match: {
                         sale: true,
-                        active: false,
-                        culture: new RegExp(parseLocale.buttons[localeName], 'i'),
+                        culture: {
+                            $in: [parseLocale.buttons[localeName],parseLocale.buttons[localeName].replace(/[^a-zа-яё]/gi, '')]
+                        },
                         _id: {
                             $in: ids
                         }
@@ -142,8 +151,9 @@ const getPriceStatistic = async ({ids = [],ctx,localeData = [
                    {
                        $match: {
                            sale: true,
-                           active: false,
-                           culture: new RegExp(parseLocale.buttons[localeName][property], 'i'),
+                           culture: {
+                               $in: [parseLocale.buttons[localeName][property],parseLocale.buttons[localeName][property].replace(/[^a-zа-яё]/gi, '')]
+                           },
                            _id: {
                                $in: ids
                            }
@@ -193,18 +203,17 @@ const getStatisticByPeriod = async ({
     // Get items on sale
     for(const localeName of localeData) {
         if (typeof parseLocale.buttons[localeName] === 'string') {
-          const buttons = [parseLocale.buttons[localeName]]
           itemsOnSale.push({
               name: `${localeName}Sale`,
               data: await ctx.db.Ticket.find({
                   sale: true,
                   culture: {
-                      $in: buttons
-                  }
+                      $in: [parseLocale.buttons[localeName],parseLocale.buttons[localeName].replace(/[^a-zа-яё]/gi, '')]
+                  },
               })
           })
         } else if(typeof parseLocale.buttons[localeName] === 'object') {
-            const buttons =  [...Object.values(parseLocale.buttons[localeName])]
+            const buttons =  [...Object.values(parseLocale.buttons[localeName])].flatMap(item => [item,item.replace(/[^a-zа-яё]/gi, '')])
             itemsOnSale.push({
                 name: `${localeName}Sale`,
                 data: await ctx.db.Ticket.find({
@@ -219,18 +228,17 @@ const getStatisticByPeriod = async ({
     // Get items on buy
     for(const localeName of localeData) {
         if (typeof parseLocale.buttons[localeName] === 'string') {
-            const buttons = [parseLocale.buttons[localeName]]
             itemsOnBuy.push({
                 name: `${localeName}Buy`,
                 data: await ctx.db.Ticket.find({
                     sale: false,
                     culture: {
-                        $in: buttons
-                    }
+                        $in: [parseLocale.buttons[localeName],parseLocale.buttons[localeName].replace(/[^a-zа-яё]/gi, '')]
+                    },
                 })
             })
         } else if(typeof parseLocale.buttons[localeName] === 'object') {
-            const buttons =  [...Object.values(parseLocale.buttons[localeName])]
+            const buttons =  [...Object.values(parseLocale.buttons[localeName])].flatMap(item => [item,item.replace(/[^a-zа-яё]/gi, '')])
             itemsOnBuy.push({
                 name: `${localeName}Buy`,
                 data: await ctx.db.Ticket.find({
@@ -294,10 +302,10 @@ const getStatisticByPeriod = async ({
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
         const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
         const idsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id);
-        // Send price statistic
-        await getPriceStatistic({ids: idsOnSale,ctx});
         // Send weight statistic
         await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
+        // Send price statistic
+        await getPriceStatistic({ids: idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.yesterdayStat')){
         const getDate = moment().subtract(1, 'days')
         const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day'))
@@ -350,10 +358,10 @@ const getStatisticByPeriod = async ({
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
         const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id)
         const idsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).map(({_id}) => _id)
-        // Send price statistic
-        await getPriceStatistic({ids: idsOnSale,ctx});
         // Send weight statistic
         await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
+        // Send price statistic
+        await getPriceStatistic({ids: idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.currentMonthStat')) {
         const getDate = moment()
         const getTicketsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month'))
@@ -406,10 +414,10 @@ const getStatisticByPeriod = async ({
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
         const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id);
         const idsOnBuy = ticketsOnBuy.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).map(({_id}) => _id)
-        // Send price statistic
-        await getPriceStatistic({ids: idsOnSale,ctx});
         // Send weight statistic
         await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
+        // Send price statistic
+        await getPriceStatistic({ids: idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.allPeriodStat')){
         const filteredTicketsOnSale = ticketsOnSale.length
         const filteredTicketsOnBuy = ticketsOnBuy.length
@@ -453,10 +461,10 @@ const getStatisticByPeriod = async ({
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
         const idsOnSale = ticketsOnSale.map(({_id}) => _id);
         const idsOnBuy = ticketsOnBuy.map(({_id}) => _id);
-        // Send price statistic
-        await getPriceStatistic({ids: idsOnSale,ctx});
         // Send weight statistic
         await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
+        // Send price statistic
+        await getPriceStatistic({ids: idsOnSale,ctx});
     } else if(ctx.message.text === ctx.i18n.t('buttons.customPeriodStat')) {
         await ctx.textTemplate(ctx.i18n.t('statistic.format'))
         await user.updateData({
@@ -519,10 +527,10 @@ const getStatisticByPeriod = async ({
         await ctx.textTemplate(ctx.i18n.t('statistic.text',result));
         const idsOnSale = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id);
         const idsOnBuy = ticketsOnSale.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).map(({_id}) => _id);
-        // Send price statistic
-        await getPriceStatistic({ids: idsOnSale,ctx});
         // Send weight statistic
         await getWeightStatistic({idsOnBuy,idsOnSale,ctx});
+        // Send price statistic
+        await getPriceStatistic({ids: idsOnSale,ctx});
     }
 }
 

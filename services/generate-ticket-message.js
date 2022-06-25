@@ -56,6 +56,11 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 					? `buttons.regions.${user.region}.name`
 					: 'errors.noRegion'
 			),
+			otg: texts.t(
+				user.otg !== '-'
+					? `buttons.regions.${user.region}.states.${user.countryState}.otg.${user.countryOtg}`
+					: 'errors.noRegion'
+			),
 			...(ticket.sale && {
 				votes,
 				stars: starString.repeat(stars) + emptyString.repeat(empty),
