@@ -6,6 +6,44 @@ import { sendMessage } from '../services/send-message.js'
 async function finishCreatingTicket(ctx, user) {
 	const ticket = await createTicket(ctx.db.Ticket, user, ctx)
 	const tickets = await findRelatedTickets(ctx.db.Ticket, ticket, user.region)
+	if(ticket.sale){
+		const getStars = ticket.sale? await ctx.db.ReviewOfSeller.aggregate([
+			{
+				$match: {
+					sellerId: user._id
+				}
+			},
+			{
+				$group: {
+					"_id":"sellerId",
+					stars: { $avg: "$value" }
+				}
+			}
+		]): [];
+		const { stars = 0 } = getStars.length? getStars[0]: { stars: 0 };
+		const { text, keyboard } = generateTicketMessage({
+				texts: ctx.i18n,
+				ticket,
+				user,
+				userId: null,
+				votes: await ctx.db.ReviewOfSeller.countDocuments({
+					sellerId: user._id,
+				}),
+				stars
+			}
+		)
+		const getUsersWithOtg = await ctx.db.User.find({
+			region: user.region,
+			countryState: user.countryState,
+			countryOtg: user.countryOtg,
+			userId: {
+				$ne: user.userId
+			}
+		})
+		for(const { userId } of getUsersWithOtg){
+			await sendMessage.bind(ctx)(text, Object.assign(keyboard, { userId }))
+		}
+	}
 	if (!tickets.length) {
 		await ctx.textTemplate(
 			`errors.${ticket.sale ? 'buyersNotFound' : 'sellersNotFound'}`

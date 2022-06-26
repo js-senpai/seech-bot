@@ -61,6 +61,7 @@ import {handleAnswerUserInput} from "../handlers/text/answerUser.js";
 import {handleTotalUsersCommand} from "../handlers/text/totalUsers.js";
 import {handleAmountInput} from "../handlers/text/input-amount.js";
 import {handleInviteFriendCommand} from "../handlers/text/inviteFriend.js";
+import {handleNumberOfBasketItemsCommand} from "../handlers/text/numberOfBasketItems.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -104,6 +105,7 @@ async function initBot(dbInstance) {
 	bot.on('message', handleTotalUsersCommand)
 	bot.on('message', handleAmountInput)
 	bot.on('message', handleInviteFriendCommand)
+	bot.on('message', handleNumberOfBasketItemsCommand)
 	bot.on('message', handleAnyTextMessage)
 
 	bot.on('callback_query', handleReviewClick)

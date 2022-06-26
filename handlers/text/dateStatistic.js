@@ -3,7 +3,7 @@ import moment from "moment";
 import * as fs from "fs";
 import {join, resolve} from "path";
 import {buildKeyboard} from "../../helpers/keyboard.js";
-import {getPriceStatistic, getStatisticByPeriod} from "../../helpers/utils.js";
+import { getStatisticByPeriod} from "../../helpers/utils.js";
 
 async function handleDateStatisticCommand(ctx, next) {
     const user = await ctx.getUser()

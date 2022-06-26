@@ -15,7 +15,7 @@ const keyboards = {
 	mainMenu,
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
-	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['totalUsers'],['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
+	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['totalUsers'],['numberOfBasketItems'],['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	personalCabinet: () => [['changeLocation'],['back']],
 	sendPhone: () => [['sendPhone']],
 	skip: () => [['skip', `skip`]],
