@@ -62,6 +62,7 @@ import {handleTotalUsersCommand} from "../handlers/text/totalUsers.js";
 import {handleAmountInput} from "../handlers/text/input-amount.js";
 import {handleInviteFriendCommand} from "../handlers/text/inviteFriend.js";
 import {handleNumberOfBasketItemsCommand} from "../handlers/text/numberOfBasketItems.js";
+import {handleLoadMoreTicketsClick} from "../handlers/button/loadMoreTickets.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -129,6 +130,7 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleGetRegionsClick)
 	bot.on('callback_query', handleGetCountryStateClick)
 	bot.on('callback_query', handleAnswerUserClick)
+	bot.on('callback_query', handleLoadMoreTicketsClick)
 	bot.on('callback_query', handleAnyButtonClick)
 
 	bot.catch(processError)

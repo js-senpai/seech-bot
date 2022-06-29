@@ -21,6 +21,7 @@ async function handleCreateTicketClick(ctx, next) {
 			})
 		)
 	}
+
 	await user.updateData({
 		ticket: { sale }
 	})

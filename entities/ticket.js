@@ -1,5 +1,7 @@
 import { getOneTicket, updateTicketData } from '../services/database/ticket.js'
 import mongoose from 'mongoose'
+import mongoosePaginate from "mongoose-paginate-v2";
+import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const ticketSchema = new mongoose.Schema({
 	authorId: {
@@ -54,5 +56,5 @@ class ticketClass {
 		return updateTicketData.bind(this)(this.constructor, updates)
 	}
 }
-
+ticketSchema.plugin(aggregatePaginate);
 export { ticketClass, ticketSchema }

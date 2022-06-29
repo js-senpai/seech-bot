@@ -53,12 +53,12 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 			name: user?.name || texts.t('errors.noName'),
 			region: texts.t(
 				user?.region
-					? `buttons.regions.${user.region}.name`
+					? `buttons.regions.${user?.region}.name`
 					: 'errors.noRegion'
 			),
 			otg: texts.t(
-				user?.otg !== '-'
-					? `buttons.regions.${user.region}.states.${user.countryState}.otg.${user.countryOtg}`
+				user?.countryOtg !== '-' && user?.countryOtg
+					? `buttons.regions.${user?.region}.states.${user?.countryState}.otg.${user?.countryOtg}`
 					: 'errors.noRegion'
 			),
 			...(ticket.sale && {

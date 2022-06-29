@@ -44,8 +44,6 @@ async function findRelatedTickets(Ticket, { weight, sale, culture, authorId }, r
 				region: -1
 			}
 		},
-		// Show no more then 5 best results
-		{$limit: 5}
 	])
 }
 

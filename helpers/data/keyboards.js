@@ -41,6 +41,9 @@ const keyboards = {
 	answerUser: ({userId}) => [
         ['answerUser',JSON.stringify({ userId, command: 'answerUser' })]
 	],
+	loadMoreTickets: ({page = 1}) => [
+	  ['loadMoreTickets',JSON.stringify({page, command: 'loadMoreTickets' })]
+	],
 	loadMoreReviews: ({page = 1}) => [
 		['loadMoreReviews',JSON.stringify({page,command: 'loadMoreReviews'})]
 	],
@@ -122,6 +125,13 @@ const keyboards = {
 		['regions.15.name', `region_15`],
 		['regions.16.name', `region_16`],
 		['regions.17.name', `region_17`],
+		['regions.18.name', `region_18`],
+		['regions.19.name', `region_19`],
+		['regions.20.name', `region_20`],
+		['regions.21.name', `region_21`],
+		['regions.22.name', `region_22`],
+		['regions.23.name', `region_23`],
+		['regions.24.name', `region_24`],
 	],
 	personalDataProcessing: () => [
 		['yes', `personalData_yes`],

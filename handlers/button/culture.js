@@ -68,6 +68,7 @@ async function handleCultureClick(ctx, next) {
 			case 'fish':
 			case 'pork':
 			case 'veal':
+			case 'cottage':
 				weightCount = 1;break;
 			default:
 				weightCount = 10;

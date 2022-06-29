@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema({
 			}
 		}]
 	},
+	availableTickets: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'AvailableTickets',
+		}
+	],
 	personalDataProcessing: {
 		type: Boolean,
 		required: true,

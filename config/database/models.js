@@ -4,6 +4,7 @@ import {ticketClass, ticketSchema} from '../../entities/ticket.js'
 import mongoose from 'mongoose'
 import {reviewOfServiceSchema} from "../../entities/reviewOfService.js";
 import {reviewOfSellerSchema} from "../../entities/reviewOfSeller.js";
+import {availableTicketsSchema} from "../../entities/availableTickets.js";
 
 function initEntityModel(name, entitySchema, entityClass) {
 	if(entityClass){
@@ -17,7 +18,8 @@ function initModels() {
 		User: initEntityModel('User', userSchema, userClass),
 		Ticket: initEntityModel('Ticket', ticketSchema, ticketClass),
 		ReviewOfService: initEntityModel('ReviewOfService', reviewOfServiceSchema),
-		ReviewOfSeller: initEntityModel('ReviewOfSeller', reviewOfSellerSchema)
+		ReviewOfSeller: initEntityModel('ReviewOfSeller', reviewOfSellerSchema),
+		AvailableTickets: initEntityModel('AvailableTickets', availableTicketsSchema)
 	}
 }
 

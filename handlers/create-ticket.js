@@ -2,6 +2,8 @@ import { createTicket } from '../services/create-ticket.js'
 import { findRelatedTickets } from '../services/database/find-related-tickets.js'
 import { generateTicketMessage } from '../services/generate-ticket-message.js'
 import { sendMessage } from '../services/send-message.js'
+import moment from "moment";
+import {buildKeyboard} from "../helpers/keyboard.js";
 
 async function finishCreatingTicket(ctx, user) {
 	const ticket = await createTicket(ctx.db.Ticket, user, ctx)
@@ -33,9 +35,9 @@ async function finishCreatingTicket(ctx, user) {
 			}
 		)
 		const getUsersWithOtg = await ctx.db.User.find({
-			region: user.region,
-			countryState: user.countryState,
-			countryOtg: user.countryOtg,
+			region: user?.region,
+			countryState: user?.countryState,
+			countryOtg: user?.countryOtg,
 			userId: {
 				$ne: user.userId
 			}
@@ -84,21 +86,89 @@ async function finishCreatingTicket(ctx, user) {
 	const relatedUsers = Object.fromEntries(
 		relatedUsersList.map(user => [user.userId, user])
 	)
-	for (const ticket of tickets) {
+	const region = user.region
+	const aggregation = ctx.db.Ticket.aggregate([
+		{
+			// Search for customers in case of sale and vice versa
+			$match: {
+				culture: ticket.culture,
+				sale: !ticket.sale,
+				active: true,
+				waitingForReview: false,
+				authorId: {
+					$ne: ticket.authorId
+				}
+			}
+		},
+		{
+			$addFields: {
+				// Calculate weight suitability
+				weightScore: {
+					$cond: {
+						if: {
+							[ticket.sale ? '$gte' : '$lte']: ['$weight', ticket.weight]
+						},
+						then: 1, // Same score for all suitable
+						else: {
+							$subtract: ['$weight', ticket.weight]
+						}
+					}
+				},
+				// Calculate region suitability
+				regionScore: {
+					$cond: {
+						if: {region},
+						then: 1,
+						else: 0
+					}
+				}
+			}
+		},
+		{
+			// Sort to get results in expected priorities
+			$sort: {
+				weightScore: -1,
+				date: -1,
+				region: -1
+			}
+		},
+	])
+	const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregation, { page: 1,limit: 5 });
+	for(let i = 0;i < docs.length; i++) {
 		const { text: foundText, keyboard: foundKeyboard } =
 			generateTicketMessage({
 					texts: ctx.i18n,
-					ticket,
+					ticket: docs[i],
 					user: relatedUsers[ticket.authorId],
 					userId: ctx.from.id
 				}
 			)
-		await ctx.text(foundText, foundKeyboard)
+		if(i + 1 === docs.length && hasNextPage){
+			await ctx.text(foundText,{
+				reply_markup: {
+					inline_keyboard: [
+						...foundKeyboard?.reply_markup?.inline_keyboard || [],
+						...buildKeyboard(ctx.i18n, {
+							name: 'loadMoreTickets',
+							data: {
+								page: 2
+							}
+						}).reply_markup.inline_keyboard
+					]
+				}
+			})
+			await user.updateData({
+				state: `loadMoreTickets_${ticket._id}`
+			})
+		} else {
+			await ctx.text(foundText, foundKeyboard)
+		}
 	}
 	const uniqueRelatedUserIds = new Set(relatedUserIds)
 	for (const userId of uniqueRelatedUserIds) {
 		await sendMessage.bind(ctx)(text, Object.assign(keyboard, { userId }))
 	}
+
 }
 
 export { finishCreatingTicket }
