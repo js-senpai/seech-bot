@@ -1,5 +1,7 @@
 import {notButtonClick} from "../../services/not-button-click.js";
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import * as fs from "fs";
+import {join} from "path";
 
 async function handleAboutCommand(ctx, next) {
     if (notButtonClick(ctx.i18n, ctx.message.text, 'about')) {
@@ -16,7 +18,9 @@ async function handleAboutCommand(ctx, next) {
             })
         )
     }
-    await ctx.textTemplate(await ctx.i18n.t('input.about'));
+    await ctx.replyWithVideo({
+        source: fs.createReadStream(join('assets','video','welcome.MP4'))
+    });
 }
 
 export { handleAboutCommand }

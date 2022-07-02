@@ -62,7 +62,7 @@ async function handleCultureClick(ctx, next) {
 			number: amountCount
 		})
 	} else {
-		let weightCount = 10;
+		let weightCount = 1;
 		switch (culture){
 			case 'chicken':
 			case 'fish':
@@ -71,7 +71,7 @@ async function handleCultureClick(ctx, next) {
 			case 'cottage':
 				weightCount = 1;break;
 			default:
-				weightCount = 10;
+				weightCount = 1;
 		}
 		const updateUser = await user.updateData({
 			state: `weight_${weightCount}`,

@@ -29,7 +29,7 @@ async function handleLoadMoreTicketsClick(ctx, next) {
         )
         return
     }
-    const relatedUserIds = tickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.authorId)
+    const relatedUserIds = tickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.active && ticket.authorId)
     const relatedUsersList = await ctx.db.User.find({
         userId: {
             $in: relatedUserIds
@@ -95,25 +95,27 @@ async function handleLoadMoreTicketsClick(ctx, next) {
                     userId: ctx.from.id
                 }
             )
-        if(i + 1 === docs.length && hasNextPage){
-            await ctx.text(foundText,{
-                reply_markup: {
-                    inline_keyboard: [
-                        ...foundKeyboard?.reply_markup?.inline_keyboard || [],
-                        ...buildKeyboard(ctx.i18n, {
-                            name: 'loadMoreTickets',
-                            data: {
-                                page: page + 1
-                            }
-                        }).reply_markup.inline_keyboard
-                    ]
-                }
-            })
-            await user.updateData({
-                state: `loadMoreTickets_${ticket._id}`
-            })
-        } else {
-            await ctx.text(foundText, foundKeyboard)
+        if(docs[i].active){
+            if(i + 1 === docs.length && hasNextPage){
+                await ctx.text(foundText,{
+                    reply_markup: {
+                        inline_keyboard: [
+                            ...foundKeyboard?.reply_markup?.inline_keyboard || [],
+                            ...buildKeyboard(ctx.i18n, {
+                                name: 'loadMoreTickets',
+                                data: {
+                                    page: page + 1
+                                }
+                            }).reply_markup.inline_keyboard
+                        ]
+                    }
+                })
+                await user.updateData({
+                    state: `loadMoreTickets_${ticket._id}`
+                })
+            } else {
+                await ctx.text(foundText, foundKeyboard)
+            }
         }
     }
 }
