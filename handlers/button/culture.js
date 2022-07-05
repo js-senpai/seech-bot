@@ -34,14 +34,14 @@ async function handleCultureClick(ctx, next) {
 	}
 	const cultureWithLiters = ['honey','milk','sourCream']
 	if(cultureWithLiters.includes(culture)){
-		let literCount = 10;
+		let literCount = 1;
 		switch (culture){
 			case 'milk':
 				literCount = 3; break;
 			case 'sourCream':
 				literCount = 1; break;
 			default:
-				literCount = 10;
+				literCount = 1;
 		}
 		const updateUser = await user.updateData({
 			state: `liter_${literCount}`,

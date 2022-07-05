@@ -57,7 +57,7 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 					: 'errors.noRegion'
 			),
 			otg: texts.t(
-				user?.countryOtg !== '-' && user?.countryOtg
+				user?.region && user?.countryState && user?.countryOtg && user?.countryOtg !== '-'
 					? `buttons.regions.${user?.region}.states.${user?.countryState}.otg.${user?.countryOtg}`
 					: 'errors.noRegion'
 			),

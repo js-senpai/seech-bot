@@ -36,14 +36,6 @@ async function findRelatedTickets(Ticket, { weight, sale, culture, authorId }, r
 				}
 			}
 		},
-		{
-			// Sort to get results in expected priorities
-			$sort: {
-				weightScore: -1,
-				date: -1,
-				region: -1
-			}
-		},
 	])
 }
 
