@@ -50,7 +50,7 @@ const keyboards = {
 	myTicket: ({ photo, date, id }) => {
 		let keyboard = [['completed', `completed_${id}`]]
 		keyboard.push(['remove', `remove_${id}`])
-		if (Date.now() - date >= 24 * 60 * 60 * 1000) {
+		if (new Date().getTime() - new Date(date).getTime() >= 24 * 60 * 60 * 1000) {
 			keyboard.push(['extend', `extend_${id}`])
 		}
 		if (photo) {
