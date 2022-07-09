@@ -193,10 +193,10 @@ const getStatisticByPeriod = async ({
     const parseLocale = JSON.parse(getLocales)
     const users = await ctx.db.User.find()
     const ticketsOnSale = await ctx.db.Ticket.find({
-        sale: true
+        sale: true,
     })
     const ticketsOnBuy = await ctx.db.Ticket.find({
-        sale: false
+        sale: false,
     })
     const itemsOnBuy = [];
     const itemsOnSale = [];
@@ -285,6 +285,12 @@ const getStatisticByPeriod = async ({
             date: getDate.format('DD-MM-YYYY'),
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
             ticketOnSale: filteredTicketsOnSale,
+            ticketOnSaleCompleted: getTicketsOnSale.filter(({completed = false}) => completed).length,
+            ticketOnSaleDeleted: getTicketsOnSale.filter(({deleted = false}) => deleted).length,
+            ticketOnSaleExtended: getTicketsOnSale.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
+            ticketOnBuyCompleted: getTicketsOnBuy.filter(({completed = false}) => completed).length,
+            ticketOnBuyDeleted: getTicketsOnBuy.filter(({deleted = false}) => deleted).length,
+            ticketOnBuyExtended: getTicketsOnBuy.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
             ticketOnBuy: filteredTicketsOnBuy,
             ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
                 [name]:(() => {
@@ -342,6 +348,12 @@ const getStatisticByPeriod = async ({
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length,
             ticketOnSale: filteredTicketsOnSale,
             ticketOnBuy: filteredTicketsOnBuy,
+            ticketOnSaleCompleted: getTicketsOnSale.filter(({completed = false}) => completed).length,
+            ticketOnSaleDeleted: getTicketsOnSale.filter(({deleted = false}) => deleted).length,
+            ticketOnSaleExtended: getTicketsOnSale.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
+            ticketOnBuyCompleted: getTicketsOnBuy.filter(({completed = false}) => completed).length,
+            ticketOnBuyDeleted: getTicketsOnBuy.filter(({deleted = false}) => deleted).length,
+            ticketOnBuyExtended: getTicketsOnBuy.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
             ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
                 [name]:(() => {
                     const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'day')).length
@@ -398,6 +410,12 @@ const getStatisticByPeriod = async ({
             reg: users.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length,
             ticketOnSale: filteredTicketsOnSale,
             ticketOnBuy: filteredTicketsOnBuy,
+            ticketOnSaleCompleted: getTicketsOnSale.filter(({completed = false}) => completed).length,
+            ticketOnSaleDeleted: getTicketsOnSale.filter(({deleted = false}) => deleted).length,
+            ticketOnSaleExtended: getTicketsOnSale.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
+            ticketOnBuyCompleted: getTicketsOnBuy.filter(({completed = false}) => completed).length,
+            ticketOnBuyDeleted: getTicketsOnBuy.filter(({deleted = false}) => deleted).length,
+            ticketOnBuyExtended: getTicketsOnBuy.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
             ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
                 [name]:(() => {
                     const getStat = data.filter(({createdAt}) => createdAt &&  getDate.isSame(moment(createdAt),'month')).length
@@ -451,6 +469,12 @@ const getStatisticByPeriod = async ({
             reg: users.length,
             ticketOnSale: filteredTicketsOnSale,
             ticketOnBuy: filteredTicketsOnBuy,
+            ticketOnSaleCompleted: ticketsOnSale.filter(({completed = false}) => completed).length,
+            ticketOnSaleDeleted: ticketsOnSale.filter(({deleted = false}) => deleted).length,
+            ticketOnSaleExtended: ticketsOnSale.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
+            ticketOnBuyCompleted: ticketsOnBuy.filter(({completed = false}) => completed).length,
+            ticketOnBuyDeleted: ticketsOnBuy.filter(({deleted = false}) => deleted).length,
+            ticketOnBuyExtended: ticketsOnBuy.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
             ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
                 [name]:data.length > 0 ? (data.length / filteredTicketsOnBuy * 100).toFixed(0) : 0
             }))),
@@ -511,6 +535,12 @@ const getStatisticByPeriod = async ({
             reg: users.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length,
             ticketOnSale: filteredTicketsOnSale,
             ticketOnBuy: filteredTicketsOnBuy,
+            ticketOnSaleCompleted: getTicketsOnSale.filter(({completed = false}) => completed).length,
+            ticketOnSaleDeleted: getTicketsOnSale.filter(({deleted = false}) => deleted).length,
+            ticketOnSaleExtended: getTicketsOnSale.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
+            ticketOnBuyCompleted: getTicketsOnBuy.filter(({completed = false}) => completed).length,
+            ticketOnBuyDeleted: getTicketsOnBuy.filter(({deleted = false}) => deleted).length,
+            ticketOnBuyExtended: getTicketsOnBuy.map(({numberOfExtends = 0}) => numberOfExtends).reduce((a,b) => a + b,0),
             ...Object.assign({}, ...itemsOnBuy.map(({name,data}) => ({
                 [name]:(() => {
                     const getStat = data.filter(({createdAt}) => createdAt &&  moment(createdAt).isBetween(moment(startDate,'DD-MM-YYYY'),moment(endDate,'DD-MM-YYYY'),'day')).length

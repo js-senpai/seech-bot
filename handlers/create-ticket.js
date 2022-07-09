@@ -137,7 +137,9 @@ async function finishCreatingTicket(ctx, user) {
 	const aggregate = ctx.db.Ticket.aggregate([
 		{
 			$match: {
-				_id: { $in: getFilteredTicketIds }
+				_id: { $in: getFilteredTicketIds },
+				completed: false,
+				deleted: false
 			}
 		},
 		{

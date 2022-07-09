@@ -22,7 +22,7 @@ async function handleLoadMoreTicketsClick(ctx, next) {
     }
     const [_,ticketId] = user.state.split('_');
     const ticket = await ctx.db.Ticket.findOne({
-       _id: ticketId
+       _id: ticketId,
     })
     const tickets = await findRelatedTickets(ctx.db.Ticket, ticket, user.region)
     if (!tickets.length || !tickets.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000).length) {
@@ -63,7 +63,9 @@ async function handleLoadMoreTicketsClick(ctx, next) {
     const aggregate = ctx.db.Ticket.aggregate([
         {
             $match: {
-                _id: { $in: getFilteredTicketIds }
+                _id: { $in: getFilteredTicketIds },
+                deleted: false,
+                completed: false
             }
         },
         {

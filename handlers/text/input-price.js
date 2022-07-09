@@ -1,4 +1,5 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import {notButtonClick} from "../../services/not-button-click.js";
 
 async function handlePriceInput(ctx, next) {
 	const user = await ctx.getUser()
@@ -14,6 +15,9 @@ async function handlePriceInput(ctx, next) {
 				columns: 2
 			})
 		)
+	}
+	if (!notButtonClick(ctx.i18n, ctx.message.text, 'cancelCreateTicket')) {
+		return await next()
 	}
 	const price = ctx.message.text
 	if (isNaN(price)) {

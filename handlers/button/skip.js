@@ -18,6 +18,18 @@ async function handleSkipClick(ctx, next) {
 	}
 	await user.updateData({ state: 'free' })
 	await finishCreatingTicket(ctx, user)
+	await ctx.textTemplate(
+		'responses.mainMenu',
+		{},
+		buildKeyboard(ctx.i18n, {
+			name: 'mainMenu',
+			inline: false,
+			columns: 2,
+			data: {
+				userType: user.type
+			}
+		})
+	)
 }
 
 export { handleSkipClick }

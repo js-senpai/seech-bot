@@ -40,6 +40,18 @@ const ticketSchema = new mongoose.Schema({
 	waitingForReview: {
 		type: Boolean,
 		default: false
+	},
+	deleted: {
+		type: Boolean,
+		default: false
+	},
+	completed: {
+		type: Boolean,
+		default: false
+	},
+	numberOfExtends: {
+		type: Number,
+		default: 0
 	}
 },{
 	collection: 'tickets',

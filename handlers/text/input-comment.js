@@ -21,6 +21,18 @@ async function handleCommentInput(ctx, next) {
         state: ''
     })
     await finishCreatingTicket(ctx, updateUser)
+    await ctx.textTemplate(
+        'responses.mainMenu',
+        {},
+        buildKeyboard(ctx.i18n, {
+            name: 'mainMenu',
+            inline: false,
+            columns: 2,
+            data: {
+                userType: user.type
+            }
+        })
+    )
 }
 
 export { handleCommentInput }

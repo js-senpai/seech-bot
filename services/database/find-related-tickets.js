@@ -9,7 +9,9 @@ async function findRelatedTickets(Ticket, { weight, sale, culture, authorId }, r
 				waitingForReview: false,
 				authorId: {
 					$ne: authorId
-				}
+				},
+				deleted: false,
+				completed: false
 			}
 		},
 		{

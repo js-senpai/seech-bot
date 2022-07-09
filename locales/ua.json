@@ -19,7 +19,7 @@
         "text": "Номер телефона: ${phone}\nІм'я: ${name}\nДата: ${date}\nОцінка: ${value}\nВідгук: ${text}"
     },
     "statistic": {
-        "text": "\uD83D\uDCC8Звіт за ${date}\n\n\n\n\uD83D\uDFE2 Активні користувачі - ${users}\n\n⭐️ Оцінка сервісу - ${rate}\n\n\uD83D\uDCF2К-ть нових реєстрацій - ${reg}\n\n\uD83D\uDCCA К-ть тікетів на продажу - ${ticketOnSale}\n\n\uD83D\uDCCA К-ть тікетів на покупку - ${ticketOnBuy}\n\n\n\n\uD83D\uDCC8Доля продукту в продажах\n\n\uD83E\uDD54овочі ${vegetablesListSale}%\n\n\uD83C\uDF4Eфрукти ${fruitsListSale}%\n\n\uD83C\uDF76молочні продукти ${milksListSale}%\n\n\uD83E\uDD69м'ясо ${meatsListSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cгоріхи ${walnutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукту в покупках\n\n\uD83E\uDD54овочі ${vegetablesListBuy}%\n\n\uD83C\uDF4Eфрукти ${fruitsListBuy}%\n\n\uD83C\uDF76молочні продукти ${milksListBuy}%\n\n\uD83E\uDD69м'ясо ${meatsListBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cгоріхи ${walnutsBuy}%",
+        "text": "\uD83D\uDCC8Звіт за ${date}\n\n\n\n\uD83D\uDFE2 Активні користувачі - ${users}\n\n⭐️ Оцінка сервісу - ${rate}\n\n\uD83D\uDCF2К-ть нових реєстрацій - ${reg}\n\n\uD83D\uDCCA К-ть тікетів на продажу - ${ticketOnSale}\n\nПродаж ✅ Виконано - ${ticketOnSaleCompleted}\n\nПродаж ❌ Видалено - ${ticketOnSaleDeleted}\n\nПродаж \uD83C\uDF00 +24 год - ${ticketOnSaleExtended}\n\nК-ть тікетів на покупку - ${ticketOnBuy}\n\nПокупка ✅ Виконано - ${ticketOnBuyCompleted}\n\nПокупка ❌ Видалено - ${ticketOnBuyDeleted}\n\nПокупка \uD83C\uDF00 +24 год - ${ticketOnBuyExtended}\n\n\n\n\uD83D\uDCC8Доля продукту в продажах\n\n\uD83E\uDD54овочі ${vegetablesListSale}%\n\n\uD83C\uDF4Eфрукти ${fruitsListSale}%\n\n\uD83C\uDF76молочні продукти ${milksListSale}%\n\n\uD83E\uDD69м'ясо ${meatsListSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cгоріхи ${walnutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукту в покупках\n\n\uD83E\uDD54овочі ${vegetablesListBuy}%\n\n\uD83C\uDF4Eфрукти ${fruitsListBuy}%\n\n\uD83C\uDF76молочні продукти ${milksListBuy}%\n\n\uD83E\uDD69м'ясо ${meatsListBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cгоріхи ${walnutsBuy}%",
         "format": "Введіть початок та кінець періоду у форматі DD.MM.YYYY-DD.MM.YYYY (20.01.2022-21.01.2022)"
     },
     "reviewSeller": {
@@ -45,7 +45,8 @@
         "completed": "Товар продано",
         "removed": "Товар видалено з кошика",
         "deleted": "Товар видалено",
-        "review": "Оцініть проведену угоду:\n\n${stars}"
+        "review": "Оцініть проведену угоду:\n\n${stars}",
+        "cancelCreateTicket": "Ви можете скасувати створення тикету в меню"
     },
     "input": {
         "numberOfBasketItems": "\uD83E\uDDFA Кількість товарів в корзинах користувачів - ${total}",
@@ -99,6 +100,7 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
+        "cancelCreateTicket": "Скасувати створення тікету",
         "numberOfBasketItems": "К-ть товарів у кошику",
         "loadMoreTickets": "Завантажити більше тікетів",
         "inviteFriend": "Запросити друга",

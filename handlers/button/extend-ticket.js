@@ -25,7 +25,8 @@ async function handleExtendTicketClick(ctx, next) {
 	} else {
 		await ticket.updateData({
 			date: new Date(),
-			active: true
+			active: true,
+			numberOfExtends: ticket.numberOfExtends + 1
 		})
 		await ctx.popupTemplate('responses.extended')
 	}

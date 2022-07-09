@@ -35,6 +35,9 @@ const keyboards = {
 		['meats', `cultureType_meats`],
 		['milks', `cultureType_milks`],
 	],
+	cancelCreateTicket: () => [
+		['cancelCreateTicket']
+	],
 	editModerator: ({ isModerator = false,userId,command }) => [
 		[isModerator ? 'removeModerator':'addModerator',JSON.stringify({ userId, command })]
 	],

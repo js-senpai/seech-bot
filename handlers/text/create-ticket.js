@@ -26,6 +26,15 @@ async function handleCreateTicketClick(ctx, next) {
 		ticket: { sale }
 	})
 	await ctx.textTemplate(
+		'responses.cancelCreateTicket',
+		{},
+		buildKeyboard(ctx.i18n, {
+			name: 'cancelCreateTicket',
+			inline: false,
+			columns: 2,
+		})
+	)
+	await ctx.textTemplate(
 		'input.cultureType',
 		{},
 		buildKeyboard(ctx.i18n, {

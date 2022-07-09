@@ -43,7 +43,7 @@ async function handleShowTicketsClick(ctx, next) {
 	if (type === 'sale-false') {
 		query.sale = false
 	}
-	const tickets = await ctx.db.Ticket.find(query)
+	const tickets = await ctx.db.Ticket.find({...query,completed: false,deleted:false})
 	if (!tickets.length) {
 		await ctx.textTemplate('errors.ticketsNotFound')
 		return

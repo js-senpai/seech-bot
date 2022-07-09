@@ -1,4 +1,5 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import {notButtonClick} from "../../services/not-button-click.js";
 
 async function handleWeightInput(ctx, next) {
 	const user = await ctx.getUser()
@@ -15,6 +16,9 @@ async function handleWeightInput(ctx, next) {
 				columns: 2
 			})
 		)
+	}
+	if (!notButtonClick(ctx.i18n, ctx.message.text, 'cancelCreateTicket')) {
+		return await next()
 	}
 	const weight = ctx.message.text
 	if (isNaN(+weight) || +weight < +count) {

@@ -95,7 +95,7 @@ async function handleRemoveTicketClick(ctx, next) {
 				}
 			}
 			if (shouldDelete) {
-				await ctx.db.Ticket.deleteOne({ _id: ticketId })
+				await ctx.db.Ticket.updateOne({ _id: ticketId }, { completed: true,active: false })
 				await ctx.db.User.updateMany(
 					{
 						basket: {
@@ -127,9 +127,7 @@ async function handleRemoveTicketClick(ctx, next) {
 						}
 					}
 				)
-				await ctx.db.Ticket.deleteOne({
-					_id: ticketId
-				})
+				await ctx.db.Ticket.updateOne({ _id: ticketId }, { deleted: true,active: false })
 				await ctx.popupTemplate(`responses.deleted`)
 			} else {
 				await ticket.updateData({

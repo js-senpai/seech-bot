@@ -1,4 +1,5 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import {notButtonClick} from "../../services/not-button-click.js";
 
 async function handleLiterInput(ctx, next) {
     const user = await ctx.getUser()
@@ -15,6 +16,9 @@ async function handleLiterInput(ctx, next) {
                 columns: 2
             })
         )
+    }
+    if (!notButtonClick(ctx.i18n, ctx.message.text, 'cancelCreateTicket')) {
+        return await next()
     }
     const liter = ctx.message.text
     if (isNaN(liter) || +liter < +count) {
