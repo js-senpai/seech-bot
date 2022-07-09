@@ -96,7 +96,7 @@ async function initBot(dbInstance) {
 	bot.on('message', handleModeratorsCommand)
 	bot.on('message', handleFindModeratorCommand)
 	bot.on('message', handleMailingCommand)
-	bot.on('message', handleMailingTextInput)
+	bot.on(['message','video','photo'], handleMailingTextInput)
 	bot.on('message', handleAboutCommand)
 	bot.on('message', handleRegionsCommand)
 	bot.on('message', handleCommentInput)

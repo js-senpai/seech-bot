@@ -24,12 +24,14 @@ async function handleExtendTicketClick(ctx, next) {
 		return
 	} else {
 		await ticket.updateData({
-			date: new Date()
+			date: new Date(),
+			active: true
 		})
 		await ctx.popupTemplate('responses.extended')
 	}
-	if(ticket.sale){
-		const getStars = ticket.sale? await ctx.db.ReviewOfSeller.aggregate([
+	const getTicket = await ctx.db.Ticket.getOne(ticketId)
+	if(getTicket.sale){
+		const getStars = getTicket.sale? await ctx.db.ReviewOfSeller.aggregate([
 			{
 				$match: {
 					sellerId: user._id
@@ -45,7 +47,7 @@ async function handleExtendTicketClick(ctx, next) {
 		const { stars = 0 } = getStars.length? getStars[0]: { stars: 0 };
 		const { text, keyboard } = generateTicketMessage({
 				texts: ctx.i18n,
-				ticket,
+				ticket: getTicket,
 				user,
 				userId: null,
 				votes: await ctx.db.ReviewOfSeller.countDocuments({
@@ -64,14 +66,14 @@ async function handleExtendTicketClick(ctx, next) {
 		})
 		for(const { userId } of getUsersWithOtg){
 			setTimeout(async () => {
-				await sendMessage.bind(ctx)(text, Object.assign(keyboard, { userId }))
+				await sendMessage.bind(ctx)(text,  Object.assign(keyboard, { userId }))
 			},1000)
 
 		}
 	} else {
 		const { text, keyboard } = generateTicketMessage({
 				texts: ctx.i18n,
-				ticket,
+				ticket: getTicket,
 				user,
 				userId: null,
 			}

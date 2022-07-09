@@ -1,4 +1,4 @@
-function sendMessage(text, extra = {},disableWebPreview = true) {
+function sendMessage(text, extra = {},disableWebPreview = true,type = 'message') {
 	return this.telegram.sendMessage(
 		extra.userId || this.chat.id,
 		text,
