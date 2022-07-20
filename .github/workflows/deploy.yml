@@ -15,7 +15,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /home/bots/seech/
+            cd /home/bots/seech-bot/
             git pull origin main
             npm i
             pm2 restart bot
