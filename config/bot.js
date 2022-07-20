@@ -64,6 +64,7 @@ import {handleInviteFriendCommand} from "../handlers/text/inviteFriend.js";
 import {handleNumberOfBasketItemsCommand} from "../handlers/text/numberOfBasketItems.js";
 import {handleLoadMoreTicketsClick} from "../handlers/button/loadMoreTickets.js";
 import {handleCancelTicketCommand} from "../handlers/text/cancel-ticket.js";
+import {handleWeightTonInput} from "../handlers/text/input-weight-ton.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -109,6 +110,7 @@ async function initBot(dbInstance) {
 	bot.on('message', handleInviteFriendCommand)
 	bot.on('message', handleNumberOfBasketItemsCommand)
 	bot.on('message', handleCancelTicketCommand)
+	bot.on('message', handleWeightTonInput)
 	bot.on('message', handleAnyTextMessage)
 
 	bot.on('callback_query', handleReviewClick)

@@ -26,6 +26,8 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 			break;
 		case 'weight':
 			weightValue = 'weightValue';break;
+		case 'weightTon':
+			weightValue = 'weightTonValue';break;
 		case 'amount':
 			weightValue = 'amountValue';break;
 		default:
@@ -37,6 +39,7 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 			weightName = 'volume';
 			break;
 		case 'weight':
+		case 'weightTon':
 			weightName = 'weight';break;
 		case 'amount':
 			weightName = 'amount';break;

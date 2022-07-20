@@ -8,7 +8,8 @@ const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData =
     'honey',
     'walnuts',
     'milksList',
-    'meatsList'
+    'meatsList',
+    'cerealsList'
 ]}) => {
     const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocale = JSON.parse(getLocales)
@@ -115,7 +116,8 @@ const getPriceStatistic = async ({ids = [],ctx,localeData = [
     'honey',
     'walnuts',
     'milksList',
-    'meatsList'
+    'meatsList',
+    'cerealsList'
 ]}) => {
     const getLocales = await fs.promises.readFile(join(resolve(),'locales','ua.json'),{ encoding: 'utf8' })
     const parseLocale = JSON.parse(getLocales)
@@ -185,7 +187,8 @@ const getStatisticByPeriod = async ({
                                             'honey',
                                             'walnuts',
                                             'milksList',
-                                            'meatsList'
+                                            'meatsList',
+                                            'cerealsList'
                                         ]
 }) => {
     const getReviewService = await ctx.db.ReviewOfService.find();

@@ -29,6 +29,7 @@
     "types": {
         "weight": "Вага",
         "weightValue": "кг",
+        "weightTonValue": "т",
         "volume": "Обсяг",
         "volumeValue": "л",
         "amount": "Кількість",
@@ -63,6 +64,7 @@
         "otg": "Виберіть ОТГ:",
         "cultureType": "Виберіть тип:",
         "weight": "Введіть вагу ${product} в кілограмах (мінімум ${number}):",
+        "weightTon": "Введіть вагу ${product} в тоннах (мінімум ${number}):",
         "liter": "Введіть обсяг ${product} у літрах (мінімум ${number}):",
         "amount": "Введіть обсяг ${product} у шт (мінімум ${number}):",
         "price": "Введіть ціну ${product} у гривнях за 1${weightValue}:",
@@ -93,6 +95,7 @@
         "unknown": "Невідома помилка",
         "invalid": {
             "weight": "Неправильно вказана вага, введіть число в кілограмах, мінімум - ${count}",
+            "weightTon": "Неправильно вказана вага, введіть число в тоннах, мінімум - ${count}",
             "price": "Невірно вказано ціни, введіть число у гривнях",
             "liter": "Невірно вказаний об'єм введіть число в літрах, мінімум - ${count}",
             "amount": "Невірно вказана кількість введіть число, мінімум - ${count}"
@@ -150,12 +153,20 @@
         "buy": "Купити",
         "sell": "Продати",
         "sendPhone": "Надіслати свій контакт",
+        "cereals":"\uD83C\uDF3D Зернові",
         "vegetables": "\uD83C\uDF45 Овочі",
         "meats": "\uD83E\uDD69 М‘ясо/Риба",
         "fruits": "\uD83C\uDF4D Фрукти",
         "honey": "\uD83C\uDF6F Мед",
         "walnuts": "\uD83E\uDD5C Горіхи",
         "milks": "\uD83E\uDD5B Молоко",
+        "cerealsList": {
+          "wheat": "Пшениця",
+          "barley": "Ячмінь",
+          "corn": "Кукурудза",
+          "buckwheat": "Гречка",
+          "soy": "Соя"
+        },
         "milksList": {
           "milk": "\uD83C\uDF76 Молоко",
           "cottage": "\uD83C\uDF5A Творог",
@@ -178,7 +189,8 @@
             "apricot": "\uD83C\uDF51 Абрикоси",
             "cherry": "\uD83C\uDF52 Вишні",
             "merry": "\uD83C\uDF52 Черешня",
-            "grape": "\uD83C\uDF47 Виноград"
+            "grape": "\uD83C\uDF47 Виноград",
+            "berries": "\uD83E\uDED0 Ягоди"
         },
         "vegetablesList": {
             "potatoes": "\uD83E\uDD54 Картопля",

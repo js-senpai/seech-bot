@@ -34,6 +34,7 @@ const keyboards = {
 		['walnuts', `culture_walnuts`],
 		['meats', `cultureType_meats`],
 		['milks', `cultureType_milks`],
+		['cereals', `cultureType_cereals`],
 	],
 	cancelCreateTicket: () => [
 		['cancelCreateTicket']
@@ -85,7 +86,8 @@ const keyboards = {
 		['fruitsList.peach', `culture_peach`],
 		['fruitsList.apricot', `culture_apricot`],
 		['fruitsList.cherry', `culture_cherry`],
-		['fruitsList.grape', `culture_grape`]
+		['fruitsList.grape', `culture_grape`],
+		['fruitsList.berries', `culture_berries`]
 	],
 	milks: () => [
 		['milksList.milk', `culture_milk`],
@@ -108,6 +110,13 @@ const keyboards = {
 		['meatsList.chicken','culture_chicken'],
 		['meatsList.fish','culture_fish'],
 		['meatsList.egg','culture_egg'],
+	],
+	cereals: () => [
+		['cerealsList.wheat','culture_wheat'],
+		['cerealsList.barley','culture_barley'],
+		['cerealsList.corn','culture_corn'],
+		['cerealsList.buckwheat','culture_buckwheat'],
+		['cerealsList.soy','culture_soy'],
 	],
 	regions: () => [
 		['regions.0.name', `region_0`],

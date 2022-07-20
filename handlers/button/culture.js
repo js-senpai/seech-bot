@@ -32,7 +32,8 @@ async function handleCultureClick(ctx, next) {
 			})
 		)
 	}
-	const cultureWithLiters = ['honey','milk','sourCream']
+	const cultureWithLiters = ['honey','milk','sourCream'];
+	const cultureWithTon = ['wheat','barley','corn','buckwheat','soy'];
 	if(cultureWithLiters.includes(culture)){
 		let literCount = 1;
 		switch (culture){
@@ -50,6 +51,16 @@ async function handleCultureClick(ctx, next) {
 		await ctx.textTemplate('input.liter',{
 			product: updateUser.ticket.culture,
 			number: literCount
+		})
+	} else if (cultureWithTon.includes(culture)) {
+		let weightCount = 0.1
+		const updateUser = await user.updateData({
+			state: `weightTon_${weightCount}`,
+			'ticket.culture': await getCultureName(ctx.i18n, culture)
+		})
+		await ctx.textTemplate('input.weightTon',{
+			product: updateUser.ticket.culture,
+			number: weightCount
 		})
 	} else if(culture === 'egg'){
 		let amountCount = 10;
