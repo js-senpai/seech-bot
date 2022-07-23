@@ -23,11 +23,16 @@ async function handlePersonalCabinetCommand(ctx, next) {
     })
     await ctx.textTemplate(
         'responses.choose',
-        {},
+        {
+        },
         buildKeyboard(ctx.i18n, {
             name: 'personalCabinet',
             inline: false,
             columns: 2,
+            data: {
+                disableBuyNotification: user.disableBuyNotification,
+                disablePurchaseNotification: user.disablePurchaseNotification
+            }
         })
     )
     await ctx.textTemplate(await ctx.i18n.t('input.profile',{

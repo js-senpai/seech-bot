@@ -41,7 +41,12 @@ async function finishCreatingTicket(ctx, user) {
 			countryOtg: user?.countryOtg,
 			userId: {
 				$ne: user.userId
-			}
+			},
+			...(ticket.sale ? {
+				disablePurchaseNotification: false
+			}:{
+				disableBuyNotification: false
+			})
 		})
 		for(const { userId } of getUsersWithOtg){
 			setTimeout(async () => {
@@ -63,8 +68,14 @@ async function finishCreatingTicket(ctx, user) {
 			countryOtg: user?.countryOtg,
 			userId: {
 				$ne: user.userId
-			}
+			},
+			...(ticket.sale ? {
+				disablePurchaseNotification: false
+			}:{
+				disableBuyNotification: false
+			})
 		})
+		console.log(getUsersWithOtg.length)
 		for(const { userId } of getUsersWithOtg){
 			setTimeout(async () => {
 				await sendMessage.bind(ctx)(text, Object.assign(keyboard, { userId }))
@@ -128,7 +139,7 @@ async function finishCreatingTicket(ctx, user) {
 	const relatedUsersList = await ctx.db.User.find({
 		userId: {
 			$in: relatedUserIds
-		}
+		},
 	})
 	const relatedUsers = Object.fromEntries(
 		relatedUsersList.map(user => [user.userId, user])
@@ -189,8 +200,18 @@ async function finishCreatingTicket(ctx, user) {
 			}
 		}
 	}
-	const uniqueRelatedUserIds = new Set(relatedUserIds)
-	for (const userId of uniqueRelatedUserIds) {
+	const uniqueRelatedUserIds = new Set(relatedUserIds);
+	const getUsers = await ctx.db.User.find({
+		userId: {
+			$in: [...uniqueRelatedUserIds]
+		},
+		...(ticket.sale ? {
+			disablePurchaseNotification: false
+		}:{
+			disableBuyNotification: false
+		})
+	});
+	for (const { userId } of getUsers) {
 		setTimeout(async () => {
 			await sendMessage.bind(ctx)(text, Object.assign(keyboard, { userId }))
 		},1000);

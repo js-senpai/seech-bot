@@ -16,7 +16,9 @@ const keyboards = {
 	basketMenu: () => [['myBuyings'], ['myBasket'], ['back']],
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['totalUsers'],['numberOfBasketItems'],['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
-	personalCabinet: () => [['changeLocation'],['back']],
+	personalCabinet: ({disableBuyNotification = false,disablePurchaseNotification = false}) =>
+		[['changeLocation'],['back'],[!disableBuyNotification ? 'disableBuyNotification': 'enableBuyNotification'],
+			[!disablePurchaseNotification ? 'disablePurchaseNotification': 'enablePurchaseNotification']],
 	sendPhone: () => [['sendPhone']],
 	skip: () => [['skip', `skip`]],
 	findModerator: ({command}) => [['findModerator',JSON.stringify({command})]],
