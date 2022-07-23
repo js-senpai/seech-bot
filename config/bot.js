@@ -7,7 +7,6 @@ import { initLocalesEngine } from './locales.js'
 import { processError } from '../helpers/global-errors-processor.js'
 
 import { handleStartCommand } from '../handlers/text/start.js'
-import { handleCreateTicketClick } from '../handlers/text/create-ticket.js'
 import { handlePriceInput } from '../handlers/text/input-price.js'
 import { handleWeightInput } from '../handlers/text/input-weight.js'
 import { handleAnyTextMessage } from '../handlers/text/any.js'
@@ -67,6 +66,9 @@ import {handleCancelTicketCommand} from "../handlers/text/cancel-ticket.js";
 import {handleWeightTonInput} from "../handlers/text/input-weight-ton.js";
 import {handlePurchaseNotification} from "../handlers/text/purchaseNotification.js";
 import {handleBuyNotification} from "../handlers/text/buyNotification.js";
+import {handleGetTicketsByOtgClick} from "../handlers/button/getTicketsByOtg.js";
+import {handleTicketChooseClick} from "../handlers/text/create-ticket.js";
+import {handleCreateTicketClick} from "../handlers/button/create-ticket.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -87,7 +89,7 @@ async function initBot(dbInstance) {
 	bot.on('message', handlePriceInput)
 	bot.on('message', handleWeightInput)
 	bot.on('message', handleLiterInput)
-	bot.on('message', handleCreateTicketClick)
+	bot.on('message', handleTicketChooseClick)
 	bot.on('message', handleShowTicketsClick)
 	bot.on('message', handleBasketCommand)
 	bot.on('message', handleBackCommand)
@@ -139,6 +141,8 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleGetCountryStateClick)
 	bot.on('callback_query', handleAnswerUserClick)
 	bot.on('callback_query', handleLoadMoreTicketsClick)
+	bot.on('callback_query', handleGetTicketsByOtgClick)
+	bot.on('callback_query',  handleCreateTicketClick)
 	bot.on('callback_query', handleAnyButtonClick)
 
 	bot.catch(processError)

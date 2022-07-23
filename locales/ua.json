@@ -50,8 +50,7 @@
         "cancelCreateTicket": "Ви можете скасувати створення тикету в меню"
     },
     "input": {
-        "disableNotification": "${enable} про оголошення на покупку",
-        "enableNotification": "${enable} про оголошення на продаж",
+        "chooseAction": "Виберіть дію",
         "numberOfBasketItems": "\uD83E\uDDFA Кількість товарів в корзинах користувачів - ${total}",
         "shareBot": "✉️ Поділиться ботом",
         "shareBotText": "Поділиться ботом з вашим другом",
@@ -105,7 +104,10 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
-        "announMyCommunity": "Оголошення моєї громади",
+        "announSaleCommunity": "Оголошення моєї громади на продаж",
+        "announBuyCommunity": "Оголошення моєї громади на покупку",
+        "createSaleTicket": "Створити оголошення",
+        "createBuyTicket": "Створити оголошення",
         "disablePurchaseNotification": "❌ Сповіщати про оголошення на покупку",
         "enablePurchaseNotification": "✅ Сповіщати про оголошення на покупку",
         "enableBuyNotification": "✅ Сповіщати про оголошення на продаж",

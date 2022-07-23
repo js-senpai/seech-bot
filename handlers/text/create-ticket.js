@@ -1,7 +1,7 @@
 import { buildKeyboard } from '../../helpers/keyboard.js'
 import { notButtonClick } from '../../services/not-button-click.js'
 
-async function handleCreateTicketClick(ctx, next) {
+async function handleTicketChooseClick(ctx, next) {
 	let sale = true
 	if (notButtonClick(ctx.i18n, ctx.message.text, 'sell')) {
 		if (notButtonClick(ctx.i18n, ctx.message.text, 'buy')) {
@@ -21,27 +21,30 @@ async function handleCreateTicketClick(ctx, next) {
 			})
 		)
 	}
-
-	await user.updateData({
-		ticket: { sale }
-	})
 	await ctx.textTemplate(
-		'responses.cancelCreateTicket',
+		'input.chooseAction',
 		{},
-		buildKeyboard(ctx.i18n, {
-			name: 'cancelCreateTicket',
-			inline: false,
-			columns: 2,
-		})
-	)
-	await ctx.textTemplate(
-		'input.cultureType',
-		{},
-		buildKeyboard(ctx.i18n, {
-			name: 'cultureType',
-			columns: 2
-		})
+		{
+			parse_mode: 'HTML',
+			reply_markup: {
+				inline_keyboard: sale ? [
+					...buildKeyboard(ctx.i18n, {
+						name: 'announSaleCommunity',
+					}).reply_markup.inline_keyboard,
+					...buildKeyboard(ctx.i18n, {
+						name: 'createSaleTicket',
+					}).reply_markup.inline_keyboard,
+				]: [
+					...buildKeyboard(ctx.i18n, {
+						name: 'announBuyCommunity',
+					}).reply_markup.inline_keyboard,
+					...buildKeyboard(ctx.i18n, {
+						name: 'createBuyTicket',
+					}).reply_markup.inline_keyboard,
+				]
+			}
+		}
 	)
 }
 
-export { handleCreateTicketClick }
+export { handleTicketChooseClick }

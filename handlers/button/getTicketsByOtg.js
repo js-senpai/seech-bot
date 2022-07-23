@@ -1,14 +1,14 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
-import {generateTicketMessage} from "../../services/generate-ticket-message.js";
-import {findRelatedTickets} from "../../services/database/find-related-tickets.js";
 import fs from "fs";
 import {join, resolve} from "path";
+import {generateTicketMessage} from "../../services/generate-ticket-message.js";
 
-async function handleLoadMoreTicketsClick(ctx, next) {
-    const { command = '',page = 1 } = JSON.parse(ctx.callbackQuery.data)
-    if(command !== 'loadMoreTickets'){
+async function handleGetTicketsByOtgClick(ctx, next) {
+    const { command = '' } = JSON.parse(ctx.callbackQuery.data)
+    if(command !== 'announSaleCommunity' && command !== 'announBuyCommunity'){
         return await next()
     }
+    const sale = command === 'announSaleCommunity';
     const user = await ctx.getUser()
     if(!user || !user.phone){
         return await ctx.textTemplate(
@@ -20,17 +20,12 @@ async function handleLoadMoreTicketsClick(ctx, next) {
             })
         )
     }
-    const [name,ticketValue] = user.state.split('_');
-    const ticket = name === 'loadMoreTicketsByOtg' ? null: await ctx.db.Ticket.findOne({
-       _id: ticketValue,
-    });
-    const sale = name === 'loadMoreTicketsByOtg'  ? ticketValue === 'true': ticket.sale;
-    const tickets = name === 'loadMoreTicketsByOtg' ? await ctx.db.Ticket.find({
+    const tickets = await ctx.db.Ticket.find({
         authorId: {
             $ne: user.userId
         },
         sale
-    }):await findRelatedTickets(ctx.db.Ticket, ticket, user.region)
+    });
     if (!tickets.length || !tickets.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000).length) {
         await ctx.textTemplate(
             `errors.${sale ? 'buyersNotFound' : 'sellersNotFound'}`
@@ -87,7 +82,7 @@ async function handleLoadMoreTicketsClick(ctx, next) {
             }
         }
     ])
-    const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page,limit: 5 });
+    const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page: 1,limit: 5 });
     for(let i = 0;i < docs.length; i++) {
         const isActive = Date.now() - docs[i].date <= 24 * 60 * 60 * 1000
         if(isActive){
@@ -107,21 +102,15 @@ async function handleLoadMoreTicketsClick(ctx, next) {
                             ...buildKeyboard(ctx.i18n, {
                                 name: 'loadMoreTickets',
                                 data: {
-                                    page: page + 1
+                                    page: 2
                                 }
                             }).reply_markup.inline_keyboard
                         ]
                     }
                 })
-                if(name === 'loadMoreTicketsByOtg'){
-                    await user.updateData({
-                        state: `loadMoreTicketsByOtg_${sale}`
-                    });
-                } else {
-                    await user.updateData({
-                        state: `loadMoreTickets_${ticket._id}`
-                    });
-                }
+                await user.updateData({
+                    state: `loadMoreTicketsByOtg_${sale}`
+                })
             } else {
                 await ctx.text(foundText, foundKeyboard)
             }
@@ -129,4 +118,4 @@ async function handleLoadMoreTicketsClick(ctx, next) {
     }
 }
 
-export { handleLoadMoreTicketsClick }
+export { handleGetTicketsByOtgClick }

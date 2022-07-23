@@ -41,6 +41,18 @@ const keyboards = {
 	cancelCreateTicket: () => [
 		['cancelCreateTicket']
 	],
+	createSaleTicket: () => [
+	    ['createSaleTicket', JSON.stringify({ command: 'createSaleTicket' })]
+	],
+	createBuyTicket: () => [
+	    ['createBuyTicket', JSON.stringify({ command: 'createBuyTicket' })]
+	],
+	announSaleCommunity: () => [
+	    ['announSaleCommunity', JSON.stringify({ command: 'announSaleCommunity' })]
+	],
+	announBuyCommunity: () => [
+	    ['announBuyCommunity', JSON.stringify({ command: 'announBuyCommunity' })]
+	],
 	editModerator: ({ isModerator = false,userId,command }) => [
 		[isModerator ? 'removeModerator':'addModerator',JSON.stringify({ userId, command })]
 	],

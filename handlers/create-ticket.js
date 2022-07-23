@@ -75,7 +75,6 @@ async function finishCreatingTicket(ctx, user) {
 				disableBuyNotification: false
 			})
 		})
-		console.log(getUsersWithOtg.length)
 		for(const { userId } of getUsersWithOtg){
 			setTimeout(async () => {
 				await sendMessage.bind(ctx)(text, Object.assign(keyboard, { userId }))
