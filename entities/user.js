@@ -69,7 +69,15 @@ const userSchema = new mongoose.Schema({
 	prevMenu: {
 		type: String,
 		default: 'mainMenu'
-	}
+	},
+	disablePurchaseNotification: {
+		type: Boolean,
+		default: false
+	},
+	disableBuyNotification: {
+		type: Boolean,
+		default: false
+	},
 },{
 	collection: 'users',
 	versionKey: false,
