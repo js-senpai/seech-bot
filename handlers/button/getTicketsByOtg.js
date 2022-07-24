@@ -24,7 +24,6 @@ async function handleGetTicketsByOtgClick(ctx, next) {
         authorId: {
             $ne: user.userId
         },
-        active: true,
         sale
     });
     if (!tickets.length || !tickets.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000).length) {
@@ -84,42 +83,41 @@ async function handleGetTicketsByOtgClick(ctx, next) {
         }
     ])
     const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page: 1,limit: 5 });
-    if(!docs.length){
+    const filteredResult = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
+    if(!filteredResult.length){
         await ctx.textTemplate(
             'input.notFoundTickets',
-        )
+        );
+        return;
     }
-    for(let i = 0;i < docs.length; i++) {
-        const isActive = Date.now() - docs[i].date <= 24 * 60 * 60 * 1000
-        if(isActive){
-            const { text: foundText, keyboard: foundKeyboard } =
-                generateTicketMessage({
-                        texts: ctx.i18n,
-                        ticket: docs[i],
-                        user: relatedUsers[docs[i].authorId],
-                        userId: ctx.from.id
-                    }
-                )
-            if(i + 1 === docs.length && hasNextPage){
-                await ctx.text(foundText,{
-                    reply_markup: {
-                        inline_keyboard: [
-                            ...foundKeyboard?.reply_markup?.inline_keyboard || [],
-                            ...buildKeyboard(ctx.i18n, {
-                                name: 'loadMoreTickets',
-                                data: {
-                                    page: 2
-                                }
-                            }).reply_markup.inline_keyboard
-                        ]
-                    }
-                })
-                await user.updateData({
-                    state: `loadMoreTicketsByOtg_${sale}`
-                })
-            } else {
-                await ctx.text(foundText, foundKeyboard)
-            }
+    for(let i = 0;i < filteredResult.length; i++) {
+        const { text: foundText, keyboard: foundKeyboard } =
+            generateTicketMessage({
+                    texts: ctx.i18n,
+                    ticket: filteredResult[i],
+                    user: relatedUsers[filteredResult[i].authorId],
+                    userId: ctx.from.id
+                }
+            )
+        if(i + 1 === docs.length && hasNextPage){
+            await ctx.text(foundText,{
+                reply_markup: {
+                    inline_keyboard: [
+                        ...foundKeyboard?.reply_markup?.inline_keyboard || [],
+                        ...buildKeyboard(ctx.i18n, {
+                            name: 'loadMoreTickets',
+                            data: {
+                                page: 2
+                            }
+                        }).reply_markup.inline_keyboard
+                    ]
+                }
+            })
+            await user.updateData({
+                state: `loadMoreTicketsByOtg_${sale}`
+            })
+        } else {
+            await ctx.text(foundText, foundKeyboard)
         }
     }
 }

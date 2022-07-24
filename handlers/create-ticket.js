@@ -166,37 +166,35 @@ async function finishCreatingTicket(ctx, user) {
 		}
 	])
 	const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page: 1,limit: 5 });
+	const filteredResult = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
 	for(let i = 0;i < docs.length; i++) {
-		const isActive = Date.now() - docs[i].date <= 24 * 60 * 60 * 1000
-		if(isActive){
-			const { text: foundText, keyboard: foundKeyboard } =
-				generateTicketMessage({
-						texts: ctx.i18n,
-						ticket: docs[i],
-						user: relatedUsers[docs[i].authorId],
-						userId: ctx.from.id
-					}
-				)
-			if(i + 1 === docs.length && hasNextPage){
-				await ctx.text(foundText,{
-					reply_markup: {
-						inline_keyboard: [
-							...foundKeyboard?.reply_markup?.inline_keyboard || [],
-							...buildKeyboard(ctx.i18n, {
-								name: 'loadMoreTickets',
-								data: {
-									page: 2
-								}
-							}).reply_markup.inline_keyboard
-						]
-					}
-				})
-				await user.updateData({
-					state: `loadMoreTickets_${ticket._id}`
-				})
-			} else {
-				await ctx.text(foundText, foundKeyboard)
-			}
+		const { text: foundText, keyboard: foundKeyboard } =
+			generateTicketMessage({
+					texts: ctx.i18n,
+					ticket: filteredResult[i],
+					user: relatedUsers[filteredResult[i].authorId],
+					userId: ctx.from.id
+				}
+			)
+		if(i + 1 === filteredResult.length && hasNextPage){
+			await ctx.text(foundText,{
+				reply_markup: {
+					inline_keyboard: [
+						...foundKeyboard?.reply_markup?.inline_keyboard || [],
+						...buildKeyboard(ctx.i18n, {
+							name: 'loadMoreTickets',
+							data: {
+								page: 2
+							}
+						}).reply_markup.inline_keyboard
+					]
+				}
+			})
+			await user.updateData({
+				state: `loadMoreTickets_${ticket._id}`
+			})
+		} else {
+			await ctx.text(foundText, foundKeyboard)
 		}
 	}
 	const uniqueRelatedUserIds = new Set(relatedUserIds);

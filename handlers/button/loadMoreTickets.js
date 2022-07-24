@@ -89,43 +89,41 @@ async function handleLoadMoreTicketsClick(ctx, next) {
         }
     ])
     const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page,limit: 5 });
-    for(let i = 0;i < docs.length; i++) {
-        const isActive = Date.now() - docs[i].date <= 24 * 60 * 60 * 1000
-        if(isActive){
-            const { text: foundText, keyboard: foundKeyboard } =
-                generateTicketMessage({
-                        texts: ctx.i18n,
-                        ticket: docs[i],
-                        user: relatedUsers[docs[i].authorId],
-                        userId: ctx.from.id
-                    }
-                )
-            if(i + 1 === docs.length && hasNextPage){
-                await ctx.text(foundText,{
-                    reply_markup: {
-                        inline_keyboard: [
-                            ...foundKeyboard?.reply_markup?.inline_keyboard || [],
-                            ...buildKeyboard(ctx.i18n, {
-                                name: 'loadMoreTickets',
-                                data: {
-                                    page: page + 1
-                                }
-                            }).reply_markup.inline_keyboard
-                        ]
-                    }
-                })
-                if(name === 'loadMoreTicketsByOtg'){
-                    await user.updateData({
-                        state: `loadMoreTicketsByOtg_${sale}`
-                    });
-                } else {
-                    await user.updateData({
-                        state: `loadMoreTickets_${ticket._id}`
-                    });
+    const filteredResult = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
+    for(let i = 0;i < filteredResult.length; i++) {
+        const { text: foundText, keyboard: foundKeyboard } =
+            generateTicketMessage({
+                    texts: ctx.i18n,
+                    ticket: filteredResult[i],
+                    user: relatedUsers[filteredResult[i].authorId],
+                    userId: ctx.from.id
                 }
+            )
+        if(i + 1 === filteredResult.length && hasNextPage){
+            await ctx.text(foundText,{
+                reply_markup: {
+                    inline_keyboard: [
+                        ...foundKeyboard?.reply_markup?.inline_keyboard || [],
+                        ...buildKeyboard(ctx.i18n, {
+                            name: 'loadMoreTickets',
+                            data: {
+                                page: page + 1
+                            }
+                        }).reply_markup.inline_keyboard
+                    ]
+                }
+            })
+            if(name === 'loadMoreTicketsByOtg'){
+                await user.updateData({
+                    state: `loadMoreTicketsByOtg_${sale}`
+                });
             } else {
-                await ctx.text(foundText, foundKeyboard)
+                await user.updateData({
+                    state: `loadMoreTickets_${ticket._id}`
+                });
             }
+        } else {
+            await ctx.text(foundText, foundKeyboard)
         }
     }
 }
