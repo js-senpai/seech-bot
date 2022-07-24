@@ -29,6 +29,7 @@ async function handleLoadMoreTicketsClick(ctx, next) {
         authorId: {
             $ne: user.userId
         },
+        active: true,
         sale
     }):await findRelatedTickets(ctx.db.Ticket, ticket, user.region)
     if (!tickets.length || !tickets.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000).length) {

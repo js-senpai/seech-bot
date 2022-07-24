@@ -24,6 +24,7 @@ async function handleGetTicketsByOtgClick(ctx, next) {
         authorId: {
             $ne: user.userId
         },
+        active: true,
         sale
     });
     if (!tickets.length || !tickets.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000).length) {
@@ -83,6 +84,11 @@ async function handleGetTicketsByOtgClick(ctx, next) {
         }
     ])
     const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page: 1,limit: 5 });
+    if(!docs.length){
+        await ctx.textTemplate(
+            'input.notFoundTickets',
+        )
+    }
     for(let i = 0;i < docs.length; i++) {
         const isActive = Date.now() - docs[i].date <= 24 * 60 * 60 * 1000
         if(isActive){
