@@ -50,7 +50,7 @@ async function handleGetTicketsByOtgClick(ctx, next) {
             item.region = parseLocales.buttons.regions[getUser.region].name
         }
     }
-    const filteredTickets = getTicketRegions.length ? getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name).filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000)): tickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000);
+    const filteredTickets = getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name).filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000));
     const relatedUserIds = filteredTickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.authorId);
     const relatedUsersList = await ctx.db.User.find({
         userId: {
