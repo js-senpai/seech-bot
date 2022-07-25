@@ -52,8 +52,11 @@ async function handleLoadMoreTicketsClick(ctx, next) {
         const getUser = await ctx.db.User.findOne({
             userId: authorId
         })
-        if(getUser?.region){
-            item.region = parseLocales.buttons.regions[getUser.region].name
+        if(getUser){
+            const getRegion = parseLocales.buttons.regions[getUser.region]?.name
+            if(getRegion){
+                item.region = getRegion
+            }
         }
     }
     const filteredTickets = getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name).filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000));
