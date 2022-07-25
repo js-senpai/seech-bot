@@ -56,7 +56,7 @@ async function handleLoadMoreTicketsClick(ctx, next) {
             item.region = parseLocales.buttons.regions[getUser.region].name
         }
     }
-    const filteredTickets = getTicketRegions.length ? getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name)): tickets;
+    const filteredTickets = getTicketRegions.length ? getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name).filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000)): tickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000);
     const relatedUserIds = filteredTickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.authorId)
     const relatedUsersList = await ctx.db.User.find({
         userId: {
@@ -89,17 +89,16 @@ async function handleLoadMoreTicketsClick(ctx, next) {
         }
     ])
     const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page,limit: 5 });
-    const filteredResult = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
-    for(let i = 0;i < filteredResult.length; i++) {
+    for(let i = 0;i < docs.length; i++) {
         const { text: foundText, keyboard: foundKeyboard } =
             generateTicketMessage({
                     texts: ctx.i18n,
-                    ticket: filteredResult[i],
-                    user: relatedUsers[filteredResult[i].authorId],
+                    ticket: docs[i],
+                    user: relatedUsers[docs[i].authorId],
                     userId: ctx.from.id
                 }
             )
-        if(i + 1 === filteredResult.length && hasNextPage){
+        if(i + 1 === docs.length && hasNextPage){
             await ctx.text(foundText,{
                 reply_markup: {
                     inline_keyboard: [

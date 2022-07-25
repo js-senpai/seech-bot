@@ -50,8 +50,8 @@ async function handleGetTicketsByOtgClick(ctx, next) {
             item.region = parseLocales.buttons.regions[getUser.region].name
         }
     }
-    const filteredTickets = getTicketRegions.length ? getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name)): tickets;
-    const relatedUserIds = filteredTickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.authorId)
+    const filteredTickets = getTicketRegions.length ? getTicketRegions.flatMap((name) => tickets.filter(({region}) => region === name).filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000)): tickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000);
+    const relatedUserIds = filteredTickets.filter(({date}) => Date.now() - date <= 24 * 60 * 60 * 1000).map(ticket => ticket.authorId);
     const relatedUsersList = await ctx.db.User.find({
         userId: {
             $in: relatedUserIds
@@ -83,19 +83,18 @@ async function handleGetTicketsByOtgClick(ctx, next) {
         }
     ])
     const { docs = [], hasNextPage = false} = await ctx.db.Ticket.aggregatePaginate(aggregate, { page: 1,limit: 5 });
-    const filteredResult = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
-    if(!filteredResult.length){
+    if(!docs.length){
         await ctx.textTemplate(
             'input.notFoundTickets',
         );
         return;
     }
-    for(let i = 0;i < filteredResult.length; i++) {
+    for(let i = 0;i < docs.length; i++) {
         const { text: foundText, keyboard: foundKeyboard } =
             generateTicketMessage({
                     texts: ctx.i18n,
-                    ticket: filteredResult[i],
-                    user: relatedUsers[filteredResult[i].authorId],
+                    ticket: docs[i],
+                    user: relatedUsers[docs[i].authorId],
                     userId: ctx.from.id
                 }
             )
