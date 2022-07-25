@@ -20,18 +20,11 @@ async function handleLoadMoreTicketsClick(ctx, next) {
             })
         )
     }
-    const [name,ticketValue] = user.state.split('_');
-    const ticket = name === 'loadMoreTicketsByOtg' ? null: await ctx.db.Ticket.findOne({
-       _id: ticketValue,
+    const [_,ticketValue] = user.state.split('_');
+    const ticket = await ctx.db.Ticket.findOne({
+        _id: ticketValue,
     });
-    const sale = name === 'loadMoreTicketsByOtg'  ? ticketValue === 'true': ticket.sale;
-    const tickets = name === 'loadMoreTicketsByOtg' ? await ctx.db.Ticket.find({
-        authorId: {
-            $ne: user.userId
-        },
-        active: true,
-        sale
-    }):await findRelatedTickets(ctx.db.Ticket, ticket, user.region)
+    const tickets = await findRelatedTickets(ctx.db.Ticket, ticket, user.region);
     if (!tickets.length || !tickets.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000).length) {
         await ctx.textTemplate(
             `errors.${sale ? 'buyersNotFound' : 'sellersNotFound'}`
@@ -115,15 +108,9 @@ async function handleLoadMoreTicketsClick(ctx, next) {
                     ]
                 }
             })
-            if(name === 'loadMoreTicketsByOtg'){
-                await user.updateData({
-                    state: `loadMoreTicketsByOtg_${sale}`
-                });
-            } else {
-                await user.updateData({
-                    state: `loadMoreTickets_${ticket._id}`
-                });
-            }
+            await user.updateData({
+                state: `loadMoreTickets_${ticket._id}`
+            });
         } else {
             await ctx.text(foundText, foundKeyboard)
         }

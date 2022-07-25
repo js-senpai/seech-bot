@@ -1,13 +1,12 @@
 import {buildKeyboard} from "../../helpers/keyboard.js";
+import moment from "moment";
 import {generateTicketMessage} from "../../services/generate-ticket-message.js";
 
-
-async function handleGetTicketsByOtgClick(ctx, next) {
-    const { command = '' } = JSON.parse(ctx.callbackQuery.data)
-    if(command !== 'announSaleCommunity' && command !== 'announBuyCommunity'){
+async function handleLoadMoreTicketsWithOtgClick(ctx, next) {
+    const { page = 1,command = '' } = JSON.parse(ctx.callbackQuery.data)
+    if(command !== 'loadMoreTicketsWithOtg'){
         return await next()
     }
-    const sale = command === 'announSaleCommunity';
     const user = await ctx.getUser()
     if(!user || !user.phone){
         return await ctx.textTemplate(
@@ -19,6 +18,7 @@ async function handleGetTicketsByOtgClick(ctx, next) {
             })
         )
     }
+    const [_,sale] = user.state.split('_');
     const getUsersWithOtg = await ctx.db.User.find({
         region: user?.region,
         countryState: user?.countryState,
@@ -32,7 +32,7 @@ async function handleGetTicketsByOtgClick(ctx, next) {
             $in: getUsersWithOtg.map(({userId}) => userId)
         },
         sale
-    }, { page: 1,limit: 5,sort: { createdAt: -1 } }): { docs: [], hasNextPage: false };
+    }, { page,limit: 5,sort: { createdAt: -1 } }): { docs: [], hasNextPage: false };
     const filterTickets = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
     if(!filterTickets.length) {
         await ctx.textTemplate(
@@ -56,7 +56,7 @@ async function handleGetTicketsByOtgClick(ctx, next) {
                         ...buildKeyboard(ctx.i18n, {
                             name: 'loadMoreTicketsWithOtg',
                             data: {
-                                page: 2
+                                page: page + 1
                             }
                         }).reply_markup.inline_keyboard
                     ]
@@ -71,4 +71,4 @@ async function handleGetTicketsByOtgClick(ctx, next) {
     }
 }
 
-export { handleGetTicketsByOtgClick }
+export { handleLoadMoreTicketsWithOtgClick }

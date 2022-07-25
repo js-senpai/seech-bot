@@ -69,6 +69,7 @@ import {handleBuyNotification} from "../handlers/text/buyNotification.js";
 import {handleGetTicketsByOtgClick} from "../handlers/button/getTicketsByOtg.js";
 import {handleTicketChooseClick} from "../handlers/text/create-ticket.js";
 import {handleCreateTicketClick} from "../handlers/button/create-ticket.js";
+import {handleLoadMoreTicketsWithOtgClick} from "../handlers/button/loadMoreTicketsWithOtg.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -143,6 +144,7 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleLoadMoreTicketsClick)
 	bot.on('callback_query', handleGetTicketsByOtgClick)
 	bot.on('callback_query',  handleCreateTicketClick)
+	bot.on('callback_query',  handleLoadMoreTicketsWithOtgClick)
 	bot.on('callback_query', handleAnyButtonClick)
 
 	bot.catch(processError)
