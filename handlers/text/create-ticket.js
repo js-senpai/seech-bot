@@ -29,17 +29,17 @@ async function handleTicketChooseClick(ctx, next) {
 			reply_markup: {
 				inline_keyboard: sale ? [
 					...buildKeyboard(ctx.i18n, {
-						name: 'announSaleCommunity',
+						name: 'createSaleTicket',
 					}).reply_markup.inline_keyboard,
 					...buildKeyboard(ctx.i18n, {
-						name: 'createSaleTicket',
+						name: 'announSaleCommunity',
 					}).reply_markup.inline_keyboard,
 				]: [
 					...buildKeyboard(ctx.i18n, {
-						name: 'announBuyCommunity',
+						name: 'createBuyTicket',
 					}).reply_markup.inline_keyboard,
 					...buildKeyboard(ctx.i18n, {
-						name: 'createBuyTicket',
+						name: 'announBuyCommunity',
 					}).reply_markup.inline_keyboard,
 				]
 			}
