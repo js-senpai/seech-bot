@@ -44,7 +44,7 @@ async function handleGetTicketsByOtgClick(ctx, next) {
             generateTicketMessage({
                     texts: ctx.i18n,
                     ticket: filterTickets[i],
-                    user: getUsersWithOtg.find(({userId}) => filterTickets[i].authorId),
+                    user: getUsersWithOtg.find(({userId}) => userId === filterTickets[i].authorId),
                     userId: ctx.from.id
                 }
             )
