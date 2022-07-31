@@ -10,7 +10,6 @@ function initDatabaseConnection() {
 			{
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
-				authSource: "admin",
 			}
 		)
 
