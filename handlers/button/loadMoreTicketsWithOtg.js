@@ -34,39 +34,42 @@ async function handleLoadMoreTicketsWithOtgClick(ctx, next) {
         sale
     }, { page,limit: 5,sort: { createdAt: -1 } }): { docs: [], hasNextPage: false };
     const filterTickets = docs.filter(({date}) =>  Date.now() - date <= 24 * 60 * 60 * 1000);
-    if(!filterTickets.length) {
+    if(!docs.length || !filterTickets.length) {
         await ctx.textTemplate(
             'input.notFoundTickets'
         )
     }
-    for(let i = 0;i < filterTickets.length; i++) {
-        const { text: foundText, keyboard: foundKeyboard } =
-            generateTicketMessage({
-                    texts: ctx.i18n,
-                    ticket: filterTickets[i],
-                    user: getUsersWithOtg.find(({userId}) => filterTickets[i].authorId),
-                    userId: ctx.from.id
-                }
-            )
-        if(i + 1 === filterTickets.length && hasNextPage){
-            await ctx.text(foundText,{
-                reply_markup: {
-                    inline_keyboard: [
-                        ...foundKeyboard?.reply_markup?.inline_keyboard || [],
-                        ...buildKeyboard(ctx.i18n, {
-                            name: 'loadMoreTicketsWithOtg',
-                            data: {
-                                page: page + 1
-                            }
-                        }).reply_markup.inline_keyboard
-                    ]
-                }
-            })
-            await user.updateData({
-                state: `loadMoreTicketsWithOtg_${sale}`
-            })
-        } else {
-            await ctx.text(foundText, foundKeyboard)
+    for(let i = 0;i < docs.length; i++) {
+        const checkActive = Date.now() - docs[i].date <= 24 * 60 * 60 * 1000;
+        if(checkActive){
+            const { text: foundText, keyboard: foundKeyboard } =
+                generateTicketMessage({
+                        texts: ctx.i18n,
+                        ticket: docs[i],
+                        user: getUsersWithOtg.find(({userId}) => docs[i].authorId === userId),
+                        userId: ctx.from.id
+                    }
+                )
+            if(i + 1 === docs.length && hasNextPage){
+                await ctx.text(foundText,{
+                    reply_markup: {
+                        inline_keyboard: [
+                            ...foundKeyboard?.reply_markup?.inline_keyboard || [],
+                            ...buildKeyboard(ctx.i18n, {
+                                name: 'loadMoreTicketsWithOtg',
+                                data: {
+                                    page: page + 1
+                                }
+                            }).reply_markup.inline_keyboard
+                        ]
+                    }
+                })
+                await user.updateData({
+                    state: `loadMoreTicketsWithOtg_${sale}`
+                })
+            } else {
+                await ctx.text(foundText, foundKeyboard)
+            }
         }
     }
 }
