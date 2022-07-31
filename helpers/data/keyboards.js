@@ -101,12 +101,14 @@ const keyboards = {
 		['fruitsList.apricot', `culture_apricot`],
 		['fruitsList.cherry', `culture_cherry`],
 		['fruitsList.grape', `culture_grape`],
-		['fruitsList.berries', `culture_berries`]
+		['fruitsList.berries', `culture_berries`],
+		['fruitsList.anotherFruits', `culture_anotherFruits`]
 	],
 	milks: () => [
 		['milksList.milk', `culture_milk`],
 		['milksList.cottage', `culture_cottage`],
 		['milksList.sourCream', `culture_sourCream`],
+		['milksList.anotherMilks', `culture_anotherMilks`],
 	],
 	vegetables: () => [
 		['vegetablesList.potatoes', `culture_potatoes`],
@@ -116,7 +118,8 @@ const keyboards = {
 		['vegetablesList.onions', `culture_onions`],
 		['vegetablesList.tomato', `culture_tomato`],
 		['vegetablesList.cabbage', `culture_cabbage`],
-		['vegetablesList.cucumber', `culture_cucumber`]
+		['vegetablesList.cucumber', `culture_cucumber`],
+		['vegetablesList.anotherVegetables', `culture_anotherVegetables`],
 	],
 	meats: () => [
 		['meatsList.pork','culture_pork'],
@@ -124,6 +127,7 @@ const keyboards = {
 		['meatsList.chicken','culture_chicken'],
 		['meatsList.fish','culture_fish'],
 		['meatsList.egg','culture_egg'],
+		['meatsList.anotherMeats','culture_anotherMeats'],
 	],
 	cereals: () => [
 		['cerealsList.wheat','culture_wheat'],
@@ -131,6 +135,7 @@ const keyboards = {
 		['cerealsList.corn','culture_corn'],
 		['cerealsList.buckwheat','culture_buckwheat'],
 		['cerealsList.soy','culture_soy'],
+		['cerealsList.anotherCereals','culture_anotherCereals'],
 	],
 	regions: () => [
 		['regions.0.name', `region_0`],

@@ -50,6 +50,7 @@
         "cancelCreateTicket": "Ви можете скасувати створення тикету в меню"
     },
     "input": {
+        "checkRegistration": "Для продовження реєстрації натисніть кнопку нижче - Залишити свій контакт",
         "notFoundTickets": "\uD83E\uDD37 Оголошення відсутні",
         "chooseAction": "Виберіть дію",
         "numberOfBasketItems": "\uD83E\uDDFA Кількість товарів в корзинах користувачів - ${total}",
@@ -88,9 +89,9 @@
     "errors": {
         "notWaitingForReview": "Неможливо позначити товар як проданий, доки творець не відзначив цього",
         "ticketNotFound": "Товар було видалено або продано",
-        "ticketsNotFound": "Товарів немає",
-        "sellersNotFound": "Продавці не знайдені",
-        "buyersNotFound": "Покупці не знайдені",
+        "ticketsNotFound": "\uD83E\uDD37 Товарів немає",
+        "sellersNotFound": "\uD83E\uDDD0 Продавці не знайдені",
+        "buyersNotFound": "\uD83E\uDDD0 Покупці не знайдені",
         "noPhone": "---",
         "noName": "не вказано",
         "noRegion": "Не вказано",
@@ -105,22 +106,22 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
-        "announSaleCommunity": "\uD83D\uDDD2 Оголошення моєї громади на продаж",
-        "announBuyCommunity": "\uD83D\uDDD2 Оголошення моєї громади на покупку",
-        "createSaleTicket": "\uD83D\uDCDD Створити оголошення",
-        "createBuyTicket": "\uD83D\uDCDD Створити оголошення",
+        "announSaleCommunity": "\uD83D\uDDD2 Оголошення про продаж",
+        "announBuyCommunity": "\uD83D\uDDD2 Оголошення про покупку",
+        "createSaleTicket": "➕ Створити оголошення",
+        "createBuyTicket": "➕ Створити оголошення",
         "disablePurchaseNotification": "❌ Не сповіщати про оголошення на покупку",
         "enablePurchaseNotification": "✅ Сповіщати про оголошення на покупку",
         "enableBuyNotification": "✅ Сповіщати про оголошення на продаж",
         "disableBuyNotification": "❌ Не сповіщати про оголошення на продаж",
-        "cancelCreateTicket": "Скасувати створення тікету",
+        "cancelCreateTicket": "❌ Скасувати створення тікету",
         "numberOfBasketItems": "К-ть товарів у кошику",
         "loadMoreTickets": "Завантажити більше тікетів",
         "inviteFriend": "Запросити друга",
         "totalUsers": "Всього користувачів",
         "answerUser": "Відповісти користувачу",
         "personalCabinet": "Особистий кабінет",
-        "changeLocation": "Змінити місце розташування",
+        "changeLocation": "\uD83D\uDCCD Змінити місце розташування",
         "loadMoreReviews": "Завантажити більше",
         "regionStat": "Регіони",
         "about": "Про Seech",
@@ -175,19 +176,22 @@
           "barley": "Ячмінь",
           "corn": "Кукурудза",
           "buckwheat": "Гречка",
-          "soy": "Соя"
+          "soy": "Соя",
+          "anotherCereals": "\uD83E\uDD33 Інше"
         },
         "milksList": {
           "milk": "\uD83C\uDF76 Молоко",
           "cottage": "\uD83C\uDF5A Творог",
-          "sourCream": "\uD83E\uDED9 Сметана"
+          "sourCream": "\uD83E\uDED9 Сметана",
+          "anotherMilks": "\uD83E\uDD33 Інше"
         },
         "meatsList": {
           "pork": "\uD83D\uDC16 Свинина",
           "veal": "\uD83E\uDD69 Телятина",
           "chicken": "\uD83D\uDC14 Птиця",
           "fish": "\uD83D\uDC1F Риба",
-          "egg": "\uD83E\uDD5A Яйця"
+          "egg": "\uD83E\uDD5A Яйця",
+          "anotherMeats": "\uD83E\uDD33 Інше"
         },
         "fruitsList": {
             "apples": "\uD83C\uDF4E Яблука",
@@ -200,7 +204,8 @@
             "cherry": "\uD83C\uDF52 Вишні",
             "merry": "\uD83C\uDF52 Черешня",
             "grape": "\uD83C\uDF47 Виноград",
-            "berries": "\uD83E\uDED0 Ягоди"
+            "berries": "\uD83E\uDED0 Ягоди",
+            "anotherFruits": "\uD83E\uDD33 Інше"
         },
         "vegetablesList": {
             "potatoes": "\uD83E\uDD54 Картопля",
@@ -210,7 +215,8 @@
             "onions": "\uD83E\uDDC5 Цибуля",
             "tomato": "\uD83C\uDF45 Томат",
             "cucumber": "\uD83E\uDD52 Огірок",
-            "cabbage": "\uD83E\uDD6C Капуста"
+            "cabbage": "\uD83E\uDD6C Капуста",
+            "anotherVegetables": "\uD83E\uDD33 Інше"
         },
         "regions": {
           "0": {

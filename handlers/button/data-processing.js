@@ -1,4 +1,5 @@
 import { buildKeyboard } from '../../helpers/keyboard.js'
+import {schedule} from "../../services/schedule.js";
 
 async function handlePersonalDataProcessingClick(ctx, next) {
 	const [command, result] = ctx.callbackQuery.data.split('_')
@@ -18,6 +19,11 @@ async function handlePersonalDataProcessingClick(ctx, next) {
 				contact: true
 			})
 		)
+		schedule(15, async () => {
+			if(!user.phone){
+				await ctx.textTemplate('input.checkRegistration')
+			}
+		})
 	} else {
 		await ctx.popup()
 		await ctx.textTemplate(

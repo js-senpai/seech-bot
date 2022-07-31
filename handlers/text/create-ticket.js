@@ -32,14 +32,14 @@ async function handleTicketChooseClick(ctx, next) {
 						name: 'createSaleTicket',
 					}).reply_markup.inline_keyboard,
 					...buildKeyboard(ctx.i18n, {
-						name: 'announSaleCommunity',
+						name: 'announBuyCommunity',
 					}).reply_markup.inline_keyboard,
 				]: [
 					...buildKeyboard(ctx.i18n, {
 						name: 'createBuyTicket',
 					}).reply_markup.inline_keyboard,
 					...buildKeyboard(ctx.i18n, {
-						name: 'announBuyCommunity',
+						name: 'announSaleCommunity',
 					}).reply_markup.inline_keyboard,
 				]
 			}
