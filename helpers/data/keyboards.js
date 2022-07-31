@@ -62,6 +62,9 @@ const keyboards = {
 	loadMoreTickets: ({page = 1}) => [
 	  ['loadMoreTickets',JSON.stringify({page, command: 'loadMoreTickets' })]
 	],
+	loadMoreTicketsWithOtg: ({page = 1}) => [
+		['loadMoreTicketsWithOtg',JSON.stringify({page, command: 'loadMoreTicketsWithOtg' })]
+	],
 	loadMoreReviews: ({page = 1}) => [
 		['loadMoreReviews',JSON.stringify({page,command: 'loadMoreReviews'})]
 	],
