@@ -108,8 +108,8 @@
     },
     "buttons": {
         "announCommunity": "Оголошення моєї громади",
-        "announSaleCommunity": "\uD83D\uDCB2 Продаж",
-        "announBuyCommunity": "\uD83D\uDED2 Покупку",
+        "announSaleCommunity": "\uD83D\uDCB2 Продати",
+        "announBuyCommunity": "\uD83D\uDED2 Купити",
         "createSaleTicket": "➕ Створити оголошення",
         "createBuyTicket": "➕ Створити оголошення",
         "disablePurchaseNotification": "❌ Не сповіщати про оголошення на покупку",
