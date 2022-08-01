@@ -1,13 +1,13 @@
 const getMainMenu = ({userType = 'user'}) => {
 	switch (userType){
 		case "user":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['reviewService']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['announCommunity'],['inviteFriend'],['reviewService']]
 		case "admin":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['adminMenu']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['announCommunity'],['inviteFriend'],['adminMenu']]
 		case "moderator":
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['reviewService'],['adminMenu']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['announCommunity'],['inviteFriend'],['reviewService'],['adminMenu']]
 		default:
-			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['about'],['inviteFriend'],['reviewService']]
+			return [['sell'], ['buy'], ['myTickets'], ['basket'],['personalCabinet'],['announCommunity'],['inviteFriend'],['reviewService']]
 	}
 }
 const mainMenu = ({userType = 'user'}) =>  getMainMenu({userType})

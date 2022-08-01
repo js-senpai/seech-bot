@@ -50,6 +50,7 @@
         "cancelCreateTicket": "Ви можете скасувати створення тикету в меню"
     },
     "input": {
+        "announCommunity": "Оголошення моєї громади",
         "checkRegistration": "Для продовження реєстрації натисніть кнопку нижче - Залишити свій контакт",
         "notFoundTickets": "\uD83E\uDD37 Оголошення відсутні",
         "chooseAction": "Виберіть дію",
@@ -106,6 +107,7 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
+        "announCommunity": "Оголошення моєї громади",
         "announSaleCommunity": "\uD83D\uDDD2 Оголошення про продаж",
         "announBuyCommunity": "\uD83D\uDDD2 Оголошення про покупку",
         "createSaleTicket": "➕ Створити оголошення",
