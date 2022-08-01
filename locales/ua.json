@@ -47,7 +47,7 @@
         "removed": "Товар видалено з кошика",
         "deleted": "Товар видалено",
         "review": "Оцініть проведену угоду:\n\n${stars}",
-        "cancelCreateTicket": "Ви можете скасувати створення тикету в меню"
+        "cancelCreateTicket": "Ви можете скасувати створення тікету в меню"
     },
     "input": {
         "announCommunity": "Оголошення моєї громади",
@@ -108,8 +108,8 @@
     },
     "buttons": {
         "announCommunity": "Оголошення моєї громади",
-        "announSaleCommunity": "\uD83D\uDDD2 Оголошення про продаж",
-        "announBuyCommunity": "\uD83D\uDDD2 Оголошення про покупку",
+        "announSaleCommunity": "\uD83D\uDCB2 Продаж",
+        "announBuyCommunity": "\uD83D\uDED2 Покупку",
         "createSaleTicket": "➕ Створити оголошення",
         "createBuyTicket": "➕ Створити оголошення",
         "disablePurchaseNotification": "❌ Не сповіщати про оголошення на покупку",
