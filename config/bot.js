@@ -45,7 +45,6 @@ import {handleFindModeratorClick} from "../handlers/button/findModerator.js";
 import {handleFindModeratorCommand} from "../handlers/text/findModerator.js";
 import {handleMailingCommand} from "../handlers/text/mailing.js";
 import {handleMailingTextInput} from "../handlers/text/input-mailing.js";
-import {handleAboutCommand} from "../handlers/text/about.js";
 import {handleRegionsCommand} from "../handlers/text/regions.js";
 import {handleCommentInput} from "../handlers/text/input-comment.js";
 import {handleLoadMoreReviewsClick} from "../handlers/button/loadMoreReviews.js";
@@ -105,7 +104,6 @@ async function initBot(dbInstance) {
 	bot.on('message', handleFindModeratorCommand)
 	bot.on('message', handleMailingCommand)
 	bot.on(['message','video','photo'], handleMailingTextInput)
-	bot.on('message', handleAboutCommand)
 	bot.on('message', handleRegionsCommand)
 	bot.on('message', handleCommentInput)
 	bot.on('message', handlePersonalCabinetCommand)
