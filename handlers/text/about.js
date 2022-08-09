@@ -19,7 +19,7 @@ async function handleAboutCommand(ctx, next) {
         )
     }
     await ctx.replyWithVideo({
-        source: fs.createReadStream(join('assets','video','welcome.mp4'))
+        source: fs.createReadStream(join('assets','video','welcome.MP4'))
     });
 }
 
