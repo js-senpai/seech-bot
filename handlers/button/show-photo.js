@@ -45,7 +45,10 @@ async function handleShowPhotoClick(ctx, next) {
 				}
 			})
 		}
-		await ctx.replyWithPhoto(ticket.photo, keyboard)
+		await ctx.replyWithPhoto(ticket.photo, {
+			reply_to_message_id: ctx.update.callback_query.message.message_id,
+			...keyboard
+		})
 	}
 	await ctx.editMessageReplyMarkup({})
 }
