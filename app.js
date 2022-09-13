@@ -13,7 +13,6 @@ const bot = await initBot(db)
 db = null
 
 bot.launch()
-
 // await bot.context.db.User.deleteMany()
 // await bot.context.db.Ticket.deleteMany()
 

@@ -27,6 +27,9 @@ const ticketSchema = new mongoose.Schema({
 	culture: {
 		type: String
 	},
+	photoUrl: {
+		type: String
+	},
 	photo: {
 		type: String
 	},
