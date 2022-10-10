@@ -19,6 +19,7 @@ async function createTicket(Ticket, user, ctx) {
 					{
 						texts: ctx.i18n,
 						ticket,
+						currentUser: user,
 						user,
 						userId: user.userId,
 					}

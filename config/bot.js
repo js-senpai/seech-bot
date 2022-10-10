@@ -70,6 +70,7 @@ import {handleTicketChooseClick} from "../handlers/text/create-ticket.js";
 import {handleCreateTicketClick} from "../handlers/button/create-ticket.js";
 import {handleLoadMoreTicketsWithOtgClick} from "../handlers/button/loadMoreTicketsWithOtg.js";
 import {handleAnnoutCommunityClick} from "../handlers/text/announCommunity.js";
+import {handleDeleteFromBasketClick} from "../handlers/button/delete-from-basket.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -124,6 +125,7 @@ async function initBot(dbInstance) {
 	bot.on('callback_query', handleRemoveTicketClick)
 	bot.on('callback_query', handleShowPhotoClick)
 	bot.on('callback_query', handleAddToBasketClick)
+	bot.on('callback_query', handleDeleteFromBasketClick)
 	bot.on('callback_query', handleExtendTicketClick)
 	bot.on('callback_query', handleSkipClick)
 	bot.on('callback_query', handleRegionClick)

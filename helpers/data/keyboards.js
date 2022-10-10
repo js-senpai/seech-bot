@@ -79,15 +79,14 @@ const keyboards = {
 		}
 		return keyboard
 	},
-	ticketActions: ({ photo, id, basket = true, sale }) => {
-		console.log({
-			basket,
-			sale,
-			photo
-		})
+	ticketActions: ({ photo, id, basket = true, sale,deleteFromBasket = false }) => {
 		let keyboard = []
-		if (basket && sale) {
-			keyboard.push(['toBasket', `toBasket_${id}`])
+		if(sale && basket){
+			if (!deleteFromBasket) {
+				keyboard.push(['toBasket', `toBasket_${id}`])
+			} else {
+				keyboard.push(['deleteFromBasket', `deleteFromBasket_${id}`])
+			}
 		}
 		if (photo) {
 			keyboard.push(['showPhoto', `showPhoto_${id}`])

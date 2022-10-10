@@ -80,6 +80,7 @@ async function handleShowTicketsClick(ctx, next) {
 			generateTicketMessage({
 					texts: ctx.i18n,
 					ticket,
+				    currentUser: user,
 					user: relatedUsers[ticket.authorId],
 					userId: ctx.from.id,
 				    ...(ticket.sale && {

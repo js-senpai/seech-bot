@@ -21,9 +21,9 @@ async function handleAddToBasketClick(ctx, next) {
 	if (!ticket) {
 		await ctx.popupTemplate('errors.ticketNotFound')
 	} else {
-		await ticket.updateData({
-			active: false
-		})
+		// await ticket.updateData({
+		// 	active: false
+		// })
 		const user = await ctx.getUser()
 		await user.updateData({
 			$addToSet: {
@@ -33,11 +33,11 @@ async function handleAddToBasketClick(ctx, next) {
 				}
 			}
 		})
-		schedule(15, async () => {
-			await ticket.updateData({
-				active: true
-			})
-		})
+		// schedule(15, async () => {
+		// 	await ticket.updateData({
+		// 		active: true
+		// 	})
+		// })
 		await ctx.popupTemplate('responses.addedToBasket')
 	}
 	const alreadyPhoto = !!ctx.callbackQuery.message.photo

@@ -2,7 +2,7 @@ import { buildKeyboard } from '../helpers/keyboard.js'
 
 const plainObject = object => JSON.parse(JSON.stringify(object))
 
-function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0}) {
+function generateTicketMessage ({currentUser,texts, ticket, user, userId,stars = 0,votes = 0}) {
 	const empty = 5 - stars
 	const emptyString = `${texts.t('entities.noStar')} `
 	const starString = `${texts.t('entities.star')} `
@@ -12,7 +12,8 @@ function generateTicketMessage ({texts, ticket, user, userId,stars = 0,votes = 0
 			photo: ticket.photo,
 			id: ticket._id,
 			basket: ticket.authorId !== userId,
-			sale: ticket.sale
+			sale: ticket.sale,
+			deleteFromBasket: currentUser.basket.findIndex(({id}) => ticket._id.toString() === id.toString()) !== -1
 		}
 	})
 	const template = ticket.sale

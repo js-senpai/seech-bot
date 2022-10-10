@@ -43,6 +43,7 @@
         "ticketCreated": "Товар на ${action} створено",
         "extended": "Товар продовжено на 24 години",
         "addedToBasket": "Товар додано до кошика",
+        "removedFromBasket": "Видалено з кошика",
         "completed": "Товар продано",
         "removed": "Товар видалено з кошика",
         "deleted": "Товар видалено",
@@ -107,6 +108,7 @@
         "userNotFound": "Юзер не знайдений"
     },
     "buttons": {
+        "deleteFromBasket": "Прибрати з кошика",
         "announCommunity": "Оголошення моєї громади",
         "announSaleCommunity": "\uD83D\uDCB2 Продати",
         "announBuyCommunity": "\uD83D\uDED2 Купити",

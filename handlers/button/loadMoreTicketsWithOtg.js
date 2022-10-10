@@ -46,6 +46,7 @@ async function handleLoadMoreTicketsWithOtgClick(ctx, next) {
                 generateTicketMessage({
                         texts: ctx.i18n,
                         ticket: docs[i],
+                        currentUser: user,
                         user: getUsersWithOtg.find(({userId}) => docs[i].authorId === userId),
                         userId: ctx.from.id
                     }

@@ -90,6 +90,7 @@ async function handleLoadMoreTicketsClick(ctx, next) {
             generateTicketMessage({
                     texts: ctx.i18n,
                     ticket: docs[i],
+                    currentUser: user,
                     user: relatedUsers[docs[i].authorId],
                     userId: ctx.from.id
                 }

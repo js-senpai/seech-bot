@@ -28,6 +28,7 @@ async function finishCreatingTicket(ctx, user) {
 				texts: ctx.i18n,
 				ticket,
 				user,
+			    currentUser: user,
 				userId: null,
 				votes: await ctx.db.ReviewOfSeller.countDocuments({
 					sellerId: user._id,
@@ -60,6 +61,7 @@ async function finishCreatingTicket(ctx, user) {
 				ticket,
 				user,
 				userId: null,
+			    currentUser: user,
 			}
 		)
 		const getUsersWithOtg = await ctx.db.User.find({
@@ -104,6 +106,7 @@ async function finishCreatingTicket(ctx, user) {
 	const { text, keyboard } = generateTicketMessage({
 			texts: ctx.i18n,
 			ticket,
+		    currentUser: user,
 			user,
 			userId: null,
 			votes: await ctx.db.ReviewOfSeller.countDocuments({
@@ -170,6 +173,7 @@ async function finishCreatingTicket(ctx, user) {
 		const { text: foundText, keyboard: foundKeyboard } =
 			generateTicketMessage({
 					texts: ctx.i18n,
+				    currentUser: user,
 					ticket: docs[i],
 					user: relatedUsers[docs[i].authorId],
 					userId: ctx.from.id
