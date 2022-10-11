@@ -6,8 +6,8 @@ import {buildKeyboard} from "../helpers/keyboard.js";
 import * as fs from "fs";
 import {join, resolve} from "path";
 
-async function finishCreatingTicket(ctx, user) {
-	const ticket = await createTicket(ctx.db.Ticket, user, ctx)
+async function finishCreatingTicket(ctx, user,newTicket = null) {
+	const ticket = newTicket || await createTicket(ctx.db.Ticket, user, ctx)
 	const tickets = await findRelatedTickets(ctx.db.Ticket, ticket, user.region)
 	if(ticket.sale){
 		const getStars = ticket.sale? await ctx.db.ReviewOfSeller.aggregate([

@@ -51,6 +51,7 @@
         "cancelCreateTicket": "Ви можете скасувати створення тікету в меню"
     },
     "input": {
+        "createTicketFromApp": "Тикет створено через сайт",
         "announCommunity": "Оголошення моєї громади",
         "checkRegistration": "Для продовження реєстрації натисніть кнопку нижче - Залишити свій контакт",
         "notFoundTickets": "\uD83E\uDD37 Оголошення відсутні",
