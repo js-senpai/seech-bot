@@ -68,18 +68,18 @@ const keyboards = {
 	loadMoreReviews: ({page = 1}) => [
 		['loadMoreReviews',JSON.stringify({page,command: 'loadMoreReviews'})]
 	],
-	myTicket: ({ photo, date, id }) => {
+	myTicket: ({ photoUrl, date, id }) => {
 		let keyboard = [['completed', `completed_${id}`]]
 		keyboard.push(['remove', `remove_${id}`])
 		if (new Date().getTime() - new Date(date).getTime() >= 24 * 60 * 60 * 1000) {
 			keyboard.push(['extend', `extend_${id}`])
 		}
-		if (photo) {
+		if (photoUrl) {
 			keyboard.push(['showPhoto', `showPhoto_${id}`])
 		}
 		return keyboard
 	},
-	ticketActions: ({ photo, id, basket = true, sale,deleteFromBasket = false }) => {
+	ticketActions: ({ photoUrl, id, basket = true, sale,deleteFromBasket = false }) => {
 		let keyboard = []
 		if(sale && basket){
 			if (!deleteFromBasket) {
@@ -88,7 +88,7 @@ const keyboards = {
 				keyboard.push(['deleteFromBasket', `deleteFromBasket_${id}`])
 			}
 		}
-		if (photo) {
+		if (photoUrl) {
 			keyboard.push(['showPhoto', `showPhoto_${id}`])
 		}
 		return keyboard

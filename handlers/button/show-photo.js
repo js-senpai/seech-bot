@@ -17,7 +17,7 @@ async function handleShowPhotoClick(ctx, next) {
 		)
 	}
 	const ticket = await ctx.db.Ticket.getOne(ticketId)
-	if (!ticket?.photo) {
+	if (!ticket?.photoUrl) {
 		await ctx.popupTemplate('errors.ticketNotFound')
 	} else {
 		let keyboard

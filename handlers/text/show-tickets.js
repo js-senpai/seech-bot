@@ -94,7 +94,7 @@ async function handleShowTicketsClick(ctx, next) {
 			buildKeyboard(ctx.i18n, {
 				name: 'myTicket',
 				data: {
-					photo: ticket.photo,
+					photo: ticket.photoUrl,
 					date: ticket.date,
 					id: ticket._id,
 					own: ticket.authorId === ctx.from.id

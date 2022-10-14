@@ -40,12 +40,11 @@ async function handleDeleteFromBasketClick(ctx, next) {
         );
         await ctx.popupTemplate('responses.removedFromBasket')
     }
-    const alreadyPhoto = !!ctx.callbackQuery.message.photo
     await ctx.editMessageReplyMarkup(
         buildKeyboard(ctx.i18n, {
             name: 'ticketActions',
             data: {
-                photo: alreadyPhoto ? null : ticket.photo,
+                photo: ticket?.photoUrl,
                 sale: ticket.sale,
                 basket: false,
                 id: ticketId
