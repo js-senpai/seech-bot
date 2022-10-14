@@ -9,7 +9,7 @@ function generateTicketMessage ({currentUser,texts, ticket, user, userId,stars =
 	const keyboard = buildKeyboard(texts, {
 		name: 'ticketActions',
 		data: {
-			photo: ticket.photo,
+			photoUrl: ticket.photoUrl,
 			id: ticket._id,
 			basket: ticket.authorId !== userId,
 			sale: ticket.sale,

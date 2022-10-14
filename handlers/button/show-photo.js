@@ -28,7 +28,7 @@ async function handleShowPhotoClick(ctx, next) {
 			keyboard = buildKeyboard(ctx.i18n, {
 				name: 'myTicket',
 				data: {
-					photo: null,
+					photoUrl: null,
 					date: ticket.date,
 					id: ticketId,
 					own
@@ -38,7 +38,7 @@ async function handleShowPhotoClick(ctx, next) {
 			keyboard = buildKeyboard(ctx.i18n, {
 				name: 'ticketActions',
 				data: {
-					photo: null,
+					photoUrl: null,
 					basket: !basket,
 					id: ticketId,
 					sale: ticket.sale

@@ -98,7 +98,7 @@ async function handleExtendTicketClick(ctx, next) {
 			name: 'myTicket',
 			data: {
 				date: Date.now(),
-				photo: ticket.photoUrl,
+				photoUrl: ticket.photoUrl,
 				id: ticketId
 			}
 		}).reply_markup

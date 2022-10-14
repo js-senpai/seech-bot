@@ -44,7 +44,7 @@ async function handleAddToBasketClick(ctx, next) {
 		buildKeyboard(ctx.i18n, {
 			name: 'ticketActions',
 			data: {
-				photo: ticket?.photoUrl,
+				photoUrl: ticket?.photoUrl,
 				sale: ticket.sale,
 				basket: false,
 				id: ticketId
