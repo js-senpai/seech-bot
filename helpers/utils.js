@@ -7,6 +7,7 @@ const getWeightStatistic = async ({idsOnSale = [],idsOnBuy = [],ctx,localeData =
     'fruitsList',
     'honey',
     'walnuts',
+    'wood',
     'milksList',
     'meatsList',
     'cerealsList'
@@ -115,6 +116,7 @@ const getPriceStatistic = async ({ids = [],ctx,localeData = [
     'fruitsList',
     'honey',
     'walnuts',
+    'wood',
     'milksList',
     'meatsList',
     'cerealsList'
@@ -186,6 +188,7 @@ const getStatisticByPeriod = async ({
                                             'fruitsList',
                                             'honey',
                                             'walnuts',
+                                            'wood',
                                             'milksList',
                                             'meatsList',
                                             'cerealsList'

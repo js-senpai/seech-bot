@@ -34,6 +34,7 @@ const keyboards = {
 		['fruits', `cultureType_fruits`],
 		['honey', `culture_honey`],
 		['walnuts', `culture_walnuts`],
+		['wood', 'culture_wood'],
 		['meats', `cultureType_meats`],
 		['milks', `cultureType_milks`],
 		['cereals', `cultureType_cereals`],

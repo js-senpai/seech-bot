@@ -72,6 +72,16 @@ async function handleCultureClick(ctx, next) {
 			product: updateUser.ticket.culture,
 			number: amountCount
 		})
+	}else if(culture === 'wood'){
+		let woodCount = 1;
+		const updateUser = await user.updateData({
+			state: `weightCube_${woodCount}`,
+			'ticket.culture': await getCultureName(ctx.i18n, culture)
+		})
+		await ctx.textTemplate('input.weightCube',{
+			product: updateUser.ticket.culture,
+			number: woodCount
+		})
 	} else {
 		let weightCount = 1;
 		switch (culture){

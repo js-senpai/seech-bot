@@ -29,6 +29,8 @@ function generateTicketMessage ({currentUser,texts, ticket, user, userId,stars =
 			weightValue = 'weightValue';break;
 		case 'weightTon':
 			weightValue = 'weightTonValue';break;
+		case 'weightCube':
+			weightValue = 'weightCubeValue';break;
 		case 'amount':
 			weightValue = 'amountValue';break;
 		default:
@@ -41,6 +43,7 @@ function generateTicketMessage ({currentUser,texts, ticket, user, userId,stars =
 			break;
 		case 'weight':
 		case 'weightTon':
+		case 'weightCube':
 			weightName = 'weight';break;
 		case 'amount':
 			weightName = 'amount';break;

@@ -19,7 +19,7 @@
         "text": "Номер телефона: ${phone}\nІм'я: ${name}\nДата: ${date}\nОцінка: ${value}\nВідгук: ${text}"
     },
     "statistic": {
-        "text": "\uD83D\uDCC8Звіт за ${date}\n\n\n\n\uD83D\uDFE2 Активні користувачі - ${users}\n\n⭐️ Оцінка сервісу - ${rate}\n\n\uD83D\uDCF2К-ть нових реєстрацій - ${reg}\n\n\uD83D\uDCCA К-ть тікетів на продажу - ${ticketOnSale}\n\nПродаж ✅ Виконано - ${ticketOnSaleCompleted}\n\nПродаж ❌ Видалено - ${ticketOnSaleDeleted}\n\nПродаж \uD83C\uDF00 +24 год - ${ticketOnSaleExtended}\n\nК-ть тікетів на покупку - ${ticketOnBuy}\n\nПокупка ✅ Виконано - ${ticketOnBuyCompleted}\n\nПокупка ❌ Видалено - ${ticketOnBuyDeleted}\n\nПокупка \uD83C\uDF00 +24 год - ${ticketOnBuyExtended}\n\n\n\n\uD83D\uDCC8Доля продукту в продажах\n\n\uD83E\uDD54овочі ${vegetablesListSale}%\n\n\uD83C\uDF4Eфрукти ${fruitsListSale}%\n\n\uD83C\uDF76молочні продукти ${milksListSale}%\n\n\uD83E\uDD69м'ясо ${meatsListSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cгоріхи ${walnutsSale}%\n\n\n\n\uD83D\uDCC8Доля продукту в покупках\n\n\uD83E\uDD54овочі ${vegetablesListBuy}%\n\n\uD83C\uDF4Eфрукти ${fruitsListBuy}%\n\n\uD83C\uDF76молочні продукти ${milksListBuy}%\n\n\uD83E\uDD69м'ясо ${meatsListBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cгоріхи ${walnutsBuy}%",
+        "text": "\uD83D\uDCC8Звіт за ${date}\n\n\n\n\uD83D\uDFE2 Активні користувачі - ${users}\n\n⭐️ Оцінка сервісу - ${rate}\n\n\uD83D\uDCF2К-ть нових реєстрацій - ${reg}\n\n\uD83D\uDCCA К-ть тікетів на продажу - ${ticketOnSale}\n\nПродаж ✅ Виконано - ${ticketOnSaleCompleted}\n\nПродаж ❌ Видалено - ${ticketOnSaleDeleted}\n\nПродаж \uD83C\uDF00 +24 год - ${ticketOnSaleExtended}\n\nК-ть тікетів на покупку - ${ticketOnBuy}\n\nПокупка ✅ Виконано - ${ticketOnBuyCompleted}\n\nПокупка ❌ Видалено - ${ticketOnBuyDeleted}\n\nПокупка \uD83C\uDF00 +24 год - ${ticketOnBuyExtended}\n\n\n\n\uD83D\uDCC8Доля продукту в продажах\n\n\uD83E\uDD54овочі ${vegetablesListSale}%\n\n\uD83C\uDF4Eфрукти ${fruitsListSale}%\n\n\uD83C\uDF76молочні продукти ${milksListSale}%\n\n\uD83E\uDD69м'ясо ${meatsListSale}%\n\n\uD83C\uDF6Fмед ${honeySale}%\n\n\uD83E\uDD5Cгоріхи ${walnutsSale}%\n\n\uD83E\uDEB5 дрова ${woodSale}%\n\n\n\n\uD83D\uDCC8Доля продукту в покупках\n\n\uD83E\uDD54овочі ${vegetablesListBuy}%\n\n\uD83C\uDF4Eфрукти ${fruitsListBuy}%\n\n\uD83C\uDF76молочні продукти ${milksListBuy}%\n\n\uD83E\uDD69м'ясо ${meatsListBuy}%\n\n\uD83C\uDF6Fмед ${honeyBuy}%\n\n\uD83E\uDD5Cгоріхи ${walnutsBuy}%",
         "format": "Введіть початок та кінець періоду у форматі DD.MM.YYYY-DD.MM.YYYY (20.01.2022-21.01.2022)"
     },
     "reviewSeller": {
@@ -30,6 +30,7 @@
         "weight": "Вага",
         "weightValue": "кг",
         "weightTonValue": "т",
+        "weightCubeValue": "куб. м.",
         "volume": "Обсяг",
         "volumeValue": "л",
         "amount": "Кількість",
@@ -71,6 +72,7 @@
         "cultureType": "Виберіть тип:",
         "weight": "Введіть вагу ${product} в кілограмах (мінімум ${number}):",
         "weightTon": "Введіть вагу ${product} в тоннах (мінімум ${number}):",
+        "weightCube": "Введіть вагу ${product} в куб. м. (мінімум ${number}):",
         "liter": "Введіть обсяг ${product} у літрах (мінімум ${number}):",
         "amount": "Введіть обсяг ${product} у шт (мінімум ${number}):",
         "price": "Введіть ціну ${product} у гривнях за 1${weightValue}:",
@@ -87,7 +89,7 @@
         "mailing": "Введіть текст розсилки нижче",
         "about": "Вітаємо Вас у Seech!\n\nТут можна придбати/купити \n\n\uD83E\uDD54овочі\n\n\uD83C\uDF4Eфрукти\n\n\uD83C\uDF6Fмед\n\n\uD83E\uDD5Cгоріхи. \n\nСтворюйте тікети на продаж/купівлю абсолютно БЕЗКОШТОВНО і знаходьте контакти покупця/продавця \n\n\uD83D\uDCCDмаксимально поруч \n\n\uD83C\uDFAFз товаром, який відповідає потребам\n\n\uD83D\uDCB2за оптимальною ціною\n\nВаш тікет на продаж, або покупку буде дійсний 24 год. \n\nЗалишайте відгук про сервіс, щоб ми могли максимально задовільнити Ваші потреби. ",
         "prices": "\uD83E\uDD54Картопля - ${potatoes}грн/кг\n\n\uD83E\uDD55Морква - ${carrots}грн/кг\n\n\uD83E\uDDC5Цибуля - ${onions}грн/кг\n\n\uD83E\uDD6CКапуста - ${cabbage}грн/кг\n\n\uD83C\uDF60Буряк -  ${beets}грн/кг\n\n\uD83E\uDED1Перець болгарський - ${peppers}грн/кг\n\n\uD83C\uDF45Томат - ${tomato}грн/кг\n\n\uD83E\uDD52Огірок - ${cucumber}грн/кг\n\n\n\n\uD83C\uDF4EЯблука - ${apples}грн/кг\n\n\uD83E\uDED0Сливи - ${plums}грн/кг\n\n\uD83C\uDF53Полуниця - ${strawberry}грн/кг\n\n\uD83C\uDF51Абрикоси - ${apricot}грн/кг\n\n\uD83C\uDF50Груші - ${peals}грн/кг\n\nМалина - ${raspberry}грн/кг\n\nПерсики - ${peach}грн/кг\n\n\uD83C\uDF47Виноград - ${grape}грн/кг\n\n\uD83C\uDF52Вишні - ${cherry}грн/кг\n\n\uD83C\uDF52Черешня - ${merry}грн/кг\n\n\uD83C\uDF76Молоко - ${milk}грн/л\n\n\uD83C\uDF5AТворог - ${cottage}грн/кг\n\n\uD83E\uDED9Сметана - ${sourCream}грн/л\n\n\uD83D\uDC16Свинина - ${pork}грн/кг\n\n\uD83E\uDD69Телятина - ${veal}грн/кг\n\n\uD83D\uDC14Птиця - ${chicken}грн/кг\n\n\uD83D\uDC1FРиба - ${fish}грн/кг\n\n\uD83E\uDD5AЯйця - ${egg}грн/шт\n\n\uD83C\uDF6FМед - ${honey}грн/л\n\n\uD83E\uDD5CГоріхи - ${walnuts}грн/кг",
-        "weightStat": "\uD83E\uDD54Картопля - S${potatoesSale}кг/B${potatoesBuy}кг\n\n\uD83E\uDD55Морква - S${carrotsSale}кг/B${carrotsBuy}кг\n\n\uD83E\uDDC5Цибуля - S${onionsSale}кг/B${onionsBuy}кг\n\n\uD83E\uDD6CКапуста - S${cabbageSale}кг/B${cabbageBuy}кг\n\n\uD83C\uDF60Буряк -  S${beetsSale}кг/B${beetsBuy}кг\n\n\uD83E\uDED1Перець болгарський - S${peppersSale}кг/B${peppersBuy}кг\n\n\uD83C\uDF45Томат - S${tomatoSale}кг/B${tomatoBuy}кг\n\n\uD83E\uDD52Огірок - S${cucumberSale}кг/B${cucumberBuy}кг\n\n\n\n\uD83C\uDF4EЯблука - S${applesSale}кг/B${applesBuy}кг\n\n\uD83E\uDED0Сливи - S${plumsSale}кг/B${plumsBuy}кг\n\n\uD83C\uDF53Полуниця - S${strawberrySale}кг/B${strawberryBuy}кг\n\n\uD83C\uDF51Абрикоси - S${apricotSale}кг/B${apricotBuy}кг\n\n\uD83C\uDF50Груші - S${pealsSale}кг/B${pealsBuy}кг\n\nМалина - S${raspberrySale}кг/B${raspberryBuy}кг\n\nПерсики - S${peachSale}кг/B${peachBuy}кг\n\n\uD83C\uDF47Виноград - S${grapeSale}кг/B${grapeBuy}кг\n\n\uD83C\uDF52Вишні - S${cherrySale}кг/B${cherryBuy}кг\n\n\uD83C\uDF52Черешня - S${merrySale}кг/B${merryBuy}кг\n\n\uD83C\uDF76Молоко - S${milkSale}л/B${milkBuy}л\n\n\uD83C\uDF5AТворог - S${cottageSale}кг/B${cottageBuy}кг\n\n\uD83E\uDED9Сметана - S${sourCreamSale}л/B${sourCreamBuy}л\n\n\uD83D\uDC16Свинина - S${porkSale}кг/B${porkBuy}кг\n\n\uD83E\uDD69Телятина - S${vealSale}кг/B${vealBuy}кг\n\n\uD83D\uDC14Птиця - S${chickenSale}кг/B${chickenBuy}кг\n\n\uD83D\uDC1FРиба - S${fishSale}кг/B${fishBuy}кг\n\n\uD83E\uDD5AЯйця - S${eggSale}шт/B${eggBuy}шт\n\n\uD83C\uDF6FМед - S${honeySale}л/B${honeyBuy}л\n\n\uD83E\uDD5CГоріхи - S${walnutsSale}кг/B${walnutsBuy}кг"
+        "weightStat": "\uD83E\uDD54Картопля - S${potatoesSale}кг/B${potatoesBuy}кг\n\n\uD83E\uDD55Морква - S${carrotsSale}кг/B${carrotsBuy}кг\n\n\uD83E\uDDC5Цибуля - S${onionsSale}кг/B${onionsBuy}кг\n\n\uD83E\uDD6CКапуста - S${cabbageSale}кг/B${cabbageBuy}кг\n\n\uD83C\uDF60Буряк -  S${beetsSale}кг/B${beetsBuy}кг\n\n\uD83E\uDED1Перець болгарський - S${peppersSale}кг/B${peppersBuy}кг\n\n\uD83C\uDF45Томат - S${tomatoSale}кг/B${tomatoBuy}кг\n\n\uD83E\uDD52Огірок - S${cucumberSale}кг/B${cucumberBuy}кг\n\n\n\n\uD83C\uDF4EЯблука - S${applesSale}кг/B${applesBuy}кг\n\n\uD83E\uDED0Сливи - S${plumsSale}кг/B${plumsBuy}кг\n\n\uD83C\uDF53Полуниця - S${strawberrySale}кг/B${strawberryBuy}кг\n\n\uD83C\uDF51Абрикоси - S${apricotSale}кг/B${apricotBuy}кг\n\n\uD83C\uDF50Груші - S${pealsSale}кг/B${pealsBuy}кг\n\nМалина - S${raspberrySale}кг/B${raspberryBuy}кг\n\nПерсики - S${peachSale}кг/B${peachBuy}кг\n\n\uD83C\uDF47Виноград - S${grapeSale}кг/B${grapeBuy}кг\n\n\uD83C\uDF52Вишні - S${cherrySale}кг/B${cherryBuy}кг\n\n\uD83C\uDF52Черешня - S${merrySale}кг/B${merryBuy}кг\n\n\uD83C\uDF76Молоко - S${milkSale}л/B${milkBuy}л\n\n\uD83C\uDF5AТворог - S${cottageSale}кг/B${cottageBuy}кг\n\n\uD83E\uDED9Сметана - S${sourCreamSale}л/B${sourCreamBuy}л\n\n\uD83D\uDC16Свинина - S${porkSale}кг/B${porkBuy}кг\n\n\uD83E\uDD69Телятина - S${vealSale}кг/B${vealBuy}кг\n\n\uD83D\uDC14Птиця - S${chickenSale}кг/B${chickenBuy}кг\n\n\uD83D\uDC1FРиба - S${fishSale}кг/B${fishBuy}кг\n\n\uD83E\uDD5AЯйця - S${eggSale}шт/B${eggBuy}шт\n\n\uD83C\uDF6FМед - S${honeySale}л/B${honeyBuy}л\n\n\uD83E\uDD5CГоріхи - S${walnutsSale}кг/B${walnutsBuy}кг\n\n\uD83E\uDEB5 Дрова - S${woodSale}кг/B${woodBuy}куб. м."
     },
     "errors": {
         "notWaitingForReview": "Неможливо позначити товар як проданий, доки творець не відзначив цього",
@@ -102,6 +104,7 @@
         "invalid": {
             "weight": "Неправильно вказана вага, введіть число в кілограмах, мінімум - ${count}",
             "weightTon": "Неправильно вказана вага, введіть число в тоннах, мінімум - ${count}",
+            "weightCube": "Неправильно вказана вага, введіть число в куб. м., мінімум - ${count}",
             "price": "Невірно вказано ціни, введіть число у гривнях",
             "liter": "Невірно вказаний об'єм введіть число в літрах, мінімум - ${count}",
             "amount": "Невірно вказана кількість введіть число, мінімум - ${count}"
@@ -177,6 +180,7 @@
         "honey": "\uD83C\uDF6F Мед",
         "walnuts": "\uD83E\uDD5C Горіхи",
         "milks": "\uD83E\uDD5B Молоко",
+        "wood": "\uD83E\uDEB5 Дрова",
         "cerealsList": {
           "wheat": "Пшениця",
           "barley": "Ячмінь",

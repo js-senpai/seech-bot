@@ -72,6 +72,7 @@ import {handleLoadMoreTicketsWithOtgClick} from "../handlers/button/loadMoreTick
 import {handleAnnoutCommunityClick} from "../handlers/text/announCommunity.js";
 import {handleDeleteFromBasketClick} from "../handlers/button/delete-from-basket.js";
 import {handleCreateTicketFromAppClick} from "../handlers/button/create-ticket-app.js";
+import {handleWeightCubeInput} from "../handlers/text/input-weight-cube.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -117,6 +118,7 @@ async function initBot(dbInstance) {
 	bot.on('message', handleNumberOfBasketItemsCommand)
 	bot.on('message', handleCancelTicketCommand)
 	bot.on('message', handleWeightTonInput)
+	bot.on('message', handleWeightCubeInput)
 	bot.on('message', handlePurchaseNotification)
 	bot.on('message', handleBuyNotification)
 	bot.on('message', handleAnnoutCommunityClick)
