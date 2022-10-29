@@ -94,23 +94,23 @@ async function handleRemoveTicketClick(ctx, next) {
 					return
 				}
 			}
-			if (shouldDelete) {
-				await ctx.db.Ticket.updateOne({ _id: ticketId }, { completed: true,active: false })
-				await ctx.db.User.updateMany(
-					{
-						basket: {
-							id: ticketId
-						}
-					},
-					{
-						$pull: {
-							basket: {
-								id: ticketId
-							}
-						}
-					}
-				)
-			}
+			// if (shouldDelete) {
+			// 	await ctx.db.Ticket.updateOne({ _id: ticketId }, { completed: true,active: false })
+			// 	await ctx.db.User.updateMany(
+			// 		{
+			// 			basket: {
+			// 				id: ticketId
+			// 			}
+			// 		},
+			// 		{
+			// 			$pull: {
+			// 				basket: {
+			// 					id: ticketId
+			// 				}
+			// 			}
+			// 		}
+			// 	)
+			// }
 		} else {
 			if (own) {
 				await ctx.db.User.updateMany(
