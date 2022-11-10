@@ -11,7 +11,6 @@ import { handlePriceInput } from '../handlers/text/input-price.js'
 import { handleWeightInput } from '../handlers/text/input-weight.js'
 import { handleAnyTextMessage } from '../handlers/text/any.js'
 import { handleDescriptionInput } from '../handlers/text/input-description.js'
-import { handleShowTicketsClick } from '../handlers/text/show-tickets.js'
 import { handleBackCommand } from '../handlers/text/back.js'
 import { handleBasketCommand } from '../handlers/text/basket.js'
 
@@ -73,6 +72,7 @@ import {handleAnnoutCommunityClick} from "../handlers/text/announCommunity.js";
 import {handleDeleteFromBasketClick} from "../handlers/button/delete-from-basket.js";
 import {handleCreateTicketFromAppClick} from "../handlers/button/create-ticket-app.js";
 import {handleWeightCubeInput} from "../handlers/text/input-weight-cube.js";
+import {handleMyRequestsCommand} from "../handlers/text/myRequests.js";
 
 async function initBot(dbInstance) {
 	const bot = new Telegraf(process.env.TOKEN, {
@@ -94,9 +94,9 @@ async function initBot(dbInstance) {
 	bot.on('message', handleWeightInput)
 	bot.on('message', handleLiterInput)
 	bot.on('message', handleTicketChooseClick)
-	bot.on('message', handleShowTicketsClick)
 	bot.on('message', handleBasketCommand)
 	bot.on('message', handleBackCommand)
+	bot.on('message', handleMyRequestsCommand)
 	bot.on('message', handleReviewServiceInput)
 	bot.on('message', handleReviewServiceTextInput)
 	bot.on('message', handleAnalyticsCommand)
