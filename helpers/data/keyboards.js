@@ -13,7 +13,7 @@ const getMainMenu = ({userType = 'user'}) => {
 const mainMenu = ({userType = 'user'}) =>  getMainMenu({userType})
 const keyboards = {
 	mainMenu,
-	myRequestsMenu: () => [['myBuyings'], ['mySells'], ['back']],
+	myRequestsMenu: () => [ ['mySells'], ['myBuyings'], ['back']],
 	adminMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['statisticMenu'],['regionStat'],['reviews'],userType === 'moderator' ? ['back']: ['moderatorList'],['mailing'],['back']]: [],
 	statisticMenu: ({userType = 'user'}) => userType === 'admin' || userType === 'moderator' ? [['totalUsers'],['numberOfBasketItems'],['todayStat'],['yesterdayStat'],['currentMonthStat'],['allPeriodStat'],['customPeriodStat'],['back']]: [],
 	personalCabinet: ({disableBuyNotification = false,disablePurchaseNotification = false}) =>
